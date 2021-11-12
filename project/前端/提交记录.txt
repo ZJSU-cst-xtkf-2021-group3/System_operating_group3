@@ -1,0 +1,2 @@
+2021.11.12 13.12
+在component目录下创建了Signin组件，在src目录下创建了router目录，以及router下的index.js用于配置vue路由。
