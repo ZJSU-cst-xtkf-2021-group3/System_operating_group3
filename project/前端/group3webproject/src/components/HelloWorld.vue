@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <img alt="Vue logo" src="../assets/logo.png">
+    <h1>Welcome to Your Vue.js App</h1>
     <p>
       For a guide and recipes on how to configure / customize this project,<br>
       check out the
@@ -32,15 +33,21 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
+  name: 'HelloWorld'
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.hello {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 h3 {
   margin: 40px 0 0;
 }
@@ -55,4 +62,5 @@ li {
 a {
   color: #42b983;
 }
+
 </style>
