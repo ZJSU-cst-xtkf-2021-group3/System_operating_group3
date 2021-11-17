@@ -84,7 +84,6 @@ export default {
   .username{
     font-family: "Microsoft YaHei";
     font-size: 15px;
-    font-size-adjust: 0.5;
     margin-left: 10px;
   }
 }

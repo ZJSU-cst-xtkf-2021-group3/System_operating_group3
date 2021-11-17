@@ -1,4 +1,6 @@
 2021.11.12 13.12
 在component目录下创建了Signin组件，在src目录下创建了router目录，以及router下的index.js用于配置vue路由。
 2021.11.17 13.50
-在component目录下创建了Header组件，并将Header组件添加到页面中。
+在component目录下创建了Header和Home组件，并将Header和Home组件添加到页面中。
+2021.11.17 16.14
+在component目录下创建了Attention和Recommend组件，并将Attention和Recommend组件添加到Home页面中，更新了route/index.js路由文件，实现嵌套路由。
