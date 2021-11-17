@@ -4,3 +4,5 @@
 在component目录下创建了Header和Home组件，并将Header和Home组件添加到页面中。
 2021.11.17 16.14
 在component目录下创建了Attention和Recommend组件，并将Attention和Recommend组件添加到Home页面中，更新了route/index.js路由文件，实现嵌套路由。
+2021.11.17 17.40
+整理了component目录，创建了AttentionTopic和AttentionPeople组件，更新了route/index.js路由文件，实现了关注页面的嵌套路由。

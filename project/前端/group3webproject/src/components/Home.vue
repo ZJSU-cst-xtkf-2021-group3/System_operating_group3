@@ -3,11 +3,11 @@
   <el-row>
     <el-col :span="2" offset="2"><div class="navi">
 
-  <el-menu router>
-    <el-menu-item index="recommand">
+  <el-menu default-active="/" router>
+    <el-menu-item index="/">
       <span class="menuitem"><span slot="title">推荐</span></span>
     </el-menu-item>
-    <el-menu-item index="attention">
+    <el-menu-item index="/attention/topic">
       <span class="menuitem"><span slot="title">关注</span></span>
 
     </el-menu-item>
