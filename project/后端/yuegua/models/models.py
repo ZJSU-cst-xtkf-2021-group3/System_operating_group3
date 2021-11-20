@@ -61,6 +61,7 @@ class userFollow_user(models.Model):
     FUID = models.IntegerField("被关注人的ID")
     FUname=models.CharField("被关注人的用户名",max_length=25,default='unnamed')
     AgeRange=models.IntegerField("年龄段",default='0')
+    lastVisitTime=models.IntegerField("最后访问时间戳",default=0)
 
     def __str__(self):
         return '用户ID:%s 被关注人的用户名:%s '%(self.UID,self.FUname)
@@ -75,6 +76,7 @@ class userFollow_topic(models.Model):
     UID = models.IntegerField("用户ID")
     FTID = models.IntegerField("被关注人的ID")
     AgeRange=models.IntegerField("年龄段",default='0')
+    lastVisitTime = models.IntegerField("最后访问时间戳",default=0)
 
 
 
@@ -84,10 +86,11 @@ class Comments(models.Model):
         verbose_name = '用户评论'
         verbose_name_plural = '用户评论'
 
+    CID = models.AutoField("评论ID", primary_key=True)
     UID = models.IntegerField("用户ID")
     TID = models.IntegerField("所属话题ID")
     value=models.TextField("评论内容")
-    time=models.DateTimeField("发布时间")
+    time=models.IntegerField("发布时间")
     star=models.IntegerField("点赞数")
     tip_off=models.IntegerField("举报数")
     status=models.BooleanField("显示/下架锁定",default=True)
@@ -100,17 +103,19 @@ class Topic(models.Model):
         verbose_name = '话题'
         verbose_name_plural = '话题'
 
+    TID = models.AutoField("话题ID", primary_key=True)
     UID = models.IntegerField("发布者ID")
     category=models.IntegerField("话题所属类别")
     title = models.CharField("标题",max_length=255)
     statement = models.TextField("导语")
-    time = models.DateTimeField("发布时间")
+    time = models.IntegerField("发布时间")
     star = models.IntegerField("点赞数")
     tip_off = models.IntegerField("举报数")
     status = models.BooleanField("显示/下架锁定",default=True)
     isPostByEditor=models.BooleanField("是否是编辑发布的内容",default=False)
-    lastUpDateTime=models.DateTimeField("话题最后更新时间")
+    lastUpDateTime=models.IntegerField("话题最后更新时间")
     Fcounts=models.IntegerField("关注数",default=0)
+    Tag=models.CharField("标签",max_length=255,default='')
 
 class Revelation(models.Model):
 
@@ -119,9 +124,10 @@ class Revelation(models.Model):
         verbose_name = '爆料'
         verbose_name_plural = '爆料'
 
+    RID = models.AutoField("爆料ID", primary_key=True)
     PID=models.IntegerField("所属话题ID")
     UID=models.IntegerField("发布者ID")
-    time=models.DateTimeField("发布时间")
+    time=models.IntegerField("发布时间")
     title = models.CharField("标题", max_length=255)
     statement=models.TextField("导语")
     star=models.IntegerField("点赞数",default=0)
@@ -148,9 +154,10 @@ class Events(models.Model):
         verbose_name = '引用'
         verbose_name_plural = '引用'
 
+    EID = models.AutoField("结点ID", primary_key=True)
     PID=models.IntegerField("所属话题ID")
     UID=models.IntegerField("发布者ID")
-    time=models.DateTimeField("发布时间")
+    time=models.IntegerField("发布时间")
     title = models.CharField("标题", max_length=255)
     statement=models.TextField("导语")
     star=models.IntegerField("点赞数")
@@ -169,3 +176,62 @@ class index_pic(models.Model):
 
     PID=models.IntegerField("所属话题ID")
     img = models.ImageField("图片url", upload_to='baoliao', default='/static/img/default.png')
+
+class topic_vote(models.Model):
+    class Meta:
+        db_table = 'topic_vote'
+        verbose_name = '话题投票'
+        verbose_name_plural = '话题投票'
+
+    TID = models.IntegerField("话题ID")
+    item = models.CharField("条目名", max_length=255)
+    counts = models.IntegerField("计数")
+
+
+class activity(models.Model):
+    class Meta:
+        db_table = 'activity'
+        verbose_name = '活动'
+        verbose_name_plural = '活动'
+    AID=models.AutoField("活动ID",primary_key=True)
+    Title=models.TextField("活动标题")
+    Introduction=models.TextField("活动介绍")
+    isEND=models.BooleanField("正在进行/结束",default=False)
+    reward=models.IntegerField("活动EXP奖励",default=0)
+
+
+
+class activity_vote(models.Model):
+    class Meta:
+        db_table = 'activity_vote'
+        verbose_name = '活动投票'
+        verbose_name_plural = '活动投票'
+    AID=models.IntegerField("活动ID")
+    item=models.CharField("条目名",max_length=255)
+    counts=models.IntegerField("计数")
+
+
+class activity_comments(models.Model):
+    class Meta:
+        db_table = 'activity_comments'
+        verbose_name = '活动评论'
+        verbose_name_plural = '活动评论'
+
+    CID = models.AutoField("评论ID", primary_key=True)
+    UID = models.IntegerField("用户ID")
+    AID = models.IntegerField("所属活动ID")
+    value=models.TextField("评论内容")
+    time=models.DateTimeField("发布时间")
+    star=models.IntegerField("点赞数")
+    tip_off=models.IntegerField("举报数")
+    status=models.BooleanField("显示/下架锁定",default=True)
+
+class message(models.Model):
+    class Meta:
+        db_table = 'message'
+        verbose_name = '消息'
+        verbose_name_plural = '消息'
+    UID=models.IntegerField("目标用户ID")
+    type=models.IntegerField("类型")
+    value=models.CharField("标题",max_length=255)
+    postTime=models.DateTimeField("推送时间")
