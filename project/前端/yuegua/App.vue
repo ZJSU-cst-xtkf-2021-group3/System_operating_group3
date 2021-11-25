@@ -14,6 +14,8 @@
 </script>
 
 <style lang="scss">
+	@import "@/uview-ui/index.scss";
+	@import '@/static/variables.scss';
 	/*每个页面公共css */
 	@import '@/uni_modules/uni-scss';
 	/* #ifndef APP-NVUE */
