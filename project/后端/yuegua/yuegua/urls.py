@@ -26,6 +26,7 @@ urlpatterns = [
     path('EditorAccess/', include('EditorAccess.urls')),
     path('UserAccess/',include('UserAccess.urls')),
     path('UserAccess/',include('UserAccess.urls')),
-    path('UserProfile/',include('UserProfile.urls'))
+    path('UserProfile/',include('UserProfile.urls')),
+    path('test/',include('Test.urls'))
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
