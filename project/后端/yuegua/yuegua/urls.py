@@ -19,10 +19,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-import Access
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('Access/',include('Access.urls')),
+    path('EditorAccess/', include('EditorAccess.urls')),
+    path('UserAccess/',include('UserAccess.urls')),
+    path('UserAccess/',include('UserAccess.urls')),
+    path('UserProfile/',include('UserProfile.urls'))
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
