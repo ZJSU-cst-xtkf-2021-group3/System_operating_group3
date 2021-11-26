@@ -1,0 +1,25 @@
+
+$bordercolor:#d6d7d9;
+
+%center{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+%leftcenter{
+	display: flex;
+	align-items: center;
+}
+
+%rightcenter{
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+%betweencenter{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
