@@ -1,7 +1,5 @@
 from django.db import models
 
-
-
 # Create your models here.
 class User(models.Model):
     class Meta:
@@ -31,12 +29,12 @@ class userPrivacy(models.Model):
         verbose_name = '用户空间权限'
         verbose_name_plural = '用户空间权限'
 
-    UID=models.AutoField("用户ID",primary_key=True)
-    public = models.BooleanField("是否仅关注后可见", default=True)
+    UID=models.IntegerField("用户ID",primary_key=True)
+    public = models.BooleanField("是否仅关注后可见", default=False)
     public_Ftopic = models.BooleanField("是否展示关注的话题", default=True)
     public_Fuser = models.BooleanField("是否展示关注的人", default=True)
     public_comments = models.BooleanField("是否展示发表的评论", default=True)
-    public_events = models.BooleanField("是否发表的报料", default=True)
+    public_events = models.BooleanField("是否展示发表的报料", default=True)
     public_topics = models.BooleanField("是否展示发表的话题", default=True)
 
 
