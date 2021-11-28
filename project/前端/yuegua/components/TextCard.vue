@@ -1,11 +1,13 @@
 <template>
 	<view class="card">
-		<view class="cardheader">
-			<u--text :text="title" size="15" lines="2"></u--text>
-		</view>
-		<view class="content">
-			<image v-if="showimg" style="width: 50px; height: 50px;margin-right: 10rpx;" mode="aspectFill" :src="imgsrc"></image>
-			<u--text :text="partcontent" size="13" lines="3"></u--text>
+		<view class="textpart">
+			<view class="cardheader">
+				<u--text :text="title" size="15" lines="2"></u--text>
+			</view>
+			<view class="content">
+				<image v-if="showimg" style="width: 50px; height: 50px;margin-right: 10rpx;" mode="aspectFill" :src="imgsrc"></image>
+				<u--text :text="partcontent" size="13" lines="3"></u--text>
+			</view>			
 		</view>
 		<view class="divideline"><u-line length="100%"></u-line></view>
 		<view class="cardfooter">
@@ -61,7 +63,7 @@
 <style lang="scss" scoped>
 	@import '@/static/variables.scss';
 	.card{
-		padding: 10rpx 40rpx 10rpx 40rpx;
+		padding: 10rpx 20rpx 10rpx 20rpx;
 		border-bottom: 1rpx;
 		border-top: 1rpx;
 		border-right: 0;
@@ -69,12 +71,15 @@
 		border-style: solid;
 		border-color: $bordercolor;
 		//background-color: #3C9CFF;
-		.cardheader{
-			padding-bottom: 10rpx;
-		}
-		.content{
-			display: flex;
-			align-items: flex-start;
+		.textpart{
+			padding: 0 10rpx 0 10rpx;
+			.cardheader{
+				padding-bottom: 10rpx;
+			}
+			.content{
+				display: flex;
+				align-items: flex-start;
+			}			
 		}
 		.divideline{
 			padding-top: 10rpx;
