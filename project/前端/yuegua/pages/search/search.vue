@@ -35,7 +35,6 @@
 <style lang="scss" scoped>
 @import '@/static/variables.scss';
 .page{
-	@extend %basepage;
 	.searchbar{
 		height: 60rpx;
 		margin: 10rpx 30rpx 10rpx 30rpx;
