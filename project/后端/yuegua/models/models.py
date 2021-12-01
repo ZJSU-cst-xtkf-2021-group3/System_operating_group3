@@ -18,6 +18,7 @@ class User(models.Model):
     wechatID=models.CharField("微信ID",max_length=30,default='WeiChatID-not-set')
     EXP=models.IntegerField("经验值")
     Fcounts=models.IntegerField("关注人数",default=0)
+    ifPassedExam=models.BooleanField("是否通过了会员测试",default=False)
     def __str__(self):
         return '用户ID:%s 用户名:%s 密码:%s 是否为编辑:%s 用户等级:%s 经验值:%s'\
                %(self.UID,self.Uname,self.Passwd,self.isEDIT,self.rank,self.EXP)
@@ -125,7 +126,7 @@ class Revelation(models.Model):
         verbose_name_plural = '爆料'
 
     RID = models.AutoField("爆料ID", primary_key=True)
-    PID=models.IntegerField("所属话题ID")
+    TID=models.IntegerField("所属话题ID")
     UID=models.IntegerField("发布者ID")
     time=models.IntegerField("发布时间")
     title = models.CharField("标题", max_length=255)
@@ -144,7 +145,7 @@ class Revelation_Pic(models.Model):
         verbose_name = '爆料图片'
         verbose_name_plural = '爆料图片'
 
-    EID=models.IntegerField("所属报料ID")
+    RID=models.IntegerField("所属报料ID")
     img=models.ImageField("爆料图片",upload_to='baoliao',default='/static/img/default.png')
 
 
@@ -155,7 +156,7 @@ class Events(models.Model):
         verbose_name_plural = '引用'
 
     EID = models.AutoField("结点ID", primary_key=True)
-    PID=models.IntegerField("所属话题ID")
+    TID=models.IntegerField("所属话题ID")
     UID=models.IntegerField("发布者ID")
     time=models.IntegerField("发布时间")
     title = models.CharField("标题", max_length=255)
@@ -199,7 +200,7 @@ class activity(models.Model):
     Introduction=models.TextField("活动介绍")
     isEND=models.BooleanField("正在进行/结束",default=False)
     reward=models.IntegerField("活动EXP奖励",default=0)
-
+    poster = models.ImageField("活动海报", upload_to='poster', default='/static/img/default.png')
 
 
 class activity_vote(models.Model):
@@ -237,7 +238,7 @@ class contributes_Pic(models.Model):
         verbose_name_plural = '活动投稿图片'
 
     A_CID=models.IntegerField("所属活动投稿ID")
-    img=models.ImageField("爆料图片",upload_to='tougao',default='/static/img/default.png')
+    img=models.ImageField("活动投稿图片",upload_to='tougao',default='/static/img/default.png')
 
 class message(models.Model):
     class Meta:

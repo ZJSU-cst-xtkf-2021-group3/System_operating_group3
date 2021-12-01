@@ -11,7 +11,7 @@ def setInterests(request):
     result={
         'res':''
     }
-    uid = request.session.get('uid', '-1')
+    uid = int(request.session.get('uid', '-1'))
     if uid =='-1':
         result['res']='login please'
         return JsonResponse(result)
@@ -38,7 +38,7 @@ def modify_uname(request):
     result = {
         'res': ''
     }
-    uid = request.session.get('uid', '-1')
+    uid = int(request.session.get('uid', '-1'))
     if uid =='-1':
         result['res']='login please'
         return JsonResponse(result)
@@ -60,7 +60,7 @@ def modify_passwd(request):
     result = {
         'res': ''
     }
-    uid = request.session.get('uid', '-1')
+    uid = int(request.session.get('uid', '-1'))
     if uid == '-1':
         result['res'] = 'login please'
         return JsonResponse(result)
@@ -76,7 +76,7 @@ def modify_header(request):
     result = {
         'res': ''
     }
-    uid = request.session.get('uid', '-1')
+    uid = int(request.session.get('uid', '-1'))
     if uid == '-1':
         result['res'] = 'login please'
         return JsonResponse(result)
