@@ -4,16 +4,60 @@
 	},
 	"pages": [
 		{
-            "path" : "pages/home/home",
+		    "path" : "pages/home/home",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "首页",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		},
+		{
+		    "path" : "pages/search/search",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "搜索",
+		        "enablePullDownRefresh": false
+		    }
+		}
+        ,{
+            "path" : "pages/my/my",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "首页",
+                "navigationBarTitleText": "个人中心",
                 "enablePullDownRefresh": false
             }
             
         }
         ,{
-            "path" : "pages/search/search",
+            "path" : "pages/info/info",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "编辑资料",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+		,{
+		    "path" : "pages/zhuce/zhuce",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "注册",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+        ,{
+            "path" : "pages/publish/publish",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "发布",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/other/other",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -21,7 +65,74 @@
             }
             
         }
+        ,{
+            "path" : "pages/seting/seting",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "设置中心",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/focus/focus",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "关注",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/message/message",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "消息",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
+	"tabBar":{
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/home/home",
+			"iconPath": "static/icons/home.png",
+			"selectedIconPath": "static/icons/home.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/focus/focus",
+			"iconPath": "static/icons/focus.png",
+			"selectedIconPath": "static/icons/focus.png",
+			"text": "关注"
+		}, {
+			"pagePath": "pages/publish/publish",
+			"iconPath": "static/icons/publish.png",
+			"selectedIconPath": "static/icons/publish.png",
+			"text": "发布"
+		}, {
+			"pagePath": "pages/message/message",
+			"iconPath": "static/icons/message.png",
+			"selectedIconPath": "static/icons/message.png",
+			"text": "消息"
+		}, {
+			"pagePath": "pages/my/my",
+			"iconPath": "static/icons/my.png",
+			"selectedIconPath": "static/icons/my.png",
+			"text": "我的"
+		}]
+	},
+	"condition": { //模式配置，仅开发期间生效
+	    "current": 0, //当前激活的模式（list 的索引项）
+	    "list": [{
+	            "name": "Launch", //模式名称
+	            "path": "pages/search/search" //启动页面，必选
+	        }
+	    ]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
