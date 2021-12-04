@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "首页",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "u-swiper": "/uview-ui/components/u-swiper/u-swiper",
+    "text-card": "/components/TextCard"
+  }
+}

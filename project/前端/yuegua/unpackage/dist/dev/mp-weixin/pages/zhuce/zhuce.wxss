@@ -1,0 +1,35 @@
+
+page{ background: #fff;
+}
+.login_img{ width: 100%; height: auto; margin-top: 90rpx;
+}
+.login_img image{ width: 170rpx; height: 170rpx; display: block; margin: 0px auto; border-radius: 50%;
+}
+.login_from{ width: 100%; height: auto; box-sizing: border-box; padding: 20rpx 8%;
+}
+.login_from_input{ width: 100%; height:auto; display: flex; flex-direction: row; justify-content: space-between; align-items: center; border-bottom: 1px #eee solid; padding: 40rpx 0px; margin: 0px auto;
+}
+.login_from_name{ width: 20%;
+}
+.login_from_fun{ width: 80%; display: flex; flex-direction: row; justify-content: flex-end; align-items: center;
+}
+.login_from_fun input{ width: 100%; text-align: left; font-size: 14px;
+}
+.login_from_dl{ width: 100%; height: 50px; line-height: 50px; margin-top: 150rpx;
+}
+.login_from_dl button{ width: 100%; height: 50px; line-height: 50px; background: #000000; color: #fff; border-radius: 50px;
+}
+.logo_xieyi{ width: 100%; height: 40px; line-height: 40px; display: flex; flex-direction: row; margin-top: 30rpx; align-items: center; color: #444; font-size: 14px; justify-content: center;
+}
+.logo_xieyi label{ font-size: 18px; margin-right: 1%;
+}
+.cuIcon-squarecheckfill{ color: #000000;
+}
+.logo_text text{ color: #FF3B00;
+}
+.getyzm{ width: 60%; display: flex; flex-direction: row; justify-content: flex-end; color: #FF3B00;
+}
+.cuicon{ font-size: 18px;
+}  
+
+

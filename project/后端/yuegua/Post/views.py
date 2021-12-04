@@ -1,3 +1,4 @@
+import json
 
 from django.http import HttpResponse,HttpResponseRedirect
 from models.models import User
@@ -10,7 +11,7 @@ from models.models import Revelation
 from models.models import Revelation_Pic
 from models.models import activity
 from models.models import activity_contribute
-from models.models import contributes_Pic
+from models.models import contributes_Pic,topic_vote,activity_vote
 from Tools import func as tools
 
 def post_topic(request):
@@ -18,7 +19,7 @@ def post_topic(request):
         'res': ''
     }
     uid = int(request.session.get('uid', '-1'))
-    if uid == '-1':
+    if uid == -1:
         result['res'] = 'login please'
         return JsonResponse(result)
     # uid=request.POST.get('uid')
@@ -45,7 +46,7 @@ def post_topic(request):
         try:
             Topic.objects.create(UID=usr.UID,category=category,title=title,statement=statement,Tag=tag,
                              time=tmpTime,star=0,tip_off=0,status=False,isPostByEditor=False,
-                             Fcounts=0,lastUpDateTime=tmpTime)
+                             Fcounts=0,lastUpDateTime=tmpTime,hotPoints=usr.rank*5)
 
         except Exception as e:
             print(e)
@@ -60,7 +61,7 @@ def post_comment(request):
         'res': ''
     }
     uid = int(request.session.get('uid', '-1'))
-    if uid == '-1':
+    if uid == -1:
         result['res'] = 'login please'
         return JsonResponse(result)
     # uid=request.POST.get('uid')
@@ -69,9 +70,11 @@ def post_comment(request):
     if request.method=='POST':
 
         try:
+           u = User.objects.get(UID__exact=uid)
            TID = int(request.POST.get('TID'))
            value = request.POST.get('value')
-           Comments.objects.create(UID=uid,TID=TID,value=value,time=tools.getTime(),star=0,status=False,tip_off=0)
+           Comments.objects.create(UID=uid,TID=TID,value=value,time=tools.getTime(),star=0,status=False,tip_off=0,Uname=u.Uname
+                                   ,hotPoints=u.rank*5)
            # 用户经验值更新
            tools.addEXP(1,4)
         except Exception as e:
@@ -87,7 +90,7 @@ def post_event(request):
         'res': ''
     }
     uid = int(request.session.get('uid', '-1'))
-    if uid == '-1':
+    if uid == -1:
         result['res'] = 'login please'
         return JsonResponse(result)
     # uid=request.POST.get('uid')
@@ -131,7 +134,7 @@ def post_revelation(request):
         'res': ''
     }
     uid = int(request.session.get('uid', '-1'))
-    if uid == '-1':
+    if uid == -1:
         result['res'] = 'login please'
         return JsonResponse(result)
     # uid = request.POST.get('uid')
@@ -184,7 +187,7 @@ def post_Activity(request):
         'res': ''
     }
     uid = int(request.session.get('uid', '-1'))
-    if uid == '-1':
+    if uid == -1:
         result['res'] = 'login please'
         return JsonResponse(result)
     # uid = request.POST.get('uid')
@@ -217,7 +220,7 @@ def post_activity_contribute(request):
         'res': ''
     }
     uid = int(request.session.get('uid', '-1'))
-    if uid == '-1':
+    if uid == -1:
         result['res'] = 'login please'
         return JsonResponse(result)
     # uid = int(request.POST.get('uid'))
@@ -228,9 +231,11 @@ def post_activity_contribute(request):
         title = request.POST.get('title')
         statement = request.POST.get('statement')
         text = request.POST.get('text')
+
         try:
+            u = User.objects.get(UID__exact=uid)
             ac = activity_contribute.objects.create(AID=aid, UID=uid, time=tools.getTime(), title=title, statement=statement
-                                          , star=0, tip_off=0, status=False, text=text)
+                                          , star=0, tip_off=0, status=False, text=text,hotPoints=u.rank*5)
 
             picsUPload = request.FILES.getlist('imgs')
             try:
@@ -252,3 +257,41 @@ def post_activity_contribute(request):
 
         result['res'] = 'ok'
         return JsonResponse(result)
+
+def Topic_vote(request):
+    result = {
+        'res': ''
+    }
+    if request.method=='POST':
+        msg=json.loads(request.body.decode())
+        itemList=msg['items']
+        tid=int(msg['TID'])
+        try:
+            for i in itemList:
+                topic_vote.objects.create(TID=tid,item=i,counts=0)
+        except Exception as e:
+            print(e)
+            result['res']='failed'
+            return JsonResponse(result)
+
+    result['res']='ok'
+    return JsonResponse(result)
+
+def Activity_vote(request):
+    result = {
+        'res': ''
+    }
+    if request.method == 'POST':
+        msg = json.loads(request.body.decode())
+        itemList = msg['items']
+        aid = int(msg['AID'])
+        try:
+            for i in itemList:
+                activity_vote.objects.create(AID=aid,item=i,counts=0)
+        except Exception as e:
+            print(e)
+            result['res'] = 'failed'
+            return JsonResponse(result)
+
+    result['res'] = 'ok'
+    return JsonResponse(result)

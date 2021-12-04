@@ -1,5 +1,5 @@
 from django.test import TestCase
 
 # Create your tests here.
-import time
-print(int(time.time()))
+age=float(input())
+print(int(age+0.5))

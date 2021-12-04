@@ -75,8 +75,7 @@ class userFollow_topic(models.Model):
         verbose_name_plural = '用户关注的话题'
 
     UID = models.IntegerField("用户ID")
-    FTID = models.IntegerField("被关注人的ID")
-    AgeRange=models.IntegerField("年龄段",default='0')
+    FTID = models.IntegerField("被关注话题的ID")
     lastVisitTime = models.IntegerField("最后访问时间戳",default=0)
 
 
@@ -89,12 +88,15 @@ class Comments(models.Model):
 
     CID = models.AutoField("评论ID", primary_key=True)
     UID = models.IntegerField("用户ID")
+    Uname=models.CharField("用户名",max_length=25,default='')
     TID = models.IntegerField("所属话题ID")
     value=models.TextField("评论内容")
     time=models.IntegerField("发布时间")
     star=models.IntegerField("点赞数")
     tip_off=models.IntegerField("举报数")
     status=models.BooleanField("显示/下架锁定",default=True)
+    hotPoints=models.FloatField("热值",default=0.0)
+
 
 
 class Topic(models.Model):
@@ -117,6 +119,8 @@ class Topic(models.Model):
     lastUpDateTime=models.IntegerField("话题最后更新时间")
     Fcounts=models.IntegerField("关注数",default=0)
     Tag=models.CharField("标签",max_length=255,default='')
+    AgeRange_avg=models.IntegerField("受欢迎年龄段",default=0)
+    hotPoints=models.FloatField("热门指数",default=0.0)
 
 class Revelation(models.Model):
 
@@ -187,7 +191,7 @@ class topic_vote(models.Model):
     TID = models.IntegerField("话题ID")
     ID = models.AutoField("选项ID", primary_key=True)
     item = models.CharField("条目名", max_length=255)
-    counts = models.IntegerField("计数")
+    counts = models.IntegerField("计数",default=0)
 
 
 class activity(models.Model):
@@ -230,6 +234,7 @@ class activity_contribute(models.Model):
     tip_off = models.IntegerField("举报数", default=0)
     status = models.BooleanField("已发布/待审核", default=True)
     text = models.TextField("投稿文字内容")
+    hotPoints=models.FloatField("热值",default=0.0)
 
 class contributes_Pic(models.Model):
     class Meta:
@@ -249,3 +254,24 @@ class message(models.Model):
     type=models.IntegerField("类型")
     value=models.CharField("标题",max_length=255)
     postTime=models.DateTimeField("推送时间")
+
+class Tip_off(models.Model):
+    class Meta:
+        db_table = 'tip_off'
+        verbose_name = '举报审核队列'
+        verbose_name_plural = '举报审核队列'
+
+    type=models.IntegerField("对象类型")
+    points=models.IntegerField("扣分数")
+    UID=models.IntegerField("被举报人ID")
+    valueID=models.IntegerField("举报对象ID",default=0)
+
+class Star(models.Model):
+    class Meta:
+        db_table = 'Star'
+        verbose_name = '点赞记录'
+        verbose_name_plural = '点赞记录'
+
+    type = models.IntegerField("对象类型")
+    UID = models.IntegerField("点赞人ID")
+    valueID = models.IntegerField("点赞对象ID")

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*sq@@xeldvhuqe)1i5^5=_0@k=mp1ikp3lwnh+21(3pm0ju#e#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','yuegua.fgimax.vipnps.vip']
 
 
 # Application definition
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'models',
     'UserAccess',
-    'Post'
+    'Post',
+    'Comments'
 ]
 
 MIDDLEWARE = [

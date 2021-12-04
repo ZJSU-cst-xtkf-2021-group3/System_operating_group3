@@ -13,13 +13,16 @@ def check_in(request):
         passwd = request.POST.get('password', '')
         try:
             usr=User.objects.get(Uname__exact=uname)
+
         except Exception as e:
             result['res']='user not exit'
             return JsonResponse(result)
         if usr.Passwd == passwd:
             request.session['uid'] = usr.UID
             result['res'] = 'check passed'
-            return JsonResponse(result)
+            response=JsonResponse(result)
+            response.set_cookie('UID',usr.UID,expires=60 * 60 * 24 * 1)
+            return response
         else:
             result['res']='check failed'
             return JsonResponse(result)
@@ -31,7 +34,9 @@ def check_out(request):
     try:
         del request.session['uid']
         result['res']='ok'
-        return JsonResponse(result)
+        response=JsonResponse(result)
+        response.delete_cookie('UID')
+        return response
     except Exception as e:
         print(e)
 

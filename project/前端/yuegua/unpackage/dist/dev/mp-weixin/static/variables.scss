@@ -1,0 +1,33 @@
+
+$bordercolor:#d6d7d9;
+$searchbarcolor:#f3f4f6;
+$shadowcolor:#e7e6e4;
+$mypanelbgcolor:#e7e6e4;
+
+%center{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+%leftcenter{
+	display: flex;
+	align-items: center;
+}
+
+%rightcenter{
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+%betweencenter{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+%basepage{
+	padding-left: 10rpx;
+	padding-right: 10rpx;
+}

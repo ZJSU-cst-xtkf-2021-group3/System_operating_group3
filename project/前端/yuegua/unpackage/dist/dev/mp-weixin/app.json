@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/search/search",
+    "pages/my/my",
+    "pages/info/info",
+    "pages/zhuce/zhuce",
+    "pages/publish/publish",
+    "pages/other/other",
+    "pages/seting/seting",
+    "pages/focus/focus",
+    "pages/message/message"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "static/icons/home.png",
+        "selectedIconPath": "static/icons/home.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/focus/focus",
+        "iconPath": "static/icons/focus.png",
+        "selectedIconPath": "static/icons/focus.png",
+        "text": "关注"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "iconPath": "static/icons/publish.png",
+        "selectedIconPath": "static/icons/publish.png",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "iconPath": "static/icons/message.png",
+        "selectedIconPath": "static/icons/message.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "static/icons/my.png",
+        "selectedIconPath": "static/icons/my.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

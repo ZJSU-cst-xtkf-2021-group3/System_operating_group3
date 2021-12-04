@@ -1,0 +1,1 @@
+<view class="u-collapse data-v-e4ce3c40"><block wx:if="{{border}}"><u-line vue-id="2583db26-1" class="data-v-e4ce3c40" bind:__l="__l"></u-line></block><slot></slot></view>

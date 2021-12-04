@@ -9,6 +9,8 @@ urlpatterns = [
     path('revelation',views.post_revelation,name='post_revelation'),
     path('Activity',views.post_Activity,name='post_Activity'),
     path('activity_contribute',views.post_activity_contribute,name='activity_contribute'),
-
-
+    path('topic_vote',views.Topic_vote,name='topic_vote'),
+    path('activity_vote',views.Activity_vote,name='activity_vote')
 ]
+
+

@@ -23,11 +23,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('EditorAccess/', include('EditorAccess.urls')),
+    path('Editor/', include('EditorAccess.urls')),
     path('UserAccess/',include('UserAccess.urls')),
     path('UserAccess/',include('UserAccess.urls')),
     path('UserProfile/',include('UserProfile.urls')),
     path('test/',include('Test.urls')),
-    path('Post/',include('Post.urls'))
+    path('Post/',include('Post.urls')),
+    path('Topic/',include('Topic.urls')),
+    path('Comments/',include('Comments.urls'))
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

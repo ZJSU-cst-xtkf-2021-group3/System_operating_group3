@@ -1,0 +1,9 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u--text": "/uview-ui/components/u--text/u--text",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "u-tag": "/uview-ui/components/u-tag/u-tag",
+    "u-avatar": "/uview-ui/components/u-avatar/u-avatar"
+  }
+}
