@@ -40,3 +40,6 @@
 
 #话题热度
 t.hotPoints = tu.rank * 5 + t.star * 0.1 + t.Fcounts * 0.2
+
+#结点类型：
+2 引用 3 爆料

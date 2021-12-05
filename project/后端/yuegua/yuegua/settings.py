@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'models',
     'UserAccess',
     'Post',
-    'Comments'
+    'Comments',
+    'Event',
+
 ]
 
 MIDDLEWARE = [

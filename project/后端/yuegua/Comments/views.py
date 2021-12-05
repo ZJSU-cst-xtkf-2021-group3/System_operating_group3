@@ -18,7 +18,7 @@ def show_comments(request):
                 data={}
                 data['CID']=i.CID
                 data['UID']=i.UID
-                data['Uname']=i.Uname
+                data['Uname']=User.objects.get(UID__exact=i.UID).Uname
                 data['value']=i.value
                 data['time']=tools.stamp2strtime(i.time)
                 data['star']=i.star

@@ -30,6 +30,7 @@ urlpatterns = [
     path('test/',include('Test.urls')),
     path('Post/',include('Post.urls')),
     path('Topic/',include('Topic.urls')),
-    path('Comments/',include('Comments.urls'))
+    path('Comments/',include('Comments.urls')),
+    path('Event/',include('Event.urls')),
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

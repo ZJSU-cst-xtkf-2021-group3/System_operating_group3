@@ -88,7 +88,6 @@ class Comments(models.Model):
 
     CID = models.AutoField("评论ID", primary_key=True)
     UID = models.IntegerField("用户ID")
-    Uname=models.CharField("用户名",max_length=25,default='')
     TID = models.IntegerField("所属话题ID")
     value=models.TextField("评论内容")
     time=models.IntegerField("发布时间")
@@ -141,6 +140,7 @@ class Revelation(models.Model):
     isPostByEditor = models.BooleanField("是否是编辑发布的内容", default=False)
     text=models.TextField("爆料内容")
     eventTime=models.DateTimeField("事件的时间节点")
+    type=models.IntegerField("类型",default=3)
 
 
 class Revelation_Pic(models.Model):
@@ -171,6 +171,7 @@ class Events(models.Model):
     isPostByEditor = models.BooleanField("是否是编辑发布的内容", default=False)
     url=models.CharField("来源URL",max_length=255)
     eventTime=models.DateTimeField("事件的时间节点")
+    type = models.IntegerField("类型", default=2)
 
 
 class index_pic(models.Model):
