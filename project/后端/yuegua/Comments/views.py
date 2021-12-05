@@ -12,7 +12,7 @@ def show_comments(request):
 
     TID=request.GET.get('TID')
     try:
-        commentsList=Comments.objects.filter(TID__exact=TID,).order_by('-star')
+        commentsList=Comments.objects.filter(TID__exact=TID).order_by('-star')
         for i in commentsList:
             if i.status:
                 data={}

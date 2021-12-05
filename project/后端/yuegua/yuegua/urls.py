@@ -32,5 +32,6 @@ urlpatterns = [
     path('Topic/',include('Topic.urls')),
     path('Comments/',include('Comments.urls')),
     path('Event/',include('Event.urls')),
+    path('Activity/',include('Activity.urls'))
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

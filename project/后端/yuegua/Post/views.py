@@ -205,7 +205,7 @@ def post_Activity(request):
         poster = request.FILES.get('poster')
 
         try:
-            activity.objects.create(reward=reward,poster=poster,Introduction=introduction,Title=title,isEND=False)
+            activity.objects.create(reward=reward,poster=poster,Introduction=introduction,Title=title,isEND=False,hotPoints=usr.rank*5)
         except Exception as e:
             print(e)
             result['res']='failed'
