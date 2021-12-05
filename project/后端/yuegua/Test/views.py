@@ -43,7 +43,8 @@ def ping(request):
         result['res'] = 'login please'
         return JsonResponse(result)
     else:
-        return HttpResponse("no problem")
+        result['res'] = '666666'
+        return JsonResponse(result)
 
 
 def check_in(request):

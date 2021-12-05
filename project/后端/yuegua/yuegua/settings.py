@@ -38,18 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'models',
     'UserAccess',
     'Post',
     'Comments',
     'Event',
-    'Activity'
+    'Activity',
+
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -143,3 +146,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SESSION_COOKIE_AGE=60*60*24
 MEDIA_URL='/media/'
 MEDIA_ROOT=os.path.join(BASE_DIR,"media")
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+SESSION_COOKIE_SAMESITE = None
+
+# SESSION_COOKIE_HTTPONLY = False
