@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.http import JsonResponse
 import json
 from models.models import Tip_off, User
+from django_redis import get_redis_connection
 
 
 def ite(request):
@@ -69,3 +70,4 @@ def check_in(request):
     else:
         result['res']='check failed'
         return JsonResponse(result)
+

@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpResponse,HttpResponseRedirect
 from models.models import User,Comments
 from django.urls import reverse
@@ -12,18 +13,17 @@ def show_comments(request):
 
     TID=request.GET.get('TID')
     try:
-        commentsList=Comments.objects.filter(TID__exact=TID).order_by('-star')
+        commentsList=Comments.objects.filter(Q(TID__exact=TID),Q(status__exact=True)).order_by('-star')
         for i in commentsList:
-            if i.status:
-                data={}
-                data['CID']=i.CID
-                data['UID']=i.UID
-                data['Uname']=User.objects.get(UID__exact=i.UID).Uname
-                data['value']=i.value
-                data['time']=tools.stamp2strtime(i.time)
-                data['star']=i.star
-                data['tip_off']=i.tip_off
-                List.append(data)
+            data={}
+            data['CID']=i.CID
+            data['UID']=i.UID
+            data['Uname']=User.objects.get(UID__exact=i.UID).Uname
+            data['value']=i.value
+            data['time']=tools.stamp2strtime(i.time)
+            data['star']=i.star
+            data['tip_off']=i.tip_off
+            List.append(data)
     except Exception as e:
         print(e)
         result['res']='failed'

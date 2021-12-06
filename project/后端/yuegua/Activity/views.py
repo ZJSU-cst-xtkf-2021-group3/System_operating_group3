@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from models.models import User, activity,activity_contribute,activity_vote,Tip_off,Star,contributes_Pic
 from django.urls import reverse
@@ -138,19 +139,18 @@ def all(request):
 
     aid = request.GET.get('AID')
     try:
-        contributesList = activity_contribute.objects.filter(AID__exact=aid).order_by('-hotPoints')
+        contributesList = activity_contribute.objects.filter(Q(AID__exact=aid),Q(status__exact=True)).order_by('-hotPoints')
         for i in contributesList:
-            if i.status:
-                data = {}
-                data['A_CID'] = i.A_CID
-                data['UID'] = i.UID
-                data['Uname'] = User.objects.get(UID__exact=i.UID).Uname
-                data['title'] = i.title
-                data['time'] = tools.stamp2strtime(i.time)
-                data['star'] = i.star
-                data['tip_off'] = i.tip_off
-                data['statement']=i.statement
-                List.append(data)
+            data = {}
+            data['A_CID'] = i.A_CID
+            data['UID'] = i.UID
+            data['Uname'] = User.objects.get(UID__exact=i.UID).Uname
+            data['title'] = i.title
+            data['time'] = tools.stamp2strtime(i.time)
+            data['star'] = i.star
+            data['tip_off'] = i.tip_off
+            data['statement']=i.statement
+            List.append(data)
     except Exception as e:
         print(e)
         result['res'] = 'failed'

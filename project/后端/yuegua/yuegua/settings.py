@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'Comments',
     'Event',
     'Activity',
+    'HomePage'
 
 
 ]
@@ -153,3 +154,15 @@ CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_SAMESITE = None
 
 # SESSION_COOKIE_HTTPONLY = False
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 100}
+            # "PASSWORD": "123",
+        }
+    }
+}

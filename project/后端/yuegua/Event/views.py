@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from models.models import User, Comments
 from django.urls import reverse
@@ -13,39 +14,38 @@ def all(request):
     List=[]
     try:
         tid=int(request.GET.get("TID"))
-        eventsList=Events.objects.filter(TID__exact=tid)
-        revelationList=Revelation.objects.filter(TID__exact=tid)
+        eventsList=Events.objects.filter(Q(TID__exact=tid),Q(status__exact=True))
+        revelationList=Revelation.objects.filter(Q(TID__exact=tid),Q(status__exact=True))
 
         for i in eventsList:
-            if i.status:
-                data={}
-                data['type']=i.type
-                data['ID']=i.EID
-                data['Uname']=User.objects.get(UID__exact=i.UID).Uname
-                data['time']=tools.stamp2strtime(i.time)
-                data['title']=i.title
-                data['statement']=i.statement
-                data['star']=i.star
-                data['tip-off']=i.tip_off
-                data['isPostByEditor']=i.isPostByEditor
-                data['url']=i.url
-                data['eventTime']=i.eventTime.timestamp()
-                List.append(data)
+            data={}
+            data['type']=i.type
+            data['ID']=i.EID
+            data['Uname']=User.objects.get(UID__exact=i.UID).Uname
+            data['time']=tools.stamp2strtime(i.time)
+            data['title']=i.title
+            data['statement']=i.statement
+            data['star']=i.star
+            data['tip-off']=i.tip_off
+            data['isPostByEditor']=i.isPostByEditor
+            data['url']=i.url
+            data['eventTime']=i.eventTime.timestamp()
+            List.append(data)
         for i in revelationList:
-            if i.status:
-                data={}
-                data['type'] = i.type
-                data['ID'] = i.RID
-                data['Uname'] = User.objects.get(UID__exact=i.UID).Uname
-                data['time'] = tools.stamp2strtime(i.time)
-                data['title'] = i.title
-                data['statement'] = i.statement
-                data['star'] = i.star
-                data['tip-off'] = i.tip_off
-                data['isPostByEditor'] = i.isPostByEditor
-                data['eventTime'] = i.eventTime.timestamp()
-                data['mainPic']=Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
-                List.append(data)
+
+            data={}
+            data['type'] = i.type
+            data['ID'] = i.RID
+            data['Uname'] = User.objects.get(UID__exact=i.UID).Uname
+            data['time'] = tools.stamp2strtime(i.time)
+            data['title'] = i.title
+            data['statement'] = i.statement
+            data['star'] = i.star
+            data['tip-off'] = i.tip_off
+            data['isPostByEditor'] = i.isPostByEditor
+            data['eventTime'] = i.eventTime.timestamp()
+            data['mainPic']=Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
+            List.append(data)
 
 
 
