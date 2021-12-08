@@ -33,6 +33,7 @@ urlpatterns = [
     path('Comments/',include('Comments.urls')),
     path('Event/',include('Event.urls')),
     path('Activity/',include('Activity.urls')),
-    path('HomePage/',include('HomePage.urls'))
+    path('HomePage/',include('HomePage.urls')),
+    path('Space/',include("Space.urls"))
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

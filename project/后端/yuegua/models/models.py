@@ -11,7 +11,7 @@ class User(models.Model):
     Uname=models.CharField("用户名",max_length=25,default='unnamed')
     Passwd=models.CharField("密码",max_length=25,default='password-not-set')
     isEDIT=models.BooleanField("是否为编辑",default=False)
-    header=models.ImageField("用户头像",upload_to='userHeader',default='/static/img/default.png')
+    header=models.ImageField("用户头像",upload_to='userHeader',default='/static/img/header_default.png')
     AgeRange=models.IntegerField("年龄段")
     rank=models.IntegerField("用户等级")
     introduction=models.TextField("个人介绍")

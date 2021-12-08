@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'Comments',
     'Event',
     'Activity',
-    'HomePage'
+    'HomePage',
+    'Space'
+
 
 
 ]
