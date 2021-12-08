@@ -3,12 +3,16 @@
 		<view class="searchbar" @click="clicksearch"><u-icon name="search" size="20"></u-icon><text>搜索</text></view>
 		<u-tabs :list="tabslist" @click="tabclick" sticky></u-tabs>
 		    <u-swiper :list="list3" indicator indicatorMode="dot" interval="4000" circular ></u-swiper>
-		<TextCard :imgsrc="src" :avatarsrc="src" partcontent="项目 'yuegua' 编译成功。" readcount="1879" title="这是一个标题" uname="wuji"></TextCard>
+		<TextCard :imgsrc="src" :avatarsrc="src" partcontent="项目 'yuegua' 编译成功。" 
+				   likecnt="712" commentcnt="423432" readcnt="899" title="这是一个标题" uname="wuji"></TextCard>
+		<ActivityCard partcontent="项目 'yuegua' 编译成功。"
+				   likecnt="712" commentcnt="423432" sharecnt="899" title="这是一个标题"></ActivityCard>
 	</view>
 </template>
 
 <script>
-	import TextCard from '@/components/TextCard'
+	import TextCard from '@/components/TextCard';
+	import ActivityCard from '@/components/ActivityCard';
     export default {
 		name:'home',
         data() {
@@ -31,7 +35,8 @@
 			}
 		},
 		components:{
-			TextCard
+			TextCard,
+			ActivityCard
 		}
     }
 </script>
@@ -39,7 +44,6 @@
 <style lang="scss">
 @import '@/static/variables.scss';
 .page{
-	@extend %basepage;
 	.searchbar{
 		height: 60rpx;
 		margin: 10rpx 30rpx 10rpx 30rpx;

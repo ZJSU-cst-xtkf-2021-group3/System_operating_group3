@@ -26,7 +26,11 @@ $mypanelbgcolor:#e7e6e4;
 	align-items: center;
 	justify-content: space-between;
 }
-
+%aroundcenter{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
 %basepage{
 	padding-left: 10rpx;
 	padding-right: 10rpx;
