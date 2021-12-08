@@ -15,10 +15,17 @@
 		<u-popup :show="true" :round="true" :overlay="false" :closeOnClickOverlay="false">
 			<view class="datapanel">
 				<view class="dataheader">
-
-						<u-button type="primary" shape="circle" text="投稿"></u-button>
-						<u-button type="primary" shape="circle" text="关注话题"></u-button>					
-
+					<view class="ctrltabs">
+						<view class="tab">
+							<text>他的投稿</text>
+							<view style="height: 6rpx;width: 50rpx;background-color: #007AFF;border-radius: 50rpx;"></view>
+						</view>
+						<view class="tab">
+							<text>他的关注</text>
+							<view style="height: 6rpx;width: 50rpx;background-color: #007AFF;border-radius: 50rpx;"></view>
+						</view>
+					</view>
+		
 					<view class="headerpanel-udata">
 						<view class="datablock">
 							<text style="font-size: 35rpx;font-weight: 550;">33445</text>
@@ -35,6 +42,9 @@
 					</view>
 				</view>
 			</view>
+			<view class="datalist">
+				<view></view>
+			</view>
 		</u-popup>
 
 	</view>
@@ -44,8 +54,11 @@
 	export default {
 		data() {
 			return {
-				
+				tabslist:[{name:'投稿',name:'关注话题'}]
 			};
+		},
+		methods:{
+
 		}
 	}
 </script>
@@ -69,10 +82,27 @@
 	.dataheader{
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		padding: 10rpx;
+		.ctrltabs{
+			display: flex;
+			.tab{
+				margin-left: 20rpx;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-end;		
+				text{
+					font-size: 32rpx;
+				}
+				view{
+					margin-top: 12rpx;
+				}
+			}
+
+		}
 		.headerpanel-udata{
 			display: flex;
-			
 			.datablock{
 				margin: 20rpx;
 				display: flex;

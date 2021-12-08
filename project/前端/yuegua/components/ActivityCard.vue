@@ -11,16 +11,10 @@
 		</view>
 		<view class="divideline"><u-line length="100%"></u-line></view>
 		<view class="cardfooter">
-			<view class="leftfooter">
-				<u-tag text="标签" size="mini" plain></u-tag>
-				<u-avatar :src="avatarsrc" size="16"></u-avatar>
-				<text style="margin-left: 15rpx;font-size: 15rpx;">{{uname}}</text>		
-				<text style="margin-left: 30rpx;font-size: 15rpx;">1天前</text>
-			</view>
 			<view class="rightfooter" v-if="showrightfooter">
-				<view><u--text prefixIcon="eye" :text="readcount" size="12"></u--text></view>
-				<view><u--text prefixIcon="chat" :text="commentcount" size="12"></u--text></view>
 				<view><u--text prefixIcon="thumb-up" :text="likecount" size="12"></u--text></view>
+				<view><u--text prefixIcon="chat" :text="commentcount" size="12"></u--text></view>
+				<view><u--text prefixIcon="share" :text="sharecount" size="12"></u--text></view>
 			</view>
 		</view>
 		
@@ -47,18 +41,6 @@
 				type:String,
 				default:''
 			},
-			imgsrc:{
-				type:String,
-				default:''
-			},
-			avatarsrc:{
-				type:String,
-				default:''
-			},
-			uname:{
-				type:String,
-				default:''
-			},
 			likecnt:{
 				type:String,
 				default:'0'
@@ -67,7 +49,7 @@
 				type:String,
 				default:'0'
 			},
-			readcnt:{
+			sharecnt:{
 				type:String,
 				default:'0'
 			}
@@ -79,14 +61,15 @@
 			commentcount:function(){
 				return this.computcount(this.commentcnt);
 			},
-			readcount:function(){
-				return this.computcount(this.readcnt);
+			sharecount:function(){
+				return this.computcount(this.sharecnt);
 			},
 			
 		},
 		methods:{
 			computcount(num){
 				let n = Number(num);
+				console.log(num);
 				if(n < 1000){
 					return num;
 				}
@@ -129,10 +112,8 @@
 		}
 		.cardfooter{
 			@extend %betweencenter;
-			.leftfooter{
-				@extend %leftcenter;
-			}
 			.rightfooter{
+				margin-left: 10rpx;
 				@extend %rightcenter;
 				view{
 					width: 120rpx;
