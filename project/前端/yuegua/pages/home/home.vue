@@ -45,9 +45,9 @@
 		name:'home',
         data() {
             return {
-				showrecommd:false,
+				showrecommd:true,
 				showrank:false,
-				showfkinds:true,
+				showfkinds:false,
 				topicselected:true,
 				src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',
                 tabslist: [{name: '推荐',},{name: '热榜',},{name: '娱乐',},{name: '体育',},{name: '二次元'},{name: '日常'},{name: '时政'},{name: '国际'}],

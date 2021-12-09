@@ -101,6 +101,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/review/review",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "审核进度",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/draft/draft",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "草稿箱",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"tabBar":{
 		"color": "#B2B2B2",

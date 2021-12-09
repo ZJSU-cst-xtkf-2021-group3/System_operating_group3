@@ -7,12 +7,12 @@
 					<view style="padding-top: 20rpx;">
 						<view class="headerpanel-uinfo-name">
 							<text style="font-size: 45rpx;font-weight: 550;margin-right: 30rpx;">wuji</text>
+							<u-icon style="margin-right: 10rpx;" name="level" size="18" label="4" space="0"></u-icon>
 						</view>
 						<u--text line="2" text="今天天气很好"></u--text>
 						<view class="levelbar">
-							<u-icon style="margin-right: 10rpx;" name="level" size="18" label="4" space="0"></u-icon>
-							<u-line-progress :percentage="30" height="8" activeColor="#1890FF" :showText="false"></u-line-progress>
-							<text style="font-size: 10rpx;margin-left: 10rpx;">190/24</text>
+							<u-line-progress :percentage="70" height="8" activeColor="#1890FF" :showText="false"></u-line-progress>
+							<view style="font-size: 10rpx;margin-left: 10rpx;text-align: center;">49/555</view>
 						</view>
 					</view>
 					<view class="avatarpanel">
@@ -37,13 +37,13 @@
 			</view>
 		</u-transition>
 		<view class="controlpanel">
-			<u-icon name="/static/icons/草稿.png" size="30" label="草稿" labelPos="bottom" labelSize="10"></u-icon>
-			<u-icon name="/static/icons/审核.png" size="30" label="审核进度" labelPos="bottom" labelSize="10"></u-icon>
+			<u-icon name="/static/icons/草稿.png" size="30" label="草稿" labelPos="bottom" labelSize="10" @click="clickdraft"></u-icon>
+			<u-icon name="/static/icons/审核.png" size="30" label="审核进度" labelPos="bottom" labelSize="10" @click="clickreview"></u-icon>
 			<u-icon name="/static/icons/seting.png" size="30" label="设置" labelPos="bottom" labelSize="10" @click="clickset"></u-icon>
 		</view>
 		<u-sticky>
 			<view style="background-color: #fafafa;">
-				<u-tabs :list="tabslist" sticky></u-tabs>
+				<u-tabs :list="tabslist" :activeStyle="{ color: '#3c9cff' }" sticky></u-tabs>
 			</view>			
 		</u-sticky>
 
@@ -68,6 +68,16 @@
 				uni.navigateTo({
 					url:'../info/info'
 				})
+			},
+			clickreview(){
+				uni.navigateTo({
+					url:'../review/review'
+				})
+			},
+			clickdraft(){
+				uni.navigateTo({
+					url:'../draft/draft'
+				})
 			}
 		}
 	}
@@ -76,7 +86,7 @@
 <style lang="scss">
 @import '@/static/variables.scss';
 .headerpanel{
-	height: 20vh;
+	height: 21vh;
 	padding: 20rpx;
 	display: flex;
 	position:relative;
@@ -103,9 +113,8 @@
 			align-items: flex-start;
 		}		
 		.levelbar{
-			width: 50vw;
+			width: 60vw;
 			margin-top: 10rpx;
-			@extend %betweencenter;
 		}
 		.avatarpanel{
 			display: flex;
@@ -115,7 +124,7 @@
 	}
 	.headerpanel-udata{
 		display: flex;
-		padding: 20rpx 40rpx 0 30rpx;
+		padding: 20rpx 40rpx 10rpx 30rpx;
 		.datablock{
 			margin: 20rpx 40rpx 20rpx 40rpx;
 			display: flex;

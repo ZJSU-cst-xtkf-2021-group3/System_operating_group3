@@ -1,6 +1,6 @@
 <template>
 	<view class="card">
-		<view style="margin-left: 20rpx;"><u-avatar :src="avtarsrc" shape="square"></u-avatar></view>
+		<view v-if="avtarsrc!=''" style="margin-left: 20rpx;"><u-avatar :src="avtarsrc" shape="square"></u-avatar></view>
 		<view style="margin-left: 20rpx;">
 			<view style="font-size: 35rpx;">{{uname}}</view>
 			<view style="color: #A2A2A2;">{{msg}}</view>
@@ -12,7 +12,7 @@
 	export default {
 		name:"MsgCard",
 		props:{
-			avtarsrc:{type:String},
+			avtarsrc:{type:String,default:""},
 			uname:{type:String},
 			msg:{type:String}
 		},

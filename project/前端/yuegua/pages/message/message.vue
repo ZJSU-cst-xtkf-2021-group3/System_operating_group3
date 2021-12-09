@@ -1,21 +1,27 @@
 <template>
 	<view>
 		<view class="ctrlheader">
-			<view class="ctrlblock">
+			<view class="ctrlblock" @click="fovar=true">
 				<u-icon name="thumb-up-fill" color="#fff" labelColor="#fff" label="点赞" labelSize="12" size="25"></u-icon>
+				<view class="badge"></view>
 			</view>
-			<view class="ctrlblock">
+			<view class="ctrlblock" @click="focus=true">
 				<u-icon name="plus-people-fill" color="#fff" labelColor="#fff" label="关注" labelSize="12" size="25"></u-icon>
+				<view class="badge"></view>
 			</view>
-			<view class="ctrlblock">
+			<view class="ctrlblock" @click="comm=true">
 				<u-icon name="chat-fill" color="#fff" labelColor="#fff" label="评论" labelSize="12" size="25"></u-icon>
+				<view class="badge"></view>
 			</view>
 		</view>
 		<view class="msgbar">
 			<u-icon label="全部消息" labelPos="left" size="16" labelSize="16" name="/static/icons/laba.png"></u-icon>
 		</view>
 		<view>
-			<MsgCard :avtarsrc="src" uname="订阅号" msg="天气真好"></MsgCard>
+			<MsgCard :avtarsrc="src" uname="用户名" msg="他点赞了你的评论!"></MsgCard>
+			<MsgCard :avtarsrc="src" uname="用户名" msg="他点赞了你的话题!"></MsgCard>
+			<MsgCard :avtarsrc="src" uname="用户名" msg="他关注了你!"></MsgCard>
+			<MsgCard uname="审核消息" msg="你投稿的话题审核通过."></MsgCard>
 		</view>
 		<u-popup mode="bottom" :show="fovar" round closeable @close="fovar=false">
 			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}"></view>
@@ -64,12 +70,20 @@ export default {
 <style lang="scss">
 @import '@/static/variables.scss';
 .ctrlheader{
-	padding: 20rpx 40rpx 20rpx 40rpx;
+	padding: 20rpx 60rpx 20rpx 60rpx;
 	@extend %betweencenter;
 	.ctrlblock{
 		padding: 10rpx 20rpx 10rpx 20rpx;
 		border-radius: 50rpx;
 		background-color: #1890FF;
+		position: relative;
+		.badge{
+			position: absolute;
+			width: 20rpx;height: 20rpx;
+			border-radius: 10rpx;
+			top: 0;right: 0;
+			background-color: #f00;
+		}
 	}	
 }
 .msgbar{
@@ -81,5 +95,6 @@ export default {
 	height: calc();
 	background-color: #007AFF;
 }
+
 
 </style>
