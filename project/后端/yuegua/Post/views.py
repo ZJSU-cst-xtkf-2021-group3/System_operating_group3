@@ -15,6 +15,7 @@ from models.models import contributes_Pic,topic_vote,activity_vote
 from Tools import func as tools
 
 def post_topic(request):
+    global pic
     result = {
         'res': ''
     }
@@ -31,6 +32,14 @@ def post_topic(request):
         statement=request.POST.get('statement')
         tag=request.POST.get('tag')
 
+        picsUPload = request.FILES.getlist('imgs')
+        try:
+            pic = request.FILES.get('mainPic')
+        except Exception as e:
+            print(e)
+        if not pic:
+            pic='/static/img/default.png'
+
         #用户等级权限判断
         if tools.check_right(usr.rank)!='full':
             result['res']='permission denied'
@@ -45,8 +54,8 @@ def post_topic(request):
 
         try:
             Topic.objects.create(UID=usr.UID,category=category,title=title,statement=statement,Tag=tag,
-                             time=tmpTime,star=0,tip_off=0,status=False,isPostByEditor=False,
-                             Fcounts=0,lastUpDateTime=tmpTime,hotPoints=usr.rank*5)
+                             time=tmpTime,star=0,tip_off=0,status=True,isPostByEditor=False,
+                             Fcounts=0,lastUpDateTime=tmpTime,hotPoints=usr.rank*5,mainPic=pic)
 
         except Exception as e:
             print(e)
@@ -73,7 +82,7 @@ def post_comment(request):
            u = User.objects.get(UID__exact=uid)
            TID = int(request.POST.get('TID'))
            value = request.POST.get('value')
-           Comments.objects.create(UID=uid,TID=TID,value=value,time=tools.getTime(),star=0,status=False,tip_off=0,Uname=u.Uname
+           Comments.objects.create(UID=uid,TID=TID,value=value,time=tools.getTime(),star=0,status=True,tip_off=0,Uname=u.Uname
                                    ,hotPoints=u.rank*5)
            # 用户经验值更新
            tools.addEXP(1,4)
@@ -116,7 +125,7 @@ def post_event(request):
             topic.save()
 
             Events.objects.create(TID=tid,UID=uid,time=tmpTime,title=title,statement=statement
-                                  ,star=0,tip_off=0,status=False,isPostByEditor=False,url=url,eventTime=eventTime)
+                                  ,star=0,tip_off=0,status=True,isPostByEditor=False,url=url,eventTime=eventTime)
 
             #exp
             tools.addEXP(uid,10)
@@ -161,7 +170,7 @@ def post_revelation(request):
             topic.save()
 
             R=Revelation.objects.create(TID=tid, UID=uid, time=tmpTime, title=title, statement=statement
-                                  , star=0, tip_off=0, status=False, isPostByEditor=False, eventTime=eventTime,text=text)
+                                  , star=0, tip_off=0, status=True, isPostByEditor=False, eventTime=eventTime,text=text)
 
             picsUPload = request.FILES.getlist('imgs')
             try:
@@ -235,7 +244,7 @@ def post_activity_contribute(request):
         try:
             u = User.objects.get(UID__exact=uid)
             ac = activity_contribute.objects.create(AID=aid, UID=uid, time=tools.getTime(), title=title, statement=statement
-                                          , star=0, tip_off=0, status=False, text=text,hotPoints=u.rank*5)
+                                          , star=0, tip_off=0, status=True, text=text,hotPoints=u.rank*5)
 
             picsUPload = request.FILES.getlist('imgs')
             try:

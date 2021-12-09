@@ -47,6 +47,7 @@ def search(request):
             tmp['Tag']=i.Tag
             tmp['isPostByEditor']=i.isPostByEditor
             tmp['Fcounts']=i.Fcounts
+            tmp['mainPic']=i.mainPic.url
             data.append(tmp)
 
         # uid = int(request.session.get('uid', '-1'))
@@ -137,6 +138,7 @@ def category(request):
             tmp['Tag'] = i.Tag
             tmp['isPostByEditor'] = i.isPostByEditor
             tmp['Fcounts'] = i.Fcounts
+            tmp['mainPic']=i.mainPic.url
 
             data.append(tmp)
         result['data']=data
@@ -224,6 +226,7 @@ def default(request):
             tmp['Tag'] = i.Tag
             tmp['isPostByEditor'] = i.isPostByEditor
             tmp['Fcounts'] = i.Fcounts
+            tmp['mainPic']=i.mainPic.url
             data.append(tmp)
         result['current_page']=List.number
         result['data'] = data

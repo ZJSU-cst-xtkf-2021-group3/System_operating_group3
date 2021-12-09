@@ -80,12 +80,13 @@ def Subscribe(request):
     result = {
         'res': ''
     }
+
     uid = request.session.get('uid', -1)
     if uid == -1:
         result['res'] = 'login please'
         return JsonResponse(result)
-    uid=int(request.POST.get('uid'))
-    tid = int(request.POST.get('TID'))
+    # uid=int(request.GET.get('uid'))
+    tid = int(request.GET.get('TID'))
 
     try:
         t=Topic.objects.get(TID__exact=tid)
@@ -196,6 +197,7 @@ def show_topic_info(request):
         data['Fcounts']=t.Fcounts
         data['Tag']=t.Tag
         data['hotPoints']=t.hotPoints
+        data['mainPic']=t.mainPic.url
         result['data']=data
 
     except Exception as e:

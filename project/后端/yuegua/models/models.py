@@ -120,6 +120,7 @@ class Topic(models.Model):
     Tag=models.CharField("标签",max_length=255,default='')
     AgeRange_avg=models.IntegerField("受欢迎年龄段",default=0)
     hotPoints=models.FloatField("热门指数",default=0.0)
+    mainPic=models.ImageField("话题首图",upload_to='topic',default='/static/img/default.png')
 
 class Revelation(models.Model):
 

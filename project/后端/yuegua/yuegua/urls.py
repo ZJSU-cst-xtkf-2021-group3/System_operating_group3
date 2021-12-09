@@ -34,6 +34,7 @@ urlpatterns = [
     path('Event/',include('Event.urls')),
     path('Activity/',include('Activity.urls')),
     path('HomePage/',include('HomePage.urls')),
-    path('Space/',include("Space.urls"))
+    path('Space/',include("Space.urls")),
+    path('MyCenter/',include("MyCenter.urls"))
 ]
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

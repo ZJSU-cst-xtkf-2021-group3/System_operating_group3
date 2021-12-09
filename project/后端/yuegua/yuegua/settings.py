@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'Event',
     'Activity',
     'HomePage',
-    'Space'
+    'Space',
+    'MyCenter'
 
 
 

@@ -58,6 +58,8 @@ def register(request):
             print(e)
         #年龄段转换
 
+        if not pic:
+            pic='/static/img/header_default.png'
         try:
             ageRange=ageSwitch(int(age))
         except Exception as e:
