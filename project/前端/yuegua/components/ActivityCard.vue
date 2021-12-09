@@ -9,7 +9,7 @@
 				<u--text :text="partcontent" size="13" lines="3"></u--text>
 			</view>			
 		</view>
-		<view class="divideline"><u-line length="100%"></u-line></view>
+		<view class="divideline"><u-line color="#e5e5e5" length="100%"></u-line></view>
 		<view class="cardfooter">
 			<view class="rightfooter" v-if="showrightfooter">
 				<view><u--text prefixIcon="thumb-up" :text="likecount" size="12"></u--text></view>
@@ -69,7 +69,6 @@
 		methods:{
 			computcount(num){
 				let n = Number(num);
-				console.log(num);
 				if(n < 1000){
 					return num;
 				}
@@ -90,13 +89,9 @@
 	@import '@/static/variables.scss';
 	.card{
 		padding: 10rpx 20rpx 10rpx 20rpx;
-		border-bottom: 1rpx;
-		border-top: 1rpx;
-		border-right: 0;
-		border-left: 0;
-		border-style: solid;
-		border-color: $bordercolor;
-		//background-color: #3C9CFF;
+		margin: 10rpx 0 10rpx 0;
+		border-radius: 10rpx;
+		background-color: $cardcolor;
 		.textpart{
 			padding: 0 10rpx 0 10rpx;
 			.cardheader{

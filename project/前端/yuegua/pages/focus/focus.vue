@@ -1,15 +1,15 @@
 <template>
 	<view>
-		<u-scroll-list :indicator="false" style="margin-top: 20rpx;">
+<!-- 		<u-scroll-list :indicator="false" style="margin-top: 20rpx;">
 			<view class="avatarblock" v-for="index in 8" :key="index">
 				<u-avatar :src="src"></u-avatar>
 				<text class="unametext">今天天天天气真好</text>
 			</view>
-		</u-scroll-list>
-		<view style="margin: 0 30rpx 0 30rpx;">
+		</u-scroll-list> -->
+<!-- 		<view style="margin: 0 30rpx 0 30rpx;">
 			<u-line color="#d7d6d4"></u-line>
-		</view>
-		<u-tabs :list="tabslist" ></u-tabs>
+		</view> -->
+		<u-tabs style="box-shadow: 0px -4px 8px 4px #d2d2d2; ;" :list="tabslist" :activeStyle="{ color: '#3c9cff' }"></u-tabs>
 	</view>
 </template>
 

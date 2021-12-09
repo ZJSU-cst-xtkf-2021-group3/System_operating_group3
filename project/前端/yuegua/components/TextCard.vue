@@ -9,7 +9,7 @@
 				<u--text :text="partcontent" size="13" lines="3"></u--text>
 			</view>			
 		</view>
-		<view class="divideline"><u-line length="100%"></u-line></view>
+		<view class="divideline"><u-line color="#e5e5e5" length="100%"></u-line></view>
 		<view class="cardfooter">
 			<view class="leftfooter">
 				<u-tag text="标签" size="mini" plain></u-tag>
@@ -104,40 +104,36 @@
 </script>
 
 <style lang="scss" scoped>
-	@import '@/static/variables.scss';
-	.card{
-		padding: 10rpx 20rpx 10rpx 20rpx;
-		border-bottom: 1rpx;
-		border-top: 1rpx;
-		border-right: 0;
-		border-left: 0;
-		border-style: solid;
-		border-color: $bordercolor;
-		//background-color: #3C9CFF;
-		.textpart{
-			padding: 0 10rpx 0 10rpx;
-			.cardheader{
-				padding-bottom: 10rpx;
-			}
-			.content{
-				display: flex;
-				align-items: flex-start;
-			}			
+@import '@/static/variables.scss';
+.card{
+	padding: 10rpx 20rpx 10rpx 20rpx;
+	margin: 10rpx 0 10rpx 0;
+	border-radius: 10rpx;
+	background-color: $cardcolor;
+	.textpart{
+		padding: 0 10rpx 0 10rpx;
+		.cardheader{
+			padding-bottom: 10rpx;
 		}
-		.divideline{
-			padding-top: 5rpx;
+		.content{
+			display: flex;
+			align-items: flex-start;
+		}			
+	}
+	.divideline{
+		padding-top: 5rpx;
+	}
+	.cardfooter{
+		@extend %betweencenter;
+		.leftfooter{
+			@extend %leftcenter;
 		}
-		.cardfooter{
-			@extend %betweencenter;
-			.leftfooter{
-				@extend %leftcenter;
-			}
-			.rightfooter{
-				@extend %rightcenter;
-				view{
-					width: 120rpx;
-				}
+		.rightfooter{
+			@extend %rightcenter;
+			view{
+				width: 120rpx;
 			}
 		}
 	}
+}
 </style>

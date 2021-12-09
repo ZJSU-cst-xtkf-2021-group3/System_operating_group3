@@ -32,17 +32,21 @@
 			<u-icon name="plus" size="22"></u-icon>
 		</view>
 		<view class="footerbar">
-			<view style="width: 44vw;">
+			<view style="width: 45vw;">
 				<u-search placeholder="请输入评论" searchIcon="" height="60" maxlength="30" :showAction="false" :clearabled="false"></u-search>
 			</view>
 			<view class="iconbtn">
 				<u-icon name="thumb-up" color="#2979ff" label="123" size="20"></u-icon>
-				<u-icon name="chat" color="#2979ff" label="123" size="20"></u-icon>
+				<u-icon name="heart-fill" color="#2979ff" label="123" size="20"></u-icon>
+				
 				<u-icon name="share-square" color="#2979ff" label="123" size="20"></u-icon>
 			</view>
 		</view>
 		<view style="padding: 10rpx 20rpx 10rpx 20rpx;"><u-line color="#e7e6e4"></u-line></view>
-		<view style="margin-left: 10rpx;font-weight: 550;">评论</view>
+		<view class="commentbar">
+			<text style="font-weight: 550;">评论</text>
+			<u-icon name="chat" color="#2979ff" label="123" size="20"></u-icon>
+		</view>
 		<view class="commentcard">
 			<view class="commentdatabar">
 				<view style="display: flex;align-items: center;justify-content: center;">
@@ -105,10 +109,15 @@
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	@extend %center;
+	display: flex;
+	align-items: center;
+	.iconbtn{
+		width: 50vw;
+		@extend %betweencenter;
+	}
 }
-.iconbtn{
-	width: 50vw;
+.commentbar{
+	padding: 0 10rpx 0 10rpx;
 	@extend %betweencenter;
 }
 .commentcard{
