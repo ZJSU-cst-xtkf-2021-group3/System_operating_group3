@@ -1,6 +1,6 @@
 <template>
 	<view class="constainer">
-		<Pulish type="timenode"></Pulish>
+		<Pulish></Pulish>
 	</view>
 </template>
 

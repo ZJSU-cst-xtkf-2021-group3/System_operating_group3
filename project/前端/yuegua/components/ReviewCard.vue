@@ -1,0 +1,68 @@
+<template>
+	<view>
+		<view class="reviewcard">
+			<view>
+				<u--image v-if="true" radius="10" width="60" height="60" src="https://cdn.uviewui.com/uview/album/1.jpg" mode="aspectFill"></u--image>
+			</view>
+			<view>
+				<view class="rightpart">
+					<view style="font-size: 35rpx;">这是标题</view>
+					<u--text color="#7A7B7E" lines="1" text="我用十年青春,赴你最后之约"></u--text>
+				</view>
+				
+			</view>
+			<view class="itemtime">{{timestamp}}</view>
+			<view class="itemtags" :style="{backgroundColor: `${kinds[indexs].color}`}">{{kinds[indexs].data}}</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		name:"ReviewCard",
+		props:{
+			indexs:{
+				type:Number,
+			},
+			timestamp:{
+				type:String,
+			}
+		},
+		data() {
+			return {
+				kinds:[
+					{data:'已通过',color:'#05cc05'},
+					{data:'审核中',color:'#007AFF'},
+					{data:'未通过',color:'#f05050'},
+					{data:'草稿',color:'#748596'},
+				]
+			};
+		}
+	}
+</script>
+
+<style lang="scss">
+.reviewcard{
+	display: flex;
+	padding: 10rpx;
+	margin: 10rpx 0 10rpx 0;
+	border-radius: 20rpx;
+	background-color: #fff;
+	position: relative;
+	.rightpart{
+		padding: 5rpx 0 5rpx 20rpx;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	.itemtags{
+		width: 120rpx;height: 50rpx;color: #fff;position: absolute;right: 0;top: 0;
+		border-radius: 0 20rpx 0 20rpx;
+		text-align:center;line-height:50rpx;
+	}
+	.itemtime{
+		color: #aAaBaE;text-align: right;
+		position: absolute;right: 10rpx;bottom: 0;
+	}
+}
+</style>

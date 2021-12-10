@@ -2,7 +2,7 @@
 	<view>
 		<view class="cell">
 			<text>标题</text>
-			<u--input v-model="title" placeholder="请输入标题" border="bottom" ></u--input>			
+			<u--input v-model="title" placeholder="请输入标题" border="bottom" maxlength="20"></u--input>			
 		</view>
 		<view class="cell">
 			<text>简介</text>
@@ -10,13 +10,13 @@
 		</view>
 		<view class="cell">
 			<text>添加连接</text>
-			<u--input v-model="title" placeholder="请输入链接" border="bottom" ></u--input>			
+			<u--input v-model="link" placeholder="请输入链接" border="bottom" maxlength="200"></u--input>			
 		</view>
-		<view v-if="type=='topic'" class="selecttype">
+		<view v-if="types=='topic'" class="selecttype">
 			<text>选择分类</text>
 			<uni-combox :candidates="typecandidates" placeholder="请选择分类" v-model="type"></uni-combox>
 		</view>
-		<view v-if="type=='topic'" class="cell2">
+		<view v-if="types=='topic'" class="cell2">
 			<text>添加封面</text>
 			<u-upload
 				:fileList="coverimg"
@@ -25,15 +25,15 @@
 				:maxCount="1"
 			></u-upload>			
 		</view>
-		<view v-if="type=='topic'" style="padding-right: 20rpx;margin-bottom: 10rpx;display: flex;flex-direction: row-reverse;">
-			<text style="text-decoration: underline;">添加投票</text>
+		<view v-if="types=='topic'" style="padding-right: 20rpx;margin-bottom: 10rpx;display: flex;flex-direction: row-reverse;">
+			<text style="color: #1989FA;text-decoration: underline;">添加投票</text>
 		</view>
 		<view style="display: flex;margin-top: 50rpx;">
 			<view style="width: 20vw;">
 				<u-button :hairLine="false" text="保存" plain></u-button>
 			</view>
 			<view style="width: 80vw;">
-				<u-button :hairLine="false" text="发布" plain></u-button>
+				<u-button :hairLine="false" color="#1890FF" text="发布"></u-button>
 			</view>
 		</view>
 	</view>
@@ -43,7 +43,7 @@
 	export default {
 		name:"Publish",
 		props:{
-			type:{
+			types:{
 				type:String,
 				default:'topic'
 			}
@@ -53,6 +53,7 @@
 				title:'',
 				desc:'',
 				type:'',
+				link:'',
 				typecandidates:['娱乐','体育'],
 				coverimg:[]
 			};
