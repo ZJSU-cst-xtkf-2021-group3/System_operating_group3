@@ -1,15 +1,14 @@
 <template>
 	<view>
 		<view class="reviewcard">
-			<view>
-				<u--image v-if="true" radius="10" width="60" height="60" src="https://cdn.uviewui.com/uview/album/1.jpg" mode="aspectFill"></u--image>
+			<view v-if="showimg">
+				<u--image v-if="true" radius="10" width="60" height="60" :src="imgsrc" mode="aspectFill"></u--image>
 			</view>
 			<view>
 				<view class="rightpart">
-					<view style="font-size: 35rpx;">这是标题</view>
-					<u--text color="#7A7B7E" lines="1" text="我用十年青春,赴你最后之约"></u--text>
+					<view style="font-size: 35rpx;">{{title}}</view>
+					<u--text color="#7A7B7E" lines="1" :text="desc"></u--text>
 				</view>
-				
 			</view>
 			<view class="itemtime">{{timestamp}}</view>
 			<view class="itemtags" :style="{backgroundColor: `${kinds[indexs].color}`}">{{kinds[indexs].data}}</view>
@@ -21,6 +20,20 @@
 	export default {
 		name:"ReviewCard",
 		props:{
+			title:{
+				type:String,
+			},
+			desc:{
+				type:String
+			},
+			showimg:{
+				type:Boolean,
+				default:false
+			},
+			imgsrc:{
+				type:String,
+				default:''
+			},
 			indexs:{
 				type:Number,
 			},
@@ -43,6 +56,7 @@
 
 <style lang="scss">
 .reviewcard{
+	min-height: 120rpx;
 	display: flex;
 	padding: 10rpx;
 	margin: 10rpx 0 10rpx 0;
@@ -56,13 +70,15 @@
 		justify-content: space-between;
 	}
 	.itemtags{
-		width: 120rpx;height: 50rpx;color: #fff;position: absolute;right: 0;top: 0;
+		width: 100rpx;height: 40rpx;color: #fff;position: absolute;right: 0;top: 0;
 		border-radius: 0 20rpx 0 20rpx;
-		text-align:center;line-height:50rpx;
+		text-align:center;line-height:40rpx;
+		font-size: 16rpx;
 	}
 	.itemtime{
+		font-size: 10rpx;
 		color: #aAaBaE;text-align: right;
-		position: absolute;right: 10rpx;bottom: 0;
+		position: absolute;right: 20rpx;bottom: 0;
 	}
 }
 </style>

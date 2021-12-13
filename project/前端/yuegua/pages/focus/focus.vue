@@ -9,16 +9,20 @@
 <!-- 		<view style="margin: 0 30rpx 0 30rpx;">
 			<u-line color="#d7d6d4"></u-line>
 		</view> -->
-		<u-tabs style="box-shadow: 0px -4px 8px 4px #d2d2d2; ;" :list="tabslist" :activeStyle="{ color: '#3c9cff' }"></u-tabs>
+		<!-- <u-tabs style="box-shadow: 0px -4px 8px 4px #d2d2d2; ;" :list="tabslist" :activeStyle="{ color: '#3c9cff' }"></u-tabs> -->
+		<tm-tabs v-model="activeIndex" color="blue" :list="tabslist" ></tm-tabs>
 	</view>
 </template>
 
 <script>
+	import tmTabs from '@/tm-vuetify/components/tm-tabs/tm-tabs'
 	export default {
+		components:{tmTabs},
 		data() {
 			return {
+				activeIndex:0,
 				src:'https://cdn.uviewui.com/uview/swiper/1.jpg',
-				tabslist:[{name:'全部'},{name:'话题'},{name:'用户'}],
+				tabslist:['全部','话题','用户'],
 			};
 		}
 	}
