@@ -14,19 +14,26 @@
 </script>
 
 <style lang="scss">
+	/*每个页面公共css */
+	@import "@/tm-vuetify/mian.min.css";
+	// <!-- 主题包 -->
+	
 	@import "@/uview-ui/index.scss";
 	@import '@/static/variables.scss';
 	/*每个页面公共css */
 	@import '@/uni_modules/uni-scss';
 	/* #ifndef APP-NVUE */
 	@import '@/static/customicons.css';
+	
 	// 设置整个项目的背景色
+	
 	page {
-		background-color: #f5f5f5;
+		background-color: #f6f7f8;
 	}
 
 	/* #endif */
 	.page{
-		@extend %basepage;
+		@extend %basepage
 	}
+
 </style>

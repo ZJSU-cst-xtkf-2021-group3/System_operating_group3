@@ -4,9 +4,9 @@
 		<scroll-view scroll-x scroll-with-animation>
 			<u-tabs :list="tabslist" :activeStyle="{ color: '#3c9cff' }" sticky @click="tabclick"></u-tabs>
 		</scroll-view>
-		<view v-show="showrecommd">
+		<view v-show="showindex == 0">
 			<u-swiper :list="list3" indicator indicatorMode="dot" interval="4000" circular ></u-swiper>
-			<view style="background-color: #fff;">
+<!-- 			<view style="background-color: #fff;">
 				<view style="margin: 10rpx 0 0rpx 10rpx;font-size: 30rpx;font-weight: 550;">活动</view>
 				<u-scroll-list>
 					<view v-for="(item,index) in 10" :key="index" class="actcard">
@@ -14,25 +14,25 @@
 						<view style="color: #fff;">#今天天气真好！#</view>
 					</view>
 				</u-scroll-list>
-			</view>
-			<view style="margin: 10rpx 0 0rpx 15rpx;font-size: 30rpx;font-weight: 550;">话题</view>
+			</view> -->
+			<!-- <view style="margin: 10rpx 0 0rpx 15rpx;font-size: 30rpx;font-weight: 550;">话题</view> -->
 			<TextCard :imgsrc="src" :avatarsrc="src" partcontent="项目 'yuegua' 编译成功。" 
 					   likecnt="712" commentcnt="423432" readcnt="899" title="这是一个标题" uname="wuji"></TextCard>
-			<ActivityCard partcontent="项目 'yuegua' 编译成功。"
+<!-- 			<ActivityCard partcontent="项目 'yuegua' 编译成功。"
 					   likecnt="712" commentcnt="423432" sharecnt="899" title="这是一个标题"></ActivityCard>			
-		</view>
-		<view v-show="showrank">
-			<view style="display: flex;">
+		 --></view>
+		<view v-show="showindex == 1">
+<!-- 			<view style="display: flex;">
 				<u-tag style="margin-left: 20rpx;" text="话题" :bgColor="topicselected?'#1890FF':'#fff'" :color="topicselected?'#fafafa':'#5f5f5f'" shape="circle"
 				@click="topicselected=true"></u-tag>
 				<u-tag style="margin-left: 15rpx;" text="活动" :bgColor="!topicselected?'#1890FF':'#fff'" :color="!topicselected?'#fafafa':'#5f5f5f'" shape="circle"
 				@click="topicselected=false"></u-tag>
-			</view>
+			</view> -->
 		</view>
-		<view v-show="showfkinds">
+		<view v-show="showindex > 1">
 			<view>
 				<TextCard :imgsrc="src" :avatarsrc="src" partcontent="项目 'yuegua' 编译成功。"
-						   likecnt="712" commentcnt="423432" readcnt="899" title="这是一个标题" uname="wuji"></TextCard>
+						   likecnt="712" commentcnt="423432" readcnt="899" title="这是一个标题" uname="wuuuuuu"></TextCard>
 			</view>
 		</view>
 	</view>
@@ -45,9 +45,7 @@
 		name:'home',
         data() {
             return {
-				showrecommd:true,
-				showrank:false,
-				showfkinds:false,
+				showindex:0,
 				topicselected:true,
 				src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',
                 tabslist: [{name: '推荐',},{name: '热榜',},{name: '娱乐',},{name: '体育',},{name: '二次元'},{name: '日常'},{name: '时政'},{name: '国际'}],
@@ -66,26 +64,26 @@
 				})
 			},
 			tabclick(e) {
-				if(e.index === 0){
-					this.showrecommd = true
-					this.showrank = false
-					this.showfkinds = false
-				}
-				else if(e.index === 1){
-					this.showrank = true
-					this.showrecommd = false
-					this.showfkinds = false
-				}
-				else{
-					this.showfkinds = true
-					this.showrank = false
-					this.showrecommd = false
-				}
+				this.showindex = e.index
 			}
+		},
+		onLoad() {
+			uni.getSystemInfo({
+				success: (e) => {
+					uni.setStorageSync('headerheight',e.windowTop)
+				}
+			})
+			uni.onTabBarMidButtonTap(()=>{
+				uni.navigateTo({
+					url:"../publish/publish",
+					animationDuration: 200,
+					animationType:"slide-in-bottom"
+				})
+			})
 		},
 		components:{
 			TextCard,
-			ActivityCard
+			ActivityCard,
 		}
     }
 </script>

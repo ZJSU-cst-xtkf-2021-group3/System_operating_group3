@@ -7,30 +7,23 @@
 			
 			<view class="login_from_input">
 				<view class="login_from_name">用户名</view>
-				<view class="login_from_fun"><input type="text" placeholder="请输入用户名(6个字符之内)"></view>
+				<view class="login_from_fun"><input v-model="username" type="text" placeholder="请输入用户名(6个字符之内)"></view>
 			</view>
 
 			<view class="login_from_input">
 				<view class="login_from_name">密码</view>
-				<view class="login_from_fun"><input type="digit" password="true" placeholder="请输入登录密码"></view>
+				<view class="login_from_fun"><input v-model="password" type="digit" password="true" placeholder="请输入登录密码"></view>
 			</view>
 
 			<view class="login_from_input">
-				<view class="login_from_name">邀请码</view>
-				<view class="login_from_fun">
-					<input type="text" placeholder="请输入邀请码">
-					<label class="cuIcon-scan cuicon"></label>
-				</view>
+				<picker @change="bindPickerChange" :value="index" :range="array" range-key="age">
+					<view style="padding: 20rpx;background-color: white;">{{ array[index].age }}</view>
+				</picker>					
 			</view>
 				
 			
 			<view class="login_from_dl">
-				<button @click="denglu">确定</button>
-			</view>
-			
-			<view class="logo_xieyi">
-				<label @click="moutcl" :class="gouxSta?'cuIcon-squarecheckfill':'cuIcon-square'"></label>
-				<view class="logo_text">请勾选并阅读<text>《注册协议》</text>及<text>《隐私协议》</text></view>
+				<button @click="denglu">注册</button>
 			</view>
 			
 		</view>
@@ -39,49 +32,58 @@
 </template>
 <script>
 	
-	
-
-
-
    export default {
 
    data(){
      return {
-		//value3: [],
-		//label3: '',
-		//list1: areaData,
-		
-		gouxSta:false,
-		times:60,
-		yzmbotshou:true,
-		yzmbothide:false
-		 
+		username:"",
+		password:"",
+		array: [{ age: '15~25岁' }, { age: '26~35岁' }, { age: '36~50岁' }, { age: '50岁以上' }],
+		index: 2,
+ 
 	}
 	   },
     onLoad(){
      },
     methods: {
-		
-		moutcl(){
-			if( this.gouxSta == false){
-				this.gouxSta = true
-			}else{
-				this.gouxSta = false
-			}
-		},
-		
+		bindPickerChange: function(e) {
+					this.index = e.detail.value;
+				},
 		denglu(){
-			if( this.gouxSta == false){
-				uni.showToast({
-					"title":"请阅读并勾选用户协议",
-					"icon":'none'
-				})				
-			}else{
-				uni.showToast({
-					"title":"账号不存在",
-					"icon":'none'
-				})
-			}		
+			var that = this
+			    uni.request({
+				    header:{
+					    "Content-Type":"application/x-www-form-urlencoded",
+					    },
+				    url: "http://101.37.175.115/UserAccess/register",
+					data:{
+						username:that.username,
+						password:that.password,
+						age:"1",
+						wechat:"2",
+						introduction:"3",
+						header:"file:///Users/lishengdi/Downloads/IMG_3531.JPG"
+						
+					},
+					method:"POST",
+				    success(res){
+					    if(res.data.res=='ok'){
+							console.log("ok")
+							uni.showToast({
+			                          title: '注册成功',
+				                      icon:'success',
+			                          duration: 2000
+			                       }),
+			                uni.redirectTo({
+				                      url:"../load/load"
+			              })
+						}
+						console.log(res.data.res)
+						console.log(that.username)
+					   
+				    }
+			})
+			
 		},
 		
 		
@@ -92,9 +94,6 @@
 <style scoped>
 	
 	page{ background: #fff; }
-	
-	.login_img{ width: 100%; height: auto; margin-top: 90upx; }
-	.login_img image{ width: 170upx; height: 170upx; display: block; margin: 0px auto; border-radius: 50%; }
 	
 	.login_from{ width: 100%; height: auto; box-sizing: border-box; padding: 20upx 8%; }
 	
@@ -108,8 +107,6 @@
 	.login_from_dl{ width: 100%; height: 50px; line-height: 50px; margin-top: 150upx;   }
 	.login_from_dl button{ width: 100%; height: 50px; line-height: 50px; background: #000000; color: #fff; border-radius: 50px; }
 	
-	.logo_xieyi{ width: 100%; height: 40px; line-height: 40px; display: flex; flex-direction: row; margin-top: 30upx; align-items: center; color: #444; font-size: 14px; justify-content: center; }
-	.logo_xieyi label{ font-size: 18px; margin-right: 1%; }
 	
 	.cuIcon-squarecheckfill{ color: #000000; }
 	.logo_text text{ color: #FF3B00; }

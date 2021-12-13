@@ -19,14 +19,20 @@
 				<text>搜索记录</text>
 			</view>
 			<view class="footer">
-				<u-tag text="标签" shape="circle" size="mini" bgColor="#c5c5c5" ></u-tag>
+				<u-tag style="margin: 10rpx;" text="标签" shape="circle" size="mini" bgColor="#c5c5c5" ></u-tag>
+				<u-tag style="margin: 10rpx;" text="标签" shape="circle" size="mini" bgColor="#c5c5c5" ></u-tag>
+				<u-tag style="margin: 10rpx;" text="标签" shape="circle" size="mini" bgColor="#c5c5c5" ></u-tag>
 			</view>
 			<view style="display: flex;align-items: center;justify-content: center;">
 				<u-icon name="trash" color="#a5a5a5" label="清除搜索记录" size="22" labelSize="12"></u-icon>
 			</view>
 		</view>
-		<u-popup mode="bottom" :show="showres" round closeable @close="showres=false" :overlay="false" :closeOnClickOverlay="false">
-			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}"></view>
+		<u-popup mode="bottom" :show="showres" round closeable @close="showres=false" :overlay="false" :closeOnClickOverlay="false" >
+			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}">
+				<scroll-view scroll-y>
+					<view v-for="(item,index) in 15" style="height: 100rpx;margin: 10rpx;background-color: #007AFF;"></view>
+				</scroll-view>
+			</view>
 		</u-popup>
 		<u-toast ref="uToast"></u-toast>
 	</view>
@@ -54,21 +60,17 @@
 					console.log(this.searchkeyword)					
 				}
 
-			}
+			},
 		},
 		mounted() {
-				const query = uni.createSelectorQuery().in(this);
-				query.select('.searchbar').boundingClientRect(data => {
-					this.headerheight = data.height;
-				}).exec();
-				
-				uni.getSystemInfo({
-					success: (e) => {
-						this.headerheight += e.windowTop + 6
-					}
-				})
-		
-			},
+			const query = uni.createSelectorQuery().in(this);
+			query.select('.searchbar').boundingClientRect(data => {
+				this.headerheight += data.height;
+			}).exec();
+		},
+		onLoad() {
+			this.headerheight += uni.getStorageSync('headerheight') + 10
+		}
 	}
 </script>
 
