@@ -16,7 +16,7 @@ def info(request):
         data['introduce']=a.Introduction
         data['isEND']=a.isEND
         data['reword']=a.reward
-        data['poster']=a.poster.url
+        data['poster']=tools.host+a.poster.url
         result['data']=data
     except Exception as e:
         print(e)
@@ -168,7 +168,7 @@ def show_contributes(request):
         ac = activity_contribute.objects.get(A_CID__exact=acid)
         if ac.status:
             pics = contributes_Pic.objects.filter(A_CID__exact=acid)
-            picsList = [i.img.url for i in pics]
+            picsList = [tools.host+i.img.url for i in pics]
             tmp = {}
             tmp['pics'] = picsList
             tmp['text'] = ac.text

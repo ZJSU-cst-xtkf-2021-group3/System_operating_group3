@@ -44,7 +44,7 @@ def all(request):
             data['tip-off'] = i.tip_off
             data['isPostByEditor'] = i.isPostByEditor
             data['eventTime'] = i.eventTime.timestamp()
-            data['mainPic']=Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
+            data['mainPic']=tools.host+Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
             List.append(data)
 
 
@@ -146,7 +146,7 @@ def show_revelation(request):
         R=Revelation.objects.get(RID__exact=rid)
         if R.status:
             pics=Revelation_Pic.objects.filter(RID__exact=rid)
-            picsList=[i.img.url for i in pics]
+            picsList=[tools.host+i.img.url for i in pics]
             tmp={}
             tmp['pics']=picsList
             tmp['text']=R.text

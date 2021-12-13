@@ -2,3 +2,7 @@
 *.pptx
 *.xmind
 .idea
+
+/media/
+*.pyc
+

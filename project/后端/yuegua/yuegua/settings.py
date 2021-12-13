@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*sq@@xeldvhuqe)1i5^5=_0@k=mp1ikp3lwnh+21(3pm0ju#e#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1','yuegua.fgimax.vipnps.vip']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','yuegua.fgimax.vipnps.vip','101.37.175.115']
 
 
 # Application definition
@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'Activity',
     'HomePage',
     'Space',
-    'MyCenter'
+    'MyCenter',
+    'Message'
 
 
 
@@ -94,9 +95,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'yuegua',
-        'USER':'root',
+        'USER':'lishengdi',
         'PASSWORD':'Hn123456',
-        'HOST':'127.0.0.1',
+        'HOST':'localhost',
         'PORT':'3306'
     }
 }
@@ -138,7 +139,9 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+
 STATIC_URL = '/static/'
+STATIC_ROOT=os.path.join(BASE_DIR,"static_n/")
 STATICFILES_DIRS=(
     os.path.join(BASE_DIR,"static"),
 )

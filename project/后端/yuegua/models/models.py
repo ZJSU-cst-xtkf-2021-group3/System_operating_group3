@@ -120,7 +120,7 @@ class Topic(models.Model):
     Tag=models.CharField("标签",max_length=255,default='')
     AgeRange_avg=models.IntegerField("受欢迎年龄段",default=0)
     hotPoints=models.FloatField("热门指数",default=0.0)
-    mainPic=models.ImageField("话题首图",upload_to='topic',default='/static/img/default.png')
+    mainPic=models.ImageField("话题首图",upload_to='topic',default='default.png')
 
 class Revelation(models.Model):
 
@@ -254,8 +254,9 @@ class message(models.Model):
         verbose_name_plural = '消息'
     UID=models.IntegerField("目标用户ID")
     type=models.IntegerField("类型")
+    typeID=models.IntegerField("对象ID",default=1)
     value=models.CharField("标题",max_length=255)
-    postTime=models.DateTimeField("推送时间")
+    postTime=models.IntegerField("推送时间")
 
 class Tip_off(models.Model):
     class Meta:
@@ -276,4 +277,4 @@ class Star(models.Model):
 
     type = models.IntegerField("对象类型")
     UID = models.IntegerField("点赞人ID")
-    valueID = models.IntegerField("点赞对象ID")
+    valueID = models.IntegerField("被点赞用户ID")

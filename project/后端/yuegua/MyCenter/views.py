@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from Tools import func as tools
 
 
-def seeMy_rights(request):
+def basicInfo(request):
     result={
         'res':''
     }
@@ -25,6 +25,8 @@ def seeMy_rights(request):
         data['ifPassedExam']=u.ifPassedExam
         data['Fconuts']=u.Fcounts
         data['isEditor']=u.isEDIT
+        data['header']=tools.host+u.header.url
+        data['introduction']=u.introduction
 
     except Exception as e:
         print(e)
@@ -158,9 +160,10 @@ def my_subscribe(request):
                 tmp['star'] = tmp_t.star
                 tmp['tip-off'] = tmp_t.tip_off
                 tmp['hotPoints'] = tmp_t.hotPoints
-                tmp['mainPic'] = tmp_t.mainPic.url
-                tmp['lastUpDateTime'] = tools.stamp2strtime(tmp_t.lastUpDateTime)
+                tmp['mainPic'] = tools.host+tmp_t.mainPic.url
+                tmp['lastUpDateTime'] = tmp_t.lastUpDateTime
                 data.append(tmp)
+        data.sort(key=lambda x:x['lastUpDateTime'],reverse=True)
     except Exception as e:
         print(e)
         result['res']='failed'
@@ -186,8 +189,8 @@ def my_follow(request):
             tmp_u = User.objects.get(UID__exact=i.FUID)
             tmp = {}
             tmp['UID'] = i.FUID
-            tmp['Uname'] = tmp_u.Uname
-            tmp['header'] = tmp_u.header.url
+            tmp['Uname'] = i.FUname
+            tmp['header'] = tools.host+tmp_u.header.url
             data.append(tmp)
     except Exception as e:
         print(e)
@@ -220,7 +223,7 @@ def my_topics(request):
                 tmp['statement'] = i.statement
                 tmp['hotPoints'] = i.hotPoints
                 tmp['lastUpDateTime'] = tools.stamp2strtime(i.lastUpDateTime)
-                tmp['mainPic'] = i.mainPic.url
+                tmp['mainPic'] = tools.host+i.mainPic.url
                 tmp['star']=i.star
                 tmp['Fcounts']=i.Fcounts
                 tmp['tip-off']=i.tip_off
@@ -294,7 +297,7 @@ def my_event(request):
                 tmp['star'] = i.star
                 tmp['tip-off'] = i.tip_off
                 tmp['time'] = tools.stamp2strtime(i.time)
-                tmp['mainPic'] = Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
+                tmp['mainPic'] = tools.host+Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
                 data.append(tmp)
         for i in eventsList:
             if i.status:

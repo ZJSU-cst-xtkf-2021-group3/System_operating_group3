@@ -3,6 +3,10 @@ from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
 from django.http import JsonResponse
 import json
+from django.core.cache import cache
+
+from django.views import static
+
 from models.models import Tip_off, User
 from django_redis import get_redis_connection
 
@@ -44,7 +48,9 @@ def ping(request):
         result['res'] = 'login please'
         return JsonResponse(result)
     else:
-        result['res'] = '666666'
+        u=User.objects.get(UID__exact=uid)
+        result['res'] = u.Uname+" ok"
+
         return JsonResponse(result)
 
 
@@ -71,3 +77,61 @@ def check_in(request):
         result['res']='check failed'
         return JsonResponse(result)
 
+def pic(request):
+    u=User.objects.get(UID__exact=1)
+    return HttpResponse(u.header)
+
+def Cache(request):
+    result={}
+    uid = int(request.session.get('uid', 'x'))
+    if uid == 'x':
+        result['res'] = 'login please'
+        return JsonResponse(result)
+
+    if request.method=="POST":
+        token = str(uid) + 'notify'
+        if cache.has_key(token):
+            l = list(cache.get(token))
+            l.append("xxx 点赞了你的微博")
+            cache.set(token, l, 10)
+            print(l)
+            if len(l) >3:
+                l.pop(0)
+                cache.set(token, l, 10)
+        else:
+            l = []
+            l.append("xxx 点赞了你的微博")
+            cache.set(token, l, 10)
+        result['res']='ok'
+        return JsonResponse(result)
+
+    if request.method=='GET':
+        uid = int(request.session.get('uid', 'x'))
+        if uid == 'x':
+            result['res'] = 'login please'
+            return JsonResponse(result)
+        token = str(uid) + 'notify'
+        if cache.has_key(token):
+            l = list(cache.get(token))
+            result['data']=l
+
+        else:
+            result['data']="empty"
+
+        result['res'] = "ok"
+        return JsonResponse(result)
+
+def Cache2(request):
+    result = {}
+    uid = int(request.session.get('uid', 'x'))
+    if uid == 'x':
+        result['res'] = 'login please'
+        return JsonResponse(result)
+
+    token = str(uid) + 'Fbot'
+    cache.set(token,"测试博主更新", 30)
+    token2 = str(uid) + 'Nevent'
+    cache.set(token2,"有新结点",30)
+
+    result['res'] = 'ok'
+    return JsonResponse(result)

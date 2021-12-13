@@ -10,9 +10,10 @@ from models.models import Events
 from models.models import Revelation
 from models.models import Revelation_Pic
 from models.models import activity
-from models.models import activity_contribute
-from models.models import contributes_Pic,topic_vote,activity_vote
+from models.models import activity_contribute,userFollow_topic,userFollow_user
+from models.models import contributes_Pic,topic_vote,activity_vote,message
 from Tools import func as tools
+from django.core.cache import cache
 
 def post_topic(request):
     global pic
@@ -32,13 +33,12 @@ def post_topic(request):
         statement=request.POST.get('statement')
         tag=request.POST.get('tag')
 
-        picsUPload = request.FILES.getlist('imgs')
         try:
             pic = request.FILES.get('mainPic')
         except Exception as e:
             print(e)
         if not pic:
-            pic='/static/img/default.png'
+            pic='default.png'
 
         #用户等级权限判断
         if tools.check_right(usr.rank)!='full':
@@ -53,9 +53,22 @@ def post_topic(request):
         tmpTime=tools.getTime()
 
         try:
-            Topic.objects.create(UID=usr.UID,category=category,title=title,statement=statement,Tag=tag,
+            t=Topic.objects.create(UID=usr.UID,category=category,title=title,statement=statement,Tag=tag,
                              time=tmpTime,star=0,tip_off=0,status=True,isPostByEditor=False,
                              Fcounts=0,lastUpDateTime=tmpTime,hotPoints=usr.rank*5,mainPic=pic)
+            #审核消息
+            message.objects.create(UID=usr.UID,type=1,typeID=t.TID,value="您的"+tools.switchType(1)+"稿件已审核通过",postTime=tools.getTime())
+            #即时消息
+            ftlist=userFollow_topic.objects.filter(FTID__exact=t.TID)
+            for fu in ftlist:
+                token = str(fu.UID) + 'Ftopic'
+                cache.set(token, "您关注的"+t.title+"话题更新啦！", 21)
+
+            fblist = userFollow_user.objects.filter(FUID__exact=usr.UID)
+            for fu in fblist:
+                token = str(fu.UID) + 'Fbot'
+                cache.set(token, "博主" + fu.FUname + "发布了新内容，快去看看吧", 21)
+
 
         except Exception as e:
             print(e)
@@ -79,17 +92,27 @@ def post_comment(request):
     if request.method=='POST':
 
         try:
-           u = User.objects.get(UID__exact=uid)
-           TID = int(request.POST.get('TID'))
-           value = request.POST.get('value')
-           Comments.objects.create(UID=uid,TID=TID,value=value,time=tools.getTime(),star=0,status=True,tip_off=0,Uname=u.Uname
+            u = User.objects.get(UID__exact=uid)
+            TID = int(request.POST.get('TID'))
+            value = request.POST.get('value')
+            Comments.objects.create(UID=uid,TID=TID,value=value,time=tools.getTime(),star=0,status=True,tip_off=0,Uname=u.Uname
                                    ,hotPoints=u.rank*5)
-           # 用户经验值更新
-           tools.addEXP(1,4)
+            # 用户经验值更新
+            tools.addEXP(u.UID,4)
+
+            #即时通知
+            fblist = userFollow_user.objects.filter(FUID__exact=u.UID)
+            for fu in fblist:
+                token = str(fu.UID) + 'Fbot'
+                cache.set(token, "博主" + fu.FUname + "发布了新内容，快去看看吧", 21)
+
+            t=Topic.objects.get(TID__exact=TID)
+            cache.set(str(t.UID)+"Ncomment","您的"+t.title+"话题收到了回复",21)
+
         except Exception as e:
-           print(e)
-           result['res']='failed'
-           return JsonResponse(result)
+            print(e)
+            result['res']='failed'
+            return JsonResponse(result)
 
         result['res']='ok'
         return JsonResponse(result)
@@ -124,11 +147,19 @@ def post_event(request):
             topic.lastUpDateTime=tmpTime
             topic.save()
 
-            Events.objects.create(TID=tid,UID=uid,time=tmpTime,title=title,statement=statement
+            e=Events.objects.create(TID=tid,UID=uid,time=tmpTime,title=title,statement=statement
                                   ,star=0,tip_off=0,status=True,isPostByEditor=False,url=url,eventTime=eventTime)
-
+            message.objects.create(UID=usr.UID, type=2, typeID=e.EID, value="您发布的" + tools.switchType(2) + "内容已审核通过啦！",postTime=tools.getTime())
             #exp
             tools.addEXP(uid,10)
+
+            #即时通知
+            fblist = userFollow_user.objects.filter(FUID__exact=usr.UID)
+            for fu in fblist:
+                token = str(fu.UID) + 'Fbot'
+                cache.set(token, "博主" + fu.FUname + "发布了新内容，快去看看吧", 21)
+
+            cache.set(str(topic.UID) + "Nevent", "您的" +topic.title+ "话题有新的结点", 21)
 
         except Exception as e :
             print(e)
@@ -171,6 +202,15 @@ def post_revelation(request):
 
             R=Revelation.objects.create(TID=tid, UID=uid, time=tmpTime, title=title, statement=statement
                                   , star=0, tip_off=0, status=True, isPostByEditor=False, eventTime=eventTime,text=text)
+
+            #通知
+            message.objects.create(UID=uid, type=3, typeID=R.RID, value="您的" + tools.switchType(3) + "稿件已审核通过!",postTime=tools.getTime())
+            fblist = userFollow_user.objects.filter(FUID__exact=usr.UID)
+            for fu in fblist:
+                token = str(fu.UID) + 'Fbot'
+                cache.set(token, "博主" + fu.FUname + "发布了新内容，快去看看吧", 21)
+
+            cache.set(str(topic.UID) + "Nevent", "您的" + topic.title + "话题有新的结点", 21)
 
             picsUPload = request.FILES.getlist('imgs')
             try:
@@ -245,6 +285,13 @@ def post_activity_contribute(request):
             u = User.objects.get(UID__exact=uid)
             ac = activity_contribute.objects.create(AID=aid, UID=uid, time=tools.getTime(), title=title, statement=statement
                                           , star=0, tip_off=0, status=True, text=text,hotPoints=u.rank*5)
+
+            #通知
+            message.objects.create(UID=uid, type=5, typeID=ac.A_CID, value="您的" + tools.switchType(5) + "已通过审核",postTime=tools.getTime())
+            fblist = userFollow_user.objects.filter(FUID__exact=uid)
+            for fu in fblist:
+                token = str(fu.UID) + 'Fbot'
+                cache.set(token, "博主" + fu.FUname + "发布了新内容，快去看看吧", 21)
 
             picsUPload = request.FILES.getlist('imgs')
             try:

@@ -8,8 +8,8 @@
 			<view style="padding: 5rpx 30rpx 5rpx 30rpx;"><u-line color="#d6d7d9"></u-line></view>
 			
 			<view class="hotlist">
-				<view v-for="(item,index) in 10" :key="index" style="width: 50%;margin: 5rpx 0 5rpx 0;">
-					<text style="margin-right: 30rpx;font-size: 35rpx;font-weight:bold;font-style: italic;">{{index + 1}}</text><text>热搜{{index}}</text>
+				<view v-for="(item,index) in rankData" :key="index" style="width: 50%;margin: 5rpx 0 5rpx 0;" @click="seeMore(item.TID)">
+					<text style="margin-right: 30rpx;font-size: 35rpx;font-weight:bold;font-style: italic;">{{index + 1}}</text><text>{{item.title}}</text>
 				</view>
 				
 			</view>
@@ -18,33 +18,49 @@
 			<view>
 				<text>搜索记录</text>
 			</view>
-			<view class="footer">
-				<u-tag style="margin: 10rpx;" text="标签" shape="circle" size="mini" bgColor="#c5c5c5" ></u-tag>
-				<u-tag style="margin: 10rpx;" text="标签" shape="circle" size="mini" bgColor="#c5c5c5" ></u-tag>
-				<u-tag style="margin: 10rpx;" text="标签" shape="circle" size="mini" bgColor="#c5c5c5" ></u-tag>
+			<!--  -->
+			<view class="footer" >
+				<u-tag v-for="(item,index) in searchHistory" :text="item" shape="circle" size="mini" bgColor="#45aaf2" style="margin-left: 10rpx;" @click="tagclick(item)"></u-tag>
 			</view>
-			<view style="display: flex;align-items: center;justify-content: center;">
+			
+			<view style="display: flex;align-items: center;justify-content: center;margin-top: 50rpx;" @click="removeHistory()">
 				<u-icon name="trash" color="#a5a5a5" label="清除搜索记录" size="22" labelSize="12"></u-icon>
 			</view>
 		</view>
-		<u-popup mode="bottom" :show="showres" round closeable @close="showres=false" :overlay="false" :closeOnClickOverlay="false" >
-			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}">
-				<scroll-view scroll-y>
-					<view v-for="(item,index) in 15" style="height: 100rpx;margin: 10rpx;background-color: #007AFF;"></view>
-				</scroll-view>
+		<u-popup mode="bottom" :show="showres" round closeable @close="showres=false" :overlay="false" :closeOnClickOverlay="false"  >
+			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}" @touchmove.stop.prevent="moveHandle">
+				
+				 <scroll-view scroll-y="true" class="scroll-Y" style="height: 80vh;" @scrolltolower="onReachScollBottom" >
+					  <TextCard v-for="(item,index) in searchData"  :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
+							   :likecnt="String(item.star)" :readcnt="String(item.Fcounts)" :title="item.title" :uname="item.Uname" :dislikecnt="String(item.tip_off)"
+							   :time=switchTime(item.lastUpDateTime) :tag=item.Tag :ID="item.TID "
+							  v-bind:key="index" style="margin-top: 70rpx;"></TextCard>
+									  
+				 </scroll-view>
+				
+				
 			</view>
+			
 		</u-popup>
 		<u-toast ref="uToast"></u-toast>
 	</view>
+	
 </template>
 
 <script>
+	import TextCard from '@/components/TextCard';
 	export default {
 		data() {
 			return {
 				searchkeyword:'',
 				headerheight:0,
-				showres:false
+				showres:false,
+				rankData:null,
+				searchData:null,
+				searchHistory:[],
+				has_next:false,
+				has_previous:false,
+				current_page:1,
 			};
 		},
 		methods:{
@@ -56,21 +72,191 @@
 					})
 				}
 				else{
-					this.showres = true
-					console.log(this.searchkeyword)					
+					//搜索记录
+					this.searchHistory.push(this.searchkeyword)
+					uni.setStorage({
+					    key: 'searchHistory',
+					    data: this.searchHistory,
+					    success: function () {
+					        console.log('success');
+					    }
+					});
+					
+						uni.request({
+						    url: 'http://101.37.175.115/HomePage/search', 
+						    data: {
+						        key: this.searchkeyword,
+								page:this.current_page
+						    },
+						    header: {
+						         'Content-Type': 'application/x-www-form-urlencoded' 
+						    },
+						    success: (res) => {
+								if (res.data.res=='ok'){
+									if(res.data.data[0] != null){
+										this.searchData=res.data.data
+										this.showres = true
+		
+									}
+									else{
+										this.$refs.uToast.show({
+											type:'default',
+											message: "暂时没有相关内容哦",
+										})
+									}
+									
+									
+								}
+						        
+						    }
+						});
 				}
-
+				
+			},
+			seeMore(e){
+				console.log(e)
+				
+				//navigate
+			},
+			removeHistory(){
+				this.searchHistory=[]
+				uni.setStorage({
+				    key: 'searchHistory',
+				    data: this.searchHistory,
+				    success: function () {
+				        console.log('removed');
+				    }
+				});
+			},
+			switchTime(time){
+				var now = parseInt(new Date().getTime()/1000);
+				var Dvalue=parseInt((now-parseInt(time))/3600)
+				if (Dvalue<=24){
+					return Dvalue+"小时前"
+				}
+				else{
+					var days=parseInt(Dvalue/24)
+					return days+"天前"
+				}
+			},
+			tagclick(e){
+				uni.request({
+				    url: 'http://101.37.175.115/HomePage/search', 
+				    data: {
+				        key: e,
+						page:this.current_page
+				    },
+				    header: {
+				         'Content-Type': 'application/x-www-form-urlencoded' 
+				    },
+				    success: (res) => {
+						if (res.data.res=='ok'){
+							if(res.data.data[0] != null){
+								this.showres = true
+								this.searchData=res.data.data
+								
+						
+							}
+							else{
+								this.$refs.uToast.show({
+									type:'default',
+									message: "暂时没有相关内容哦",
+								})
+							}
+	
+						}
+				        
+				    }
+				});
+			},
+			moveHandle(){
+				return false
+			},
+			
+			onReachScollBottom(){
+				var that=this
+					console.log("触底刷新")
+					if (that.has_next!="no"){
+						
+					var next=this.current_page+=1
+					uni.request({
+					    url: 'http://101.37.175.115/HomePage/search', 
+					    data: {
+					        key: that.searchkeyword,
+							page:next
+					    },
+						header: {
+						        'Content-Type': 'application/x-www-form-urlencoded' 
+						    },
+							method:"GET",
+							
+					    success: (res) => {
+					       if(res.data.res=="ok"){
+							   that.has_next=res.data.has_next
+							   that.has_previous=res.data.has_previous
+							   that.current_page=res.data.current_page
+							   that.searchData=that.searchData.concat(res.data.data)
+							   
+						   }
+					    }
+						
+						});
+					}
+					
+					else
+					{
+						console.log("no more")
+						return 
+					}
 			},
 		},
 		mounted() {
-			const query = uni.createSelectorQuery().in(this);
-			query.select('.searchbar').boundingClientRect(data => {
-				this.headerheight += data.height;
-			}).exec();
-		},
-		onLoad() {
-			this.headerheight += uni.getStorageSync('headerheight') + 10
-		}
+				const query = uni.createSelectorQuery().in(this);
+				query.select('.searchbar').boundingClientRect(data => {
+					this.headerheight = data.height;
+				}).exec();
+				
+				uni.getSystemInfo({
+					success: (e) => {
+						this.headerheight += e.windowTop + 6
+					}
+				})
+		
+			},
+			onLoad() {
+				var that =this
+				uni.getStorage({
+				    key: 'searchHistory',
+				    success: function (res) {
+				        that.searchHistory=res.data
+				    }
+				});
+				
+				
+				uni.request({
+				    url: 'http://101.37.175.115/HomePage/rank', 
+				    
+					header: {
+					        'Content-Type': 'application/x-www-form-urlencoded' 
+					    },
+						method:"GET",
+						
+				    success: (res) => {
+				       if(res.data.res=="ok"){
+						  
+						   that.rankData=res.data.data
+						   
+					   }
+				    }
+					
+				});
+			},
+			
+			
+			components:{
+				TextCard,
+			
+			}
 	}
 </script>
 
@@ -94,12 +280,16 @@
 	.hotsearch{
 		background-color: #fefefe;
 		
+		
 		.hotlist{
 			padding: 10rpx 20rpx 10rpx 20rpx;
 			display: flex;
+			margin-left: 80rpx;
+			margin-right: 20rpx;
 			flex-wrap: wrap;
 		}
 	}
+	
 }
 
 </style>

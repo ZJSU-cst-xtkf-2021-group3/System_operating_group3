@@ -197,7 +197,7 @@ def show_topic_info(request):
         data['Fcounts']=t.Fcounts
         data['Tag']=t.Tag
         data['hotPoints']=t.hotPoints
-        data['mainPic']=t.mainPic.url
+        data['mainPic']=tools.host+t.mainPic.url
         result['data']=data
 
     except Exception as e:

@@ -78,6 +78,8 @@ def register(request):
                                            public_topics=True,public_comments=True)
             except Exception as e:
                 print(e)
+                result['res'] = 'failed'
+                return JsonResponse(result)
 
             result['res']='ok'
             return JsonResponse(result)

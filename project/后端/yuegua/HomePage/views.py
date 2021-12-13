@@ -15,7 +15,6 @@ def search(request):
     page = int(request.GET.get("page", 1))
     result={
         'res':'',
-        'history':''
     }
     try:
         All=Topic.objects.filter(Q(title__contains=key)|Q(Tag__contains=key),Q(status__exact=True)).order_by('-hotPoints')
@@ -25,7 +24,7 @@ def search(request):
             result['has_next'] = 'yes'
         else:
             result['has_next']='no'
-            print("ok")
+
 
         if  MatchList.has_previous():
             result['has_previous'] = 'yes'
@@ -35,39 +34,23 @@ def search(request):
 
         data=[]
         for i in MatchList:
+            u=User.objects.get(UID__exact=i.UID)
             tmp={}
             tmp['TID']=i.TID
-            tmp['Uname']=User.objects.get(UID__exact=i.UID).Uname
+            tmp['Uname']=u.Uname
             tmp['title']=i.title
             tmp['statement']=i.statement
             tmp['category']=i.category
-            tmp['lastUpDateTime']=tools.stamp2strtime(i.lastUpDateTime)
+            tmp['lastUpDateTime']=i.lastUpDateTime
             tmp['star']=i.star
-            tmp['tip-off']=i.tip_off
+            tmp['tip_off']=i.tip_off
             tmp['Tag']=i.Tag
             tmp['isPostByEditor']=i.isPostByEditor
             tmp['Fcounts']=i.Fcounts
-            tmp['mainPic']=i.mainPic.url
+            tmp['mainPic']=tools.host+i.mainPic.url
+            tmp['header']=tools.host+u.header.url
             data.append(tmp)
 
-        # uid = int(request.session.get('uid', '-1'))
-        uid=request.GET.get('uid')
-        if uid!=-1:
-            if cache.has_key(uid):
-                l=cache.get(uid)
-                l.append(key)
-                cache.set(uid,l,60*10)
-                print(l)
-                if len(l)==5:
-                    l.pop(0)
-                    l.append(key)
-                    cache.set(uid,l,60*10)
-            else:
-                l=[]
-                l.append(key)
-                cache.set(uid,l,60*10)
-
-            result['history'] = cache.get(uid)
 
     except Exception as e:
         print(e)
@@ -119,7 +102,7 @@ def category(request):
             result['has_next'] = 'yes'
         else:
             result['has_next']='no'
-            print("ok")
+
 
         if rankList.has_previous():
             result['has_previous'] = 'yes'
@@ -127,18 +110,20 @@ def category(request):
             result['has_previous'] = 'no'
 
         for i in rankList:
+            u=User.objects.get(UID__exact=i.UID)
             tmp={}
             tmp['TID']=i.TID
             tmp['title']=i.title
-            tmp['Uname'] = User.objects.get(UID__exact=i.UID).Uname
+            tmp['Uname'] = u.Uname
             tmp['statement'] = i.statement
-            tmp['lastUpDateTime'] = tools.stamp2strtime(i.lastUpDateTime)
+            tmp['lastUpDateTime'] = i.lastUpDateTime
             tmp['star'] = i.star
-            tmp['tip-off'] = i.tip_off
+            tmp['tip_off'] = i.tip_off
             tmp['Tag'] = i.Tag
             tmp['isPostByEditor'] = i.isPostByEditor
             tmp['Fcounts'] = i.Fcounts
-            tmp['mainPic']=i.mainPic.url
+            tmp['mainPic']=tools.host+i.mainPic.url
+            tmp['header'] = tools.host + u.header.url
 
             data.append(tmp)
         result['data']=data
@@ -165,20 +150,39 @@ def recommend(request):
         try:
             u = User.objects.get(UID__exact=uid)
             data=[]
-            rankList=Topic.objects.filter(Q(status__exact=True),Q(AgeRange_avg__exact=u.UID)).order_by('-hotPoints')[:5]
+            rankList=Topic.objects.filter(Q(status__exact=True),Q(AgeRange_avg__exact=u.UID)).order_by('-hotPoints')[:10]
             for i in rankList:
+                u2=User.objects.get(UID__exact=i.UID)
                 tmp={}
-                tmp['TID']=i.TID
-                tmp['title']=i.title
+                tmp['TID'] = i.TID
+                tmp['title'] = i.title
+                tmp['Uname'] = u2.Uname
+                tmp['statement'] = i.statement
+                tmp['star'] = i.star
+                tmp['tip_off'] = i.tip_off
+                tmp['Tag'] = i.Tag
+                tmp['Fcounts'] = i.Fcounts
+                tmp['mainPic'] = tools.host + i.mainPic.url
+                tmp['header'] = tools.host + u2.header.url
+
                 data.append(tmp)
 
             lenth=len(data)
-            if lenth<5 :
-                compensation=Topic.objects.filter(status__exact=True).order_by('-hotPoints')[:5-lenth]
+            if lenth<10 :
+                compensation=Topic.objects.filter(status__exact=True).order_by('-hotPoints')[:10-lenth]
                 for i in compensation:
+                    u2 = User.objects.get(UID__exact=i.UID)
                     tmp = {}
                     tmp['TID'] = i.TID
                     tmp['title'] = i.title
+                    tmp['Uname'] = u2.Uname
+                    tmp['statement'] = i.statement
+                    tmp['star'] = i.star
+                    tmp['tip_off'] = i.tip_off
+                    tmp['Tag'] = i.Tag
+                    tmp['Fcounts'] = i.Fcounts
+                    tmp['mainPic'] = tools.host + i.mainPic.url
+                    tmp['header'] = tools.host + u2.header.url
                     data.append(tmp)
 
             result['data']=data
@@ -201,13 +205,13 @@ def default(request):
         data = []
         ALl = Topic.objects.filter(Q(status__exact=True)).order_by('-hotPoints')
         page=int(request.GET.get("page",1))
-        paginator=Paginator(ALl,10)
+        paginator=Paginator(ALl,5)
         List=paginator.get_page(page)
         if List.has_next():
             result['has_next'] = 'yes'
         else:
             result['has_next']='no'
-            print("ok")
+
 
         if List.has_previous():
             result['has_previous'] = 'yes'
@@ -215,18 +219,20 @@ def default(request):
             result['has_previous'] = 'no'
 
         for i in List:
+            u = User.objects.get(UID__exact=i.UID)
             tmp = {}
             tmp['TID'] = i.TID
             tmp['title'] = i.title
             tmp['Uname'] = User.objects.get(UID__exact=i.UID).Uname
             tmp['statement'] = i.statement
-            tmp['lastUpDateTime'] = tools.stamp2strtime(i.lastUpDateTime)
+            tmp['lastUpDateTime'] = i.lastUpDateTime
             tmp['star'] = i.star
-            tmp['tip-off'] = i.tip_off
+            tmp['tip_off'] = i.tip_off
             tmp['Tag'] = i.Tag
             tmp['isPostByEditor'] = i.isPostByEditor
             tmp['Fcounts'] = i.Fcounts
-            tmp['mainPic']=i.mainPic.url
+            tmp['mainPic']=tools.host+i.mainPic.url
+            tmp['header'] = tools.host + u.header.url
             data.append(tmp)
         result['current_page']=List.number
         result['data'] = data

@@ -6,6 +6,7 @@ from models.models import User,userFollow_user,userPrivacy,userFollow_topic,Topi
 from django.urls import reverse
 from django.http import JsonResponse
 from Tools import func as tools
+from django.core.cache import cache
 
 def follow_user(request):
     result = {
@@ -35,9 +36,9 @@ def follow_user(request):
             Fusr.Fcounts+=1
             Fusr.save()
 
-
             #消息通知：
-
+            token = str(F_uid) + 'Nfollower'
+            cache.set(token, usr.Uname+"成为了您的新粉丝", 21)
 
 
     except Exception as e:
@@ -101,7 +102,7 @@ def others_Ftopic(request):
                     tmp['star']=tmp_t.star
                     tmp['tip-off']=tmp_t.tip_off
                     tmp['hotPoints']=tmp_t.hotPoints
-                    tmp['mainPic']=tmp_t.mainPic.url
+                    tmp['mainPic']=tools.host+tmp_t.mainPic.url
                     tmp['lastUpDateTime']=tools.stamp2strtime(tmp_t.lastUpDateTime)
                     data.append(tmp)
         else:
@@ -137,7 +138,7 @@ def others_Ptopic(request):
                     tmp['statement'] = i.statement
                     tmp['hotPoints']=i.hotPoints
                     tmp['lastUpDateTime']=tools.stamp2strtime(i.lastUpDateTime)
-                    tmp['mainPic']=i.mainPic.url
+                    tmp['mainPic']=tools.host+i.mainPic.url
                     tmp['star'] = i.star
                     tmp['Fcounts'] = i.Fcounts
                     tmp['tip-off'] = i.tip_off
@@ -179,7 +180,7 @@ def others_Pevent(request):
                     tmp['star'] = i.star
                     tmp['tip-off']=i.tip_off
                     tmp['time']=tools.stamp2strtime(i.time)
-                    tmp['mainPic'] = Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
+                    tmp['mainPic'] = tools.host+Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
                     data.append(tmp)
             for i in eventsList:
                 if i.status:

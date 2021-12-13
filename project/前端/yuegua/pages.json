@@ -10,7 +10,7 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "首页",
-		        "enablePullDownRefresh": false
+		        "enablePullDownRefresh": true
 		    }
 		    
 		},
@@ -19,7 +19,7 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "搜索",
-		        "enablePullDownRefresh": false
+		        "enablePullDownRefresh": true
 		    }
 		}
         ,{

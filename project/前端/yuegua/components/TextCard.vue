@@ -1,26 +1,26 @@
 <template>
-	<view class="card">
+	<view class="card" @click="seeInfo(ID)">
 		<view class="textpart">
 			<view class="cardheader">
 				<u--text :text="title" size="15" lines="2"></u--text>
 			</view>
 			<view class="content">
 				<image v-if="showimg" style="width: 50px; height: 50px;margin-right: 10rpx;" mode="aspectFill" :src="imgsrc"></image>
-				<u--text :text="partcontent" size="13" lines="3"></u--text>
+				<u--text :text="partcontent" size="15" lines="3"></u--text>
 			</view>			
 		</view>
 		<view class="divideline"><u-line color="#e5e5e5" length="100%"></u-line></view>
 		<view class="cardfooter">
 			<view class="leftfooter">
-				<u-tag text="标签" size="mini" plain></u-tag>
+				<u-tag :text="tag" size="mini" plain></u-tag>
 				<u-avatar :src="avatarsrc" size="16"></u-avatar>
 				<text style="margin-left: 15rpx;font-size: 15rpx;">{{uname}}</text>		
-				<text style="margin-left: 30rpx;font-size: 15rpx;">1天前</text>
+				<text style="margin-left: 15rpx;font-size: 15rpx;">{{time}}</text>
 			</view>
 			<view class="rightfooter" v-if="showrightfooter">
-				<view><u--text prefixIcon="eye" :text="readcount" size="12"></u--text></view>
-				<view><u--text prefixIcon="chat" :text="commentcount" size="12"></u--text></view>
+				<view><u--text prefixIcon="eye" :text="readcnt" size="12"></u--text></view>
 				<view><u--text prefixIcon="thumb-up" :text="likecount" size="12"></u--text></view>
+				<view><u--text prefixIcon="thumb-down" :text="dislikecnt" size="12"></u--text></view>
 			</view>
 		</view>
 		
@@ -59,6 +59,10 @@
 				type:String,
 				default:''
 			},
+			dislikecnt:{
+					type:String,
+					default:'0'
+			},
 			likecnt:{
 				type:String,
 				default:'0'
@@ -70,6 +74,18 @@
 			readcnt:{
 				type:String,
 				default:'0'
+			},
+			time:{
+				type:String,
+				default:'刚刚'
+			},
+			tag:{
+				type:String,
+				default:""
+			},
+			ID:{
+				type:Number,
+				default:0
 			}
 		},
 		computed:{
@@ -98,7 +114,15 @@
 					let a = n/10000;
 					return a.toFixed(1).toString() + 'w';
 				}
-			}
+			},
+			
+			seeInfo:function(e){
+				console.log("clicked")
+				console.log(e)
+				// uni.navigateTo({
+				//     url: 'test?id=1&name=uniapp'
+				// });
+			},
 		}
 	}
 </script>

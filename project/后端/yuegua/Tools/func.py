@@ -1,6 +1,7 @@
 import time
 
 
+host="http://101.37.175.115"
 
 def ageSwitch(age):
     if age>=0 and age<=13:
@@ -64,6 +65,21 @@ def stamp2strtime(stamp):
     return time.strftime('%Y年%m月%d日 %H:%M:%S', time.localtime(stamp))
 
 
-if __name__=='__main__':
-    pass
-    # print(stamp2strtime(1635759792))
+# def img2base64(url:str):
+#     with open(str(Set.BASE_DIR)+url, 'rb') as f:
+#         code2=base64.b64encode(f.read())
+#         print(code2)
+#     return code2
+#
+def switchType(index):
+
+    if index==1:
+        return "话题"
+    if index==2:
+        return "引用"
+    if index==3:
+        return "爆料"
+    if index==4:
+        return "评论"
+    if index==5:
+        return "活动投稿"
