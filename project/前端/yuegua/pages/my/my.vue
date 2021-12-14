@@ -6,17 +6,18 @@
 				<view class="headerpanel-uinfo">
 					<view style="padding-top: 20rpx;">
 						<view class="headerpanel-uinfo-name">
-							<text style="font-size: 45rpx;font-weight: 550;margin-right: 30rpx;">wuji</text>
-							<u-icon color="#FFC53D" style="margin-right: 10rpx;" name="level" size="18" label="4" space="0"></u-icon>
+							<text style="font-size: 45rpx;font-weight: 550;margin-right: 30rpx;">{{basicInfo.Uname}}</text>
+							<u-icon color="#FFC53D" style="margin-right: 10rpx;" name="level" size="18" :label="basicInfo.rank" space="0"></u-icon>
 						</view>
-						<u--text line="2" text="今天天气很好"></u--text>
+						<!-- xxxxx -->
+						<u--text line="2" :text="basicInfo.statement"></u--text>
 						<view class="levelbar">
-							<u-line-progress :percentage="70" height="8" activeColor="#1890FF" :showText="false"></u-line-progress>
-							<view style="font-size: 10rpx;margin-left: 10rpx;text-align: center;">49/555</view>
+							<u-line-progress :percentage="basicInfo.percent" height="8" activeColor="#1890FF" :showText="false"></u-line-progress>
+							<!-- <view style="font-size: 10rpx;margin-left: 10rpx;text-align: center;">EXP</view> -->
 						</view>
 					</view>
 					<view class="avatarpanel">
-						<u-avatar size="80" :src="src"></u-avatar>
+						<u-avatar size="80" :src="basicInfo.header"></u-avatar>
 						<view style="margin-top: 20rpx;display: flex;align-items: center;" @click="clickeditinfo">
 							<u-icon name="edit-pen-fill" size="19" color="#A1A1A1"></u-icon>
 							<text style="color: #A1A1A1;" >编辑资料</text>
@@ -26,16 +27,16 @@
 				</view>
 				<view class="headerpanel-udata">
 					<view class="datablock" @click="focus=true">
-						<text style="font-size: 35rpx;font-weight: 550;">33445</text>
-						<text style="font-size: 20rpx;">关注</text>
+						<text style="font-size: 35rpx;font-weight: 550;">{{basicInfo.EXP}}</text>
+						<text style="font-size: 20rpx;">EXP</text>
 					</view>
 					<view class="datablock" @click="fans=true">
-						<text style="font-size: 35rpx;font-weight: 550;">765</text>
+						<text style="font-size: 35rpx;font-weight: 550;">{{basicInfo.Fcounts}}</text>
 						<text style="font-size: 20rpx;">粉丝</text>
 					</view>
 					<view class="datablock">
-						<text style="font-size: 35rpx;font-weight: 550;">945</text>
-						<text style="font-size: 20rpx;">发布</text>
+						<text style="font-size: 35rpx;font-weight: 550;">{{identity}}</text>
+						<text style="font-size: 20rpx;">认证</text>
 					</view>
 				</view>
 			</view>
@@ -86,11 +87,39 @@
 				fans:false,
 				headerheight:0,
 				src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',
-				tabslist:['发布的话题','发布的节点']
+				tabslist:['发布的话题','发布的节点'],
+				basicInfo:{},
+				identity:""
 			};
 		},
 		onLoad() {
+			var that=this
 			this.headerheight = uni.getStorageSync('headerheight')
+			uni.request({
+			    url: 'http://101.37.175.115/MyCenter/basicInfo', 
+			    
+				header: {
+				        'Content-Type': 'application/x-www-form-urlencoded' 
+				    },
+					method:"GET",
+					
+			    success: (res) => {
+					
+			       if(res.data.res=="ok"){
+					  that.basicInfo=res.data.data
+						that.identity="注册用户"
+						if(res.data.data.ifPassedExam){
+							that.identity="会员用户"
+						}
+					  
+						if(res.data.data.isEditor){
+							that.identity="编辑"
+						}
+						
+				   }
+			    }
+				
+			});
 		},
 		methods:{
 			clickset(){

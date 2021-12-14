@@ -7,7 +7,7 @@
 				</u-col>
 				<u-col span="10">
 					<view class="rightpart">
-						<view style="margin-left: 20rpx;font-size: 32rpx;">粉丝</view>
+						<view style="margin-left: 20rpx;font-size: 32rpx;">关注我的</view>
 						<view><u-icon name="arrow-right" color="#999999" size="18"></u-icon></view>
 					</view>
 				</u-col>
@@ -30,10 +30,8 @@
 		</view>
 
 		<view>
-			<MsgCard :avtarsrc="msgsrc" uname="用户名" msg="他点赞了你的评论!" timestamp="1天前"></MsgCard>
-			<MsgCard :avtarsrc="msgsrc" uname="用户名" msg="他点赞了你的话题!" timestamp="1天前"></MsgCard>
-			<MsgCard :avtarsrc="msgsrc" uname="用户名" msg="他关注了你!" timestamp="1天前"></MsgCard>
-			<MsgCard :avtarsrc="msgsrc" uname="审核消息" msg="你投稿的话题审核通过." timestamp="1天前"></MsgCard>
+			<!-- <MsgCard :avtarsrc="msgsrc" uname="用户名" msg="他点赞了你的评论!" timestamp="1天前"></MsgCard> -->
+			<MsgCard v-for="(item,index) in sysMessage":key=index :avtarsrc="msgsrc" uname="审核消息" :msg="item.value" :timestamp="switchTime(item.postTime)" :Type="item.type" :typeID="item.typeID" ></MsgCard>
 		</view>
 		<u-popup mode="bottom" :show="fovar" round closeable @close="fovar=false">
 			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}"></view>
@@ -58,15 +56,52 @@ export default {
 			headerheight:0,
 			fovar:false,
 			focus:false,
-			comm:false
+			comm:false,
+			sysMessage:null
 		};
+	},
+	methods:{
+		switchTime(time){
+			var now = parseInt(new Date().getTime()/1000);
+			var Dvalue=parseInt((now-parseInt(time))/3600)
+			if (Dvalue<=24){
+				return Dvalue+"小时前"
+			}
+			else{
+				var days=parseInt(Dvalue/24)
+				return days+"天前"
+			}
+		},
+	
+		
 	},
 	onLoad() {
 		this.headerheight += uni.getStorageSync('headerheight')
-	},
+		var that =this
+			uni.request({
+			    url: 'http://101.37.175.115/Message/sysNotes', 
+			    
+				header: {
+				        'Content-Type': 'application/x-www-form-urlencoded' 
+				    },
+					method:"GET",
+					
+			    success: (res) => {
+			       if(res.data.res=="ok"){
+					  that.sysMessage=res.data.data
+					   
+				   }
+			    }
+				
+			});
+		},
+		
+	
 	components:{
 		MsgCard
-	}
+	},
+	
+
 }
 </script>
 

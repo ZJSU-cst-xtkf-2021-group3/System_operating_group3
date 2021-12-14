@@ -103,5 +103,9 @@ def RTMSG(request):
             data.append(value)
 
     result['data'] = data
+    if data==[]:
+        result['isEmpty']=True
+    else:
+        result['isEmpty'] = False
     result['res'] = 'ok'
     return JsonResponse(result)

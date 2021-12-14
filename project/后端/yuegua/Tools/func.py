@@ -40,6 +40,23 @@ def exp2rank(exp):
     if exp>=2001:
         return 6
 
+def rankPercent(exp,rank):
+    if rank <= 1:
+        return int(exp*100/101)
+    if rank >1 and rank<=2:
+        return int(exp*100/301)
+    if rank >2 and rank<=3:
+        return int(exp*100/601)
+    if rank >3 and rank<=4:
+        return int(exp*100/1001)
+    if rank >4 and rank<=5:
+        return int(exp*100/2001)
+    if rank>=6:
+        if exp<=3001:
+            return int(exp * 100 / 3001)
+        else:
+            return 100
+
 def check_right(rank):
     if rank<=3:
         return 'basic'
@@ -83,3 +100,4 @@ def switchType(index):
         return "评论"
     if index==5:
         return "活动投稿"
+

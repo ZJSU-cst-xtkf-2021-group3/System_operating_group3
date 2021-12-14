@@ -1,5 +1,7 @@
 <template>
+<!-- 	<u-notify message="Hi uView" :show="show"></u-notify> -->
 	<view class="page">
+		
 		<view class="searchbar" @click="clicksearch"><u-icon name="search" size="20"></u-icon><text>搜索</text></view>
 		<scroll-view scroll-x scroll-with-animation>
 			<u-tabs :list="tabslist" :activeStyle="{ color: '#3c9cff' }" sticky @click="tabclick"></u-tabs>
@@ -48,6 +50,7 @@
 				current_page:1,
 				
 				
+				
 				src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',
                 tabslist: [{name: '推荐',},{name: '热榜',},{name: '娱乐',},{name: '体育',},{name: '二次元'},{name: '日常'},{name: '时政'},{name: '国际'}],
 				ranktabslist:[{name: '话题',},{name: '活动'}],
@@ -92,10 +95,15 @@
 					return days+"天前"
 				}
 			},
-			
+			checkMSG: function(){
+							return true
+							}
+
 		},
 		onLoad() {
 			var that =this
+			
+			
 			uni.request({
 			    url: 'http://101.37.175.115/HomePage/default', 
 			    data: {

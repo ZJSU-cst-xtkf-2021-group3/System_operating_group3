@@ -23,10 +23,12 @@ def basicInfo(request):
         data['EXP']=u.EXP
         data['rank']=u.rank
         data['ifPassedExam']=u.ifPassedExam
-        data['Fconuts']=u.Fcounts
+        data['Fcounts']=u.Fcounts
         data['isEditor']=u.isEDIT
         data['header']=tools.host+u.header.url
         data['introduction']=u.introduction
+        data['Uname']=u.Uname
+        data['percent']=tools.rankPercent(u.EXP,u.rank)
 
     except Exception as e:
         print(e)

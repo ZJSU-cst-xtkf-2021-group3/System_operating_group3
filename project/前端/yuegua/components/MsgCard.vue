@@ -1,5 +1,5 @@
 <template>
-	<view class="cell">
+	<view class="cell" @click="seeMsgInfo(Type,typeID)">
 		<u-row>
 			<u-col span="2">
 				<u--image width="50" height="50" radius="27" :src="avtarsrc"></u--image>
@@ -26,13 +26,32 @@
 			avtarsrc:{type:String,default:""},
 			uname:{type:String},
 			msg:{type:String},
-			timestamp:{type:String}
+			timestamp:{type:String},
+			Type:{type:Number},
+			typeID:{type:Number},
 		},
 		data() {
 			return {
 				
 			};
-		}
+		},
+		methods:{
+		seeMsgInfo(type,id){
+			console.log("type: "+type+"id: "+id)
+			//爆料详情
+			if(type===3){
+				console.log("爆料")
+			}
+			//引用详情
+			if (type===2){
+				console.log("引用")
+			}
+			//话题详情
+			if (type===1){
+				console.log("话题")
+			}
+		}	
+		},
 	}
 </script>
 
