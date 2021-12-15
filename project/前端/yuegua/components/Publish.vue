@@ -5,7 +5,7 @@
 				<text>标题</text>
 				<u--input v-model="title" placeholder="请输入标题" border="none"  maxlength="20"></u--input>			
 			</view>			
-			<view class="cell1">
+			<view v-if="types != '爆料'" class="cell1">
 				<text>链接</text>
 				<u--input v-model="link" placeholder="请添加链接" border="none" maxlength="200"></u--input>			
 			</view>
@@ -14,7 +14,7 @@
 					<text>时间</text>
 					<u--input v-model="datetime" placeholder="请输入时间,如:2021-9-21 12:8" border="none" maxlength="20"></u--input>			
 				</view>
-				<u-alert  title="注:时间为事件发生的时间." fontSize="8" type = "warning"></u-alert>				
+				<u-alert title="注:时间为事件发生的时间." fontSize="8" type = "warning"></u-alert>				
 			</view>
 
 			<view v-if="types=='topic'" class="selecttype">
@@ -35,17 +35,43 @@
 				:maxCount="1"
 			></u-upload>			
 		</view>
-		
-		<view v-if="types=='topic'" style="padding-right: 20rpx;margin-bottom: 10rpx;display: flex;flex-direction: row-reverse;">
-			<text style="color: #1989FA;text-decoration: underline;">添加投票</text>
+		<view v-if="types=='爆料'" class="cell2">
+			<text>图片</text>
+			<u-upload
+				:fileList="coverimg"
+				@afterRead="afterRead"
+				@delete="deletePic"
+				:maxCount="9"
+			></u-upload>			
 		</view>
-		<view style="position: absolute;bottom: 20rpx;left: 0;right: 0;display: flex;align-items: center;justify-content: center;margin: 20rpx 20rpx 0 20rpx;">
+		<view v-if="types=='topic'" class="bigcell">
+			<view style="padding: 10rpx;display: flex;align-items: center;">
+				<text>投票</text>
+				<tm-switch v-model="addvote" :text="[]"></tm-switch>				
+			</view>
+			<view v-show="addvote">
+				<view class="cell1">
+					<text>问题</text>
+					<u--input v-model="title" placeholder="请输入问题" border="none"  maxlength="20"></u--input>			
+				</view>	
+				<view class="cell1">
+					<text>选项一</text>
+					<u--input v-model="title" placeholder="请输入选项一" border="none"  maxlength="20"></u--input>			
+				</view>	
+				<view class="cell1">
+					<text>选项二</text>
+					<u--input v-model="title" placeholder="请输入选项二" border="none"  maxlength="20"></u--input>			
+				</view>					
+			</view>
+
+		</view>
+		<view style="margin-top: 40rpx;margin-bottom: 40rpx;display: flex;align-items: center;justify-content: center;margin: 20rpx 20rpx 0 20rpx;">
 			<view v-if="types=='topic'" style="width: 20%">
 				<tm-button  theme="grey-lighten-2" fontColor="grey-darken-2" :round="24" block>保存</tm-button>
 			</view>
 			<view style="width: 80%">
 				<!-- <u-button :hairLine="false" shape="cicle" color="#1890FF" text="发布"></u-button> -->
-				<tm-button  theme="bg-gradient-blue-accent" :round="24" block>{{types=='topic'?'发布':'添加'}}</tm-button>
+				<tm-button disabled theme="bg-gradient-blue-accent" :round="24" block>{{types=='topic'?'发布':'添加'}}</tm-button>
 			</view>
 		</view>
 	</view>
@@ -67,6 +93,7 @@
 				type:'',
 				link:'',
 				datetime:'',
+				addvote:false,
 				typecandidates:['娱乐','体育','二次元','日常','时政','国际'],
 				coverimg:[]
 			};
