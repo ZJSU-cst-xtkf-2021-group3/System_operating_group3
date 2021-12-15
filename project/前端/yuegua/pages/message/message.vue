@@ -1,6 +1,9 @@
 <template>
+	
 	<view>
-		<view class="cell" @click="focus=true">
+		
+		<view class="cell" @click="showMyFans()">
+			
 			<u-row>
 				<u-col span="2">
 					<u--image width="50" height="50" radius="27" :src="fanssrc"></u--image>
@@ -14,7 +17,7 @@
 			</u-row>
 			<view style="height: 2rpx;position: absolute;bottom: 0;left: 70px;right: 0;background-color: #EEEEEE;"></view>
 		</view>
-		<view class="cell" @click="fovar=true">
+		<view class="cell" @click="showMyStar()">
 			<u-row>
 				<u-col span="2">
 					<u--image width="55" height="55" radius="27" :src="favorsrc"></u--image>
@@ -34,10 +37,22 @@
 			<MsgCard v-for="(item,index) in sysMessage":key=index :avtarsrc="msgsrc" uname="审核消息" :msg="item.value" :timestamp="switchTime(item.postTime)" :Type="item.type" :typeID="item.typeID" ></MsgCard>
 		</view>
 		<u-popup mode="bottom" :show="fovar" round closeable @close="fovar=false">
-			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}"></view>
+			<!-- <view :style="{height:'calc(100vh - ' + headerheight +'px)'}"></view> -->
+			<scroll-view scroll-y="true" class="scroll-Y" style="height: 80vh;" >
+				<UserCard v-for="(item,index) in myStarlist " :key=index :avtarsrc="item.header" :uname="item.msg" :desc="item.time"></UserCard>	
+			</scroll-view>
+			
+			
 		</u-popup>
 		<u-popup mode="bottom" :show="focus" round closeable @close="focus=false">
-			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}"></view>
+			<!-- <view :style="{height:'calc(100vh - ' + headerheight +'px)'}"></view> -->
+			<scroll-view scroll-y="true" class="scroll-Y" style="height: 80vh;" >
+				<view v-for="(item,index) in myFocuslist " :key=index @click="toOthersSpace(item.UID)">
+					<UserCard :avtarsrc="item.header" :uname="item.uname" :desc="item.introduction" ></UserCard>
+				</view>
+					
+			</scroll-view>
+			
 		</u-popup>
 <!-- 		<u-popup mode="bottom" :show="comm" round closeable @close="comm=false">
 			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}"></view>
@@ -47,6 +62,7 @@
 
 <script>
 import MsgCard from '../../components/MsgCard'
+import UserCard from '../../components/UserCard'
 export default {
 	data() {
 		return {
@@ -57,7 +73,9 @@ export default {
 			fovar:false,
 			focus:false,
 			comm:false,
-			sysMessage:null
+			sysMessage:null,
+			myStarlist:{},
+			myFocuslist:{}
 		};
 	},
 	methods:{
@@ -72,8 +90,55 @@ export default {
 				return days+"天前"
 			}
 		},
-	
+		showMyStar(){
+				var that =this
+					uni.request({
+					    url: 'http://101.37.175.115/Message/stars', 
+					    
+						header: {
+						        'Content-Type': 'application/x-www-form-urlencoded' 
+						    },
+							method:"GET",
+							
+					    success: (res) => {
+					       if(res.data.res=="ok"){
+								that.myStarlist=res.data.data
+								that.fovar=true
+						   }
+					    }
+						
+					});
+		},
 		
+		showMyFans(){
+			var that =this
+				uni.request({
+				    url: 'http://101.37.175.115/Message/followers', 
+				    
+					header: {
+					        'Content-Type': 'application/x-www-form-urlencoded' 
+					    },
+						method:"GET",
+						
+				    success: (res) => {
+						
+				       if(res.data.res=="ok"){
+							that.myFocuslist=res.data.data
+							that.focus=true
+					   }
+				    }
+					
+				});
+		},
+		moveHandle(){
+			return false
+		},
+		toOthersSpace(uid){
+			console.log(uid)
+			uni.navigateTo({
+				url: '../other/other?uid='+uid
+			})
+		},
 	},
 	onLoad() {
 		this.headerheight += uni.getStorageSync('headerheight')
@@ -98,7 +163,8 @@ export default {
 		
 	
 	components:{
-		MsgCard
+		MsgCard,
+		UserCard,
 	},
 	
 

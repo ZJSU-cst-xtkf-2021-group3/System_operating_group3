@@ -5,50 +5,16 @@
 			console.log('App Launch')
 		},
 		onShow: function() {
-			// var that = this
+			
 			console.log('App Show')
-	// 		   setInterval(function () {
-				   
-	// 			   uni.request({
-	// 			       url: 'http://101.37.175.115/Message/RTMSG', 
-				       
-	// 			   	header: {
-	// 			   	        'Content-Type': 'application/x-www-form-urlencoded' 
-	// 			   	    },
-	// 			   		method:"GET",
-				   		
-	// 			       success: (res) => {
-				   		
-	// 			          if(res.data.res=="ok"){
-	// 			   			if(res.data.isEmpty==false){
-	// 			   				uni.setStorage({
-	// 			   				    key: 'RTMSG',
-	// 			   				    data: res.data.data,
-	// 			   				    success: function () {
-	// 			   				        console.log('msg arrive');
-	// 			   				    }
-	// 			   				});
-	// 							that.$options.globalData.hasNotify=true
-	// 			   			}
-	// 						else{
-	// 							that.$options.globalData.hasNotify=false
-	// 						}
-							
-							
-	// 			   	   }
-	// 			       }		   	
-	// 			   });
-	
-	// 			   }, 21000)
+			 
 
 			
 		},
 		onHide: function() {
 			console.log('App Hide')
 		},
-		globalData:{
-			hasNotify:false
-		},
+		
 	}
 </script>
 

@@ -20,7 +20,7 @@
 			</view>
 			<!--  -->
 			<view class="footer" >
-				<u-tag v-for="(item,index) in searchHistory" :text="item" shape="circle" size="mini" bgColor="#45aaf2" style="margin-left: 10rpx;" @click="tagclick(item)"></u-tag>
+				<u-tag v-for="(item,index) in searchHistory" :kry=index :text="item" shape="circle" size="mini" bgColor="#45aaf2" style="margin-left: 10rpx;" @click="tagclick(item)"></u-tag>
 			</view>
 			
 			<view style="display: flex;align-items: center;justify-content: center;margin-top: 50rpx;" @click="removeHistory()">
@@ -31,7 +31,7 @@
 			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}" @touchmove.stop.prevent="moveHandle">
 				
 				 <scroll-view scroll-y="true" class="scroll-Y" style="height: 80vh;" @scrolltolower="onReachScollBottom" >
-					  <TextCard v-for="(item,index) in searchData"  :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
+					  <TextCard v-for="(item,index) in searchData" :key=index :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
 							   :likecnt="String(item.star)" :readcnt="String(item.Fcounts)" :title="item.title" :uname="item.Uname" :dislikecnt="String(item.tip_off)"
 							   :time=switchTime(item.lastUpDateTime) :tag=item.Tag :ID="item.TID "
 							  v-bind:key="index" style="margin-top: 70rpx;"></TextCard>
@@ -140,11 +140,12 @@
 				}
 			},
 			tagclick(e){
+				var that= this
 				uni.request({
 				    url: 'http://101.37.175.115/HomePage/search', 
 				    data: {
 				        key: e,
-						page:this.current_page
+						page:1
 				    },
 				    header: {
 				         'Content-Type': 'application/x-www-form-urlencoded' 
@@ -152,9 +153,8 @@
 				    success: (res) => {
 						if (res.data.res=='ok'){
 							if(res.data.data[0] != null){
-								this.showres = true
-								this.searchData=res.data.data
-								
+								that.showres = true
+								that.searchData=res.data.data		
 						
 							}
 							else{
@@ -176,7 +176,7 @@
 			onReachScollBottom(){
 				var that=this
 					console.log("触底刷新")
-					if (that.has_next!="no"){
+					if (that.has_next!="no" && that.searchkeyword!=""){
 						
 					var next=this.current_page+=1
 					uni.request({

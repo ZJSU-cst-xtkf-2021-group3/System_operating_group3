@@ -18,7 +18,7 @@ def search(request):
     }
     try:
         All=Topic.objects.filter(Q(title__contains=key)|Q(Tag__contains=key),Q(status__exact=True)).order_by('-hotPoints')
-        paginator=Paginator(All,10)
+        paginator=Paginator(All,5)
         MatchList=paginator.get_page(page)
         if  MatchList.has_next():
             result['has_next'] = 'yes'
@@ -95,7 +95,7 @@ def category(request):
     try:
         data=[]
         All=Topic.objects.filter(Q(status__exact=True),Q(category__exact=C)).order_by('-hotPoints')
-        paginator=Paginator(All,10)
+        paginator=Paginator(All,5)
         rankList=paginator.get_page(page)
 
         if rankList.has_next():
@@ -159,6 +159,7 @@ def recommend(request):
                 tmp['Uname'] = u2.Uname
                 tmp['statement'] = i.statement
                 tmp['star'] = i.star
+                tmp['lastUpDateTime'] = i.lastUpDateTime
                 tmp['tip_off'] = i.tip_off
                 tmp['Tag'] = i.Tag
                 tmp['Fcounts'] = i.Fcounts
@@ -178,6 +179,7 @@ def recommend(request):
                     tmp['Uname'] = u2.Uname
                     tmp['statement'] = i.statement
                     tmp['star'] = i.star
+                    tmp['lastUpDateTime'] = i.lastUpDateTime
                     tmp['tip_off'] = i.tip_off
                     tmp['Tag'] = i.Tag
                     tmp['Fcounts'] = i.Fcounts
@@ -194,7 +196,31 @@ def recommend(request):
             result['res']='failed'
             return JsonResponse(result)
     else:
-        result['res'] = 'empty'
+        data=[]
+        try:
+            default = Topic.objects.filter(status__exact=True).order_by('-hotPoints')[:10]
+            for i in default:
+                u2 = User.objects.get(UID__exact=i.UID)
+                tmp = {}
+                tmp['TID'] = i.TID
+                tmp['title'] = i.title
+                tmp['Uname'] = u2.Uname
+                tmp['statement'] = i.statement
+                tmp['star'] = i.star
+                tmp['lastUpDateTime'] = i.lastUpDateTime
+                tmp['tip_off'] = i.tip_off
+                tmp['Tag'] = i.Tag
+                tmp['Fcounts'] = i.Fcounts
+                tmp['mainPic'] = tools.host + i.mainPic.url
+                tmp['header'] = tools.host + u2.header.url
+                data.append(tmp)
+        except Exception as e:
+            print(e)
+            result['res'] = 'failed'
+            return JsonResponse(result)
+
+        result['data'] = data
+        result['res'] = 'ok'
         return JsonResponse(result)
 
 def default(request):
