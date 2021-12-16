@@ -9,23 +9,18 @@
 				<u--text line="2" text="今天天气很好"></u--text>
 			</view>
 			<view>
-				<u-button type="primary" size="mini" text="取消关注"></u-button>
+				<focusbuttom :focus="isfocusauthor" @clicked="isfocusauthor=!isfocusauthor"></focusbuttom>
 			</view>
 		</view>
 		<u-popup :show="true" :round="true" :overlay="false" :closeOnClickOverlay="false">
 			<view class="datapanel">
 				<view class="dataheader">
 					<view class="ctrltabs">
-						<view class="tab">
-							<text>他的投稿</text>
-							<view style="height: 6rpx;width: 50rpx;background-color: #007AFF;border-radius: 50rpx;"></view>
-						</view>
-						<view class="tab">
-							<text>他的关注</text>
-							<view style="height: 6rpx;width: 50rpx;background-color: #007AFF;border-radius: 50rpx;"></view>
+						<view v-for="(item,index) in tabslist" :class="['tab',activetab===index?'selected':'unselected']" @click="activetab=index">
+							<text>{{item.name}}</text>
+							<view style="height: 6rpx;width: 50rpx;border-radius: 50rpx;"></view>
 						</view>
 					</view>
-		
 					<view class="headerpanel-udata">
 						<view class="datablock">
 							<text style="font-size: 35rpx;font-weight: 550;">33445</text>
@@ -51,15 +46,20 @@
 </template>
 
 <script>
+	import focusbuttom from '../../components/focusbuttom'
 	export default {
 		data() {
 			return {
-				tabslist:[{name:'投稿',name:'关注话题'}]
+				activetab:0,
+				isfocusauthor:false,
+				colors:['#007AFF','#00000000'],
+				tabslist:[{name:'他的投稿'},{name:'他的关注'}]
 			};
 		},
 		methods:{
 
-		}
+		},
+		components:{focusbuttom}
 	}
 </script>
 
@@ -92,14 +92,28 @@
 				flex-direction: column;
 				align-items: center;
 				justify-content: flex-end;		
+
+			}
+			.selected{
 				text{
 					font-size: 32rpx;
+					color: #007AFF;
 				}
 				view{
 					margin-top: 12rpx;
+					background-color: #007AFF;
 				}
 			}
-
+			.unselected{
+				text{
+					font-size: 32rpx;
+					color: #858585;
+				}
+				view{
+					margin-top: 12rpx;
+					background-color: #00000000;
+				}
+			}
 		}
 		.headerpanel-udata{
 			display: flex;
