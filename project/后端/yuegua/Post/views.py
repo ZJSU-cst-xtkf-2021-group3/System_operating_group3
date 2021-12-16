@@ -95,8 +95,8 @@ def post_comment(request):
             u = User.objects.get(UID__exact=uid)
             TID = int(request.POST.get('TID'))
             value = request.POST.get('value')
-            Comments.objects.create(UID=uid,TID=TID,value=value,time=tools.getTime(),star=0,status=True,tip_off=0,Uname=u.Uname
-                                   ,hotPoints=u.rank*5)
+            Comments.objects.create(UID=uid,TID=TID,value=value,time=tools.getTime(),star=0,status=True,tip_off=0,
+                                   hotPoints=u.rank*5)
             # 用户经验值更新
             tools.addEXP(u.UID,4)
 

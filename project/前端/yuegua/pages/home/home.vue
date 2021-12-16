@@ -15,7 +15,7 @@
 				<TextCard v-for="(item,index) in topicList" :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
 						   :likecnt="String(item.star)" :readcnt="String(item.Fcounts)" :title="item.title" :uname="item.Uname" :dislikecnt="String(item.tip_off)"
 						   :time=switchTime(item.lastUpDateTime) :tag=item.Tag :ID="item.TID"
-						  v-bind:key="item.TID" ></TextCard>
+						  v-bind:key="index" ></TextCard>
 			</scroll-view>
 			
 			
@@ -33,7 +33,7 @@
 				<TextCard v-for="(item,index) in topicList" :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
 						   :likecnt="String(item.star)" :readcnt="String(item.Fcounts)" :title="item.title" :uname="item.Uname" :dislikecnt="String(item.tip_off)"
 						   :time=switchTime(item.lastUpDateTime) :tag=item.Tag :ID="item.TID"
-						  v-bind:key="item.TID" ></TextCard>
+						  v-bind:key="index" ></TextCard>
 			</scroll-view>
 			
 		</view>
@@ -43,7 +43,7 @@
 				<TextCard v-for="(item,index) in topicList" :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
 						   :likecnt="String(item.star)" :readcnt="String(item.Fcounts)" :title="item.title" :uname="item.Uname" :dislikecnt="String(item.tip_off)"
 						   :time=switchTime(item.lastUpDateTime) :tag=item.Tag :ID="item.TID"
-						  v-bind:key="item.TID" ></TextCard>
+						  v-bind:key="index" ></TextCard>
 			</scroll-view>
 		</view>
 	</view>
@@ -85,6 +85,7 @@
 				uni.navigateTo({
 					url:'../search/search'
 				})
+			
 			},
 			tabclick(e) {
 				if(e.index === 0){

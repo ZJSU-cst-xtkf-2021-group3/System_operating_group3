@@ -117,11 +117,11 @@
 			},
 			
 			seeInfo:function(e){
-				console.log("clicked")
-				console.log(e)
-				// uni.navigateTo({
-				//     url: 'test?id=1&name=uniapp'
-				// });
+				// console.log("clicked")
+				// console.log(e)
+				uni.navigateTo({
+				    url: '../topic/topic?tid='+e,
+				});
 			},
 		}
 	}
