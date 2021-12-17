@@ -1,10 +1,17 @@
 {
   "navigationBarTitleText": "个人中心",
   "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#1890FFA0",
+  "navigationBarTextStyle": "white",
   "usingComponents": {
-    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-transition": "/uview-ui/components/u-transition/u-transition",
     "u-icon": "/uview-ui/components/u-icon/u-icon",
     "u--text": "/uview-ui/components/u--text/u--text",
-    "u-avatar": "/uview-ui/components/u-avatar/u-avatar"
+    "u-line-progress": "/uview-ui/components/u-line-progress/u-line-progress",
+    "u-avatar": "/uview-ui/components/u-avatar/u-avatar",
+    "u-sticky": "/uview-ui/components/u-sticky/u-sticky",
+    "tm-seg-tabs": "/tm-vuetify/components/tm-segTabs/tm-segTabs",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "user-card": "/components/UserCard"
   }
 }

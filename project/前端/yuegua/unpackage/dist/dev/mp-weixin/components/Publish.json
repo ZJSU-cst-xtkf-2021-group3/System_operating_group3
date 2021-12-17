@@ -1,0 +1,12 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u--input": "/uview-ui/components/u--input/u--input",
+    "u-alert": "/uview-ui/components/u-alert/u-alert",
+    "uni-combox": "/uni_modules/uni-combox/components/uni-combox/uni-combox",
+    "u--textarea": "/uview-ui/components/u--textarea/u--textarea",
+    "u-upload": "/uview-ui/components/u-upload/u-upload",
+    "tm-switch": "/tm-vuetify/components/tm-switch/tm-switch",
+    "tm-button": "/tm-vuetify/components/tm-button/tm-button"
+  }
+}

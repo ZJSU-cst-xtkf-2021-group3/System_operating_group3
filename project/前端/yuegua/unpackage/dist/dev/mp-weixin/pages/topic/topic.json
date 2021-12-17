@@ -1,0 +1,28 @@
+{
+  "navigationBarTitleText": "话题",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-tag": "/uview-ui/components/u-tag/u-tag",
+    "u-avatar": "/uview-ui/components/u-avatar/u-avatar",
+    "tm-button": "/tm-vuetify/components/tm-button/tm-button",
+    "u-row": "/uview-ui/components/u-row/u-row",
+    "u-col": "/uview-ui/components/u-col/u-col",
+    "u-line": "/uview-ui/components/u-line/u-line",
+    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "tm-seg-tabs": "/tm-vuetify/components/tm-segTabs/tm-segTabs",
+    "u--text": "/uview-ui/components/u--text/u--text",
+    "u-album": "/uview-ui/components/u-album/u-album",
+    "uni-link": "/uni_modules/uni-link/components/uni-link/uni-link",
+    "u--textarea": "/uview-ui/components/u--textarea/u--textarea",
+    "tm-message": "/tm-vuetify/components/tm-message/tm-message",
+    "tm-dialog": "/tm-vuetify/components/tm-dialog/tm-dialog",
+    "pulish": "/components/Publish",
+    "tm-timeline": "/tm-vuetify/components/tm-timeline/tm-timeline",
+    "node-card": "/components/NodeCard",
+    "focusbuttom": "/components/focusbuttom",
+    "comment": "/components/comment"
+  }
+}

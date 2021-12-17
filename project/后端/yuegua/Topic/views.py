@@ -114,7 +114,7 @@ def Subscribe(request):
         t.save()
         # counts
         t.Fcounts += 1
-        t.hotPoints =t.hotPoints+0.2
+        t.hotPoints = round(t.hotPoints+0.2,1)
         t.save()
         #hot
 

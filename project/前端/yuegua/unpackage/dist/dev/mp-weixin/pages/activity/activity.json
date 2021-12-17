@@ -1,0 +1,16 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u--image": "/uview-ui/components/u--image/u--image",
+    "u--text": "/uview-ui/components/u--text/u--text",
+    "mote-lines-divide": "/components/mote-lines-divide/mote-lines-divide",
+    "u-gap": "/uview-ui/components/u-gap/u-gap",
+    "u-subsection": "/uview-ui/components/u-subsection/u-subsection",
+    "u-back-top": "/uview-ui/components/u-back-top/u-back-top",
+    "uni-fab": "/uni_modules/uni-fab/components/uni-fab/uni-fab",
+    "uni-popup": "/components/uni-popup2/uni-popup2",
+    "share-btn": "/components/share-btn/share-btn",
+    "dynamic": "/components/qizai-dynamic/Dynamic"
+  }
+}

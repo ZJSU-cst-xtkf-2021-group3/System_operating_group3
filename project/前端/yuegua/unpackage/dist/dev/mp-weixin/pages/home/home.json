@@ -2,9 +2,11 @@
   "navigationBarTitleText": "首页",
   "enablePullDownRefresh": false,
   "usingComponents": {
+    "tm-alerts": "/tm-vuetify/components/tm-alerts/tm-alerts",
     "u-icon": "/uview-ui/components/u-icon/u-icon",
     "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
     "u-swiper": "/uview-ui/components/u-swiper/u-swiper",
-    "text-card": "/components/TextCard"
+    "text-card": "/components/TextCard",
+    "activity-card": "/components/ActivityCard"
   }
 }

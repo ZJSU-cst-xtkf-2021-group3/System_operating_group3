@@ -9,7 +9,12 @@
     "pages/other/other",
     "pages/seting/seting",
     "pages/focus/focus",
-    "pages/message/message"
+    "pages/message/message",
+    "pages/topic/topic",
+    "pages/review/review",
+    "pages/draft/draft",
+    "pages/activity/activity",
+    "pages/load/load"
   ],
   "subPackages": [],
   "window": {
@@ -19,42 +24,44 @@
     "backgroundColor": "#F8F8F8"
   },
   "tabBar": {
-    "color": "#7A7E83",
-    "selectedColor": "#3cc51f",
-    "borderStyle": "black",
+    "color": "#B2B2B2",
+    "selectedColor": "#1890FF",
+    "borderStyle": "white",
     "backgroundColor": "#ffffff",
+    "height": "55px",
+    "spacing": "5px",
     "list": [
       {
         "pagePath": "pages/home/home",
-        "iconPath": "static/icons/home.png",
-        "selectedIconPath": "static/icons/home.png",
+        "iconPath": "static/icons/主页_2.png",
+        "selectedIconPath": "static/icons/主页_1.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/focus/focus",
-        "iconPath": "static/icons/focus.png",
-        "selectedIconPath": "static/icons/focus.png",
+        "iconPath": "static/icons/关注.png",
+        "selectedIconPath": "static/icons/关注2.png",
         "text": "关注"
       },
       {
-        "pagePath": "pages/publish/publish",
-        "iconPath": "static/icons/publish.png",
-        "selectedIconPath": "static/icons/publish.png",
-        "text": "发布"
-      },
-      {
         "pagePath": "pages/message/message",
-        "iconPath": "static/icons/message.png",
-        "selectedIconPath": "static/icons/message.png",
+        "iconPath": "static/icons/消息.png",
+        "selectedIconPath": "static/icons/消息2.png",
         "text": "消息"
       },
       {
         "pagePath": "pages/my/my",
-        "iconPath": "static/icons/my.png",
-        "selectedIconPath": "static/icons/my.png",
+        "iconPath": "static/icons/个人_1.png",
+        "selectedIconPath": "static/icons/个人.png",
         "text": "我的"
       }
-    ]
+    ],
+    "midButton": {
+      "width": "70px",
+      "height": "65px",
+      "iconWidth": "50px",
+      "iconPath": "static/icons/发布1.png"
+    }
   },
   "usingComponents": {}
 }

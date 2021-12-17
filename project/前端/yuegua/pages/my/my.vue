@@ -28,15 +28,15 @@
 				<view class="headerpanel-udata">
 					<view class="datablock" @click="focus=true">
 						<text style="font-size: 35rpx;font-weight: 550;">{{basicInfo.EXP}}</text>
-						<text style="font-size: 20rpx;">EXP</text>
+						<text style="font-size: 25rpx;">EXP</text>
 					</view>
 					<view class="datablock" @click="fans=true">
 						<text style="font-size: 35rpx;font-weight: 550;">{{basicInfo.Fcounts}}</text>
-						<text style="font-size: 20rpx;">粉丝</text>
+						<text style="font-size: 25rpx;">粉丝</text>
 					</view>
 					<view class="datablock">
 						<text style="font-size: 35rpx;font-weight: 550;">{{identity}}</text>
-						<text style="font-size: 20rpx;">认证</text>
+						<text style="font-size: 25rpx;">认证</text>
 					</view>
 				</view>
 			</view>
@@ -191,9 +191,9 @@
 	}
 	.headerpanel-udata{
 		display: flex;
-		padding: 20rpx 40rpx 10rpx 30rpx;
+		padding: 0rpx 40rpx 10rpx 30rpx;
 		.datablock{
-			margin: 20rpx 40rpx 20rpx 40rpx;
+			margin: 0rpx 40rpx 20rpx 40rpx;
 			display: flex;
 			flex-direction: column;
 			align-items: center;

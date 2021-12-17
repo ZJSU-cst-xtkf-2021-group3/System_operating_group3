@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "草稿箱",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
+    "review-card": "/components/ReviewCard"
+  }
+}

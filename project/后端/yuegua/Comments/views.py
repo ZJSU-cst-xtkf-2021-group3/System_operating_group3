@@ -62,7 +62,7 @@ def star(request):
 
         # counts
         c.star += 1
-        c.hotPoints = c.hotPoints + 0.1
+        c.hotPoints = round(c.hotPoints + 0.1,1)
         c.save()
 
         # 保存记录
@@ -92,6 +92,7 @@ def tip_off(request):
         c = Comments.objects.get(CID__exact=cid)
         Tip_off.objects.create(type=4, valueID=cid, UID=c.UID, points=10)
         c.tip_off += 1
+        c.hotPoints=round(c.hotPoints-0.1,1)
         c.save()
 
     except Exception as e:

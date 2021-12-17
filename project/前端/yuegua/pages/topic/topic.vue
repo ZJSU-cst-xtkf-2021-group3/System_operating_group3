@@ -2,7 +2,7 @@
 	<view class="page">
 
 
-		<view style="margin-top: 10rpx;font-size: 33rpx;font-weight: 550;">{{basicInfo.title}}</view>
+		<view style="margin-top: 20rpx; margin-left: 20rpx;margin-bottom: 20rpx; font-size: 40rpx;font-weight: 550;">{{basicInfo.title}}</view>
 		<view style="margin: 10rpx 0 10rpx 0;display: flex;align-items: center;justify-content: space-between;">
 			<view style="display: flex;align-items: center;">
 				<u-icon :label="basicInfo.hotPoints" labelColor="#A1A1A1" size="23" name="/static/icons/热搜.png"></u-icon>
@@ -10,34 +10,33 @@
 					<u-tag :text="basicInfo.Tag" size="mini" type="warning" shape="circle"></u-tag>
 				</view>				
 			</view>
-			<view>
-				<u-icon @click="showreport=true" style="margin-left: 20rpx;" name="info-circle" color="#AEAEAE" size="22"></u-icon>
+			<view style="display: flex;flex-direction: row; align-items: center;justify-content: space-between;">
+				<!-- 举报按钮 -->
+				<u-icon @click="set_tip_off_obj(1,TID)" style="margin-right: 20rpx;" name="warning" color="#AEAEAE" size="25"></u-icon>
+				<focusbuttom :focus="isfocusauthor" @clicked="subscribe()"style="margin-right: 20rpx;"></focusbuttom>	
 			</view>
 		</view>
 
 		<view class="udatabar">
-			<view style="display: flex;align-items: center;" @click="toOthersSpace(basicInfo.UID)">
-				<u-avatar :src="basicInfo.header" size="20"></u-avatar>
-				<text style="margin-left: 15rpx;font-size: 33rpx;">{{basicInfo.Author}}</text>
-				<text style="margin-left: 10rpx;font-size: 25rpx;color: #A1A1A1;">发布于 {{basicInfo.postTime}} 更新于 {{switchTime(basicInfo.lastUpDateTime)}} </text>
-				
+			<view style="display: flex;align-items: center; justify-content: space-between" @click="toOthersSpace(basicInfo.UID)">
+				<view style="display: flex;align-items: center; justify-content: space-between">
+					<u-avatar :src="basicInfo.header" size="20"></u-avatar>
+					<text style="margin-left: 15rpx;font-size: 33rpx;">{{basicInfo.Author}}</text>
+					
+				</view>
+			
 			</view>
 			<view>
-
-				<focusbuttom :focus="isfocusauthor" @clicked="isfocusauthor=!isfocusauthor"></focusbuttom>
+					<text style="font-size: 25rpx;color: #A1A1A1;">发布于 {{basicInfo.postTime}} 更新于 {{switchTime(basicInfo.lastUpDateTime)}} </text>
+				
 			</view>
 		</view>
 
-		<view style="margin: 10rpx 10rpx 20rpx 10rpx;display: flex;align-items: center;justify-content: center;">
-			<view style="padding: 10rpx 25rpx 10rpx 25rpx;border-radius: 50rpx;background-color: #fff;display: flex;align-items: center;justify-content: center;box-shadow: 0px 0px 2px 1px #e5e5e5;">
-				<uni-link color="#1890FF" href="https://uniapp.dcloud.io/" text="前往浏览"></uni-link>
-				<u-icon color="#1890FF" size="15"  name="arrow-rightward"></u-icon>
-			</view>				
-		</view>
+		
 		
 		<view style="padding: 20rpx 20rpx 0rpx 20rpx;">{{basicInfo.statement}}</view>
 			
-		<view v-if="votedata.isvote" style="padding: 10rpx;background-color: #fafafa;border-radius: 20rpx; margin-top: 20rpx;">
+		<view v-if="votedata.hasvoteOption" style="padding: 10rpx;background-color: #fafafa;border-radius: 20rpx; margin-top: 20rpx;">
 			<view>话题投票</view>
 
 			<view v-for="(item,index) in votelist" :key="index" :class="['selectbar',item.selected && !votedata.hasvote?'bar-selected':'bar-normal']" @click="clickedselections(index)">
@@ -56,13 +55,12 @@
 			<tm-button fab icon="../../static/icons/节点.png" icon-size="55" theme="bg-gradient-blue-accent" size="m" @click="addnode=true"></tm-button>
 			<!-- <u-icon name="plus" size="22" @click="addnode=true"></u-icon> -->
 		</view>
-		<view>
-			<!-- <tm-timeline :list="list" model="left" ></tm-timeline> -->
-		</view>
+		
+		<!-- jdxr -->
 		<view class="timenodepanel" >
 			<u-row>
 				<u-col span="1" >
-					<view class="timeline" :style="{height: timelineheight + 15 +'px'}">
+					<view class="timeline" :style="{height: this.timelineheight + 15 +'px'}">
 						<view ><u-icon name="play-circle-fill" color="#1890FF" size="20"></u-icon></view>
 						<u-line direction="col" :length="timelineheight-40" hairline color="#1890FF"></u-line>
 						<view ><u-icon name="more-circle-fill" color="#1890FF" size="20"></u-icon></view>
@@ -71,63 +69,71 @@
 				<u-col span="11">
 					<view class="timecontent" >
 						<view v-for="(item,index) in nodelist">
-							<NodeCard :nodedata="item" @clickedPanel="clickednode(item)" @clickedfavor="clickedfavor(item)"></NodeCard>							
+							<NodeCard :key="index" :nodedata="item" @clickedPanel="clickednode(item)" @clickedfavor="clickedfavor(item)"></NodeCard>							
 						</view>
 					</view>
 				</u-col>
 			</u-row>
 		</view>
-		<view class="ctrlbar">
-			<u-icon name="chat" size="24" label="评论" labelSize="16"></u-icon>
-			<text style="font-size: 26rpx;color: #999999;">12312条</text>
-		</view>
 
-		<view style="margin-bottom: 70rpx;">
-			<comment v-for="item in commentlist" :commentdata="item" @clickedfavor="clickedfavor(item)"></comment>
-			<view style="display: flex;align-items: center;justify-content: center;">
-				<u-loadmore isDot line status="nomore"></u-loadmore>
-			</view>
-		</view>
 
 		<view class="footerbar" >
 
-			<view style="width: 45vw;">
-				<u-search placeholder="请输入评论" searchIcon="" height="60" maxlength="30" :showAction="false" :clearabled="false" 
-				v-model="inputCommentWords" @search="postComments"></u-search>
+			<view style="width: 45vw; display: flex;flex-direction: row;align-items: center; " >
+				
+						<u-search placeholder="请输入评论" searchIcon="" height="60" maxlength="30" :showAction="false" :clearabled="false"
+						v-model="inputCommentWords" @search="postComments" style="margin-right: 20rpx;"></u-search>		
 			</view>
-			<view class="iconbtn">
-
+			
+			
+			<view class="iconbtn" style="display: flex;flex-direction: row;align-items: center; justify-content: space-around">
+				<view style="margin-right: 25rpx;">
 				<u-icon @click="Star(1,TID)" :name="isfavor?'thumb-up-fill':'thumb-up'" space="0" :color="isfavor?'#1890FF':'#AEAEAE'" :labelColor="isfavor?'#1890FF':'#AEAEAE'" size="25" :label="basicInfo.star"></u-icon>
-				<u-icon @click="Tip_off(1,TID)" :name="isfocus?'heart-fill':'heart'" space="0" :color="isfocus?'#1890FF':'#AEAEAE'" :labelColor="isfocus?'#1890FF':'#AEAEAE'" size="25" :label="basicInfo.tip_off"></u-icon>
-				<!-- <u-icon name="heart-fill" space="0" color="#AEAEAE" labelColor="#AEAEAE" label="123" size="23"></u-icon> -->
-				<u-icon name="share-square" space="0" color="#AEAEAE" labelColor="#AEAEAE" label="123" size="23"></u-icon>
+					
+				</view>
+<!-- 				<u-icon @click="Tip_off(1,TID)" :name="isfocus?'heart-fill':'heart'" space="0" :color="isfocus?'#1890FF':'#AEAEAE'" :labelColor="isfocus?'#1890FF':'#AEAEAE'" size="25" :label="basicInfo.tip_off"></u-icon>
+ -->				<!-- <u-icon name="heart-fill" space="0" color="#AEAEAE" labelColor="#AEAEAE" label="123" size="23"></u-icon> -->
+				<view style="margin-right: 25rpx;">
+					<u-icon name="share-square" space="0" color="#AEAEAE" labelColor="#AEAEAE" label="" size="23" @click="Share()"></u-icon>
+				</view>
 			</view>
 		</view>
 		
 
 		<!-- <view style="padding: 10rpx 20rpx 10rpx 20rpx;"><u-line color="#e7e6e4"></u-line></view> -->
-		<view class="commentbar">
-			<text style="font-weight: 550;">评论</text>
-			<u-icon name="chat" color="#2979ff" :label="totalComments" size="20"></u-icon>
-		</view>
-		<view v-for="(item,index) in commentslist" :key=index  class="commentcard">
-			<view class="commentdatabar">
-				<view style="display: flex;align-items: center;justify-content: center;" @click="toOthersSpace(item.UID)">
-					<u-avatar :src="item.header" size="20"></u-avatar>
-					<view style="margin-left: 10rpx;font-size: 30rpx;">{{item.Uname}}</view>
+		<!-- 老评论区 -->
+		<tm-gap></tm-gap>
+		
+			<view class="ctrlbar" style="margin-top: 20rpx 20rpx;">
+				<u-icon name="chat" size="24" label="评论" labelSize="16"></u-icon>
+				<text style="font-size: 26rpx;color: #999999;">{{totalComments}}条</text>
+			</view>
+		<tm-gap></tm-gap>
+		
+			<view v-for="(item,index) in commentslist" :key=index  class="commentcard">
+				<view class="commentdatabar">
+					<view style="display: flex;align-items: center;justify-content: center;" @click="toOthersSpace(item.UID)">
+						<u-avatar :src="item.header" size="20"></u-avatar>
+						<view style="margin-left: 10rpx;font-size: 30rpx;">{{item.Uname}}</view>
+					</view>
+					<view style="font-size: 20rpx;">{{switchTime(item.time)}}</view>
 				</view>
-				<view style="font-size: 20rpx;">{{switchTime(item.time)}}</view>
+				<view class="comment" >
+					{{item.value}}
+				</view>
+				<view class="commentfooterbar">
+					<u-icon name="thumb-down" color="#2979ff" :label="item.tip_off" size="20" @click="set_tip_off_obj(4,item.CID)" ></u-icon>
+					<u-icon name="thumb-up" color="#2979ff" :label="item.star" size="20"style="margin-right: 20rpx;"@click="Star(4,item.CID)"></u-icon>
+				</view>
+				<view style="display: flex;align-items: center;justify-content: center;">
+					<u-line color="#d6d7d9"></u-line>
+				</view>
 			</view>
-			<view class="comment" >
-				{{item.value}}
-			</view>
-			<view class="commentfooterbar">
-				<u-icon name="thumb-down" color="#2979ff" :label="item.tip_off" size="20" @click="Tip_off(4,item.CID)" ></u-icon>
-				<u-icon name="thumb-up" color="#2979ff" :label="item.star" size="20"style="margin-right: 20rpx;"@click="Star(4,item.CID)"></u-icon>
-				
-			</view>
-			
-		</view>
+			<tm-gap></tm-gap>
+			<tm-gap></tm-gap>
+			<tm-gap></tm-gap>
+		
+		 
 		<u-popup mode="bottom" :show="addnode" round closeable @close="addnode=false" :closeOnClickOverlay="false" >
 
 			<view style="height: 1100rpx;">
@@ -142,29 +148,30 @@
 				<view style="margin: 8rpx;position: relative;">
 					<view style="font-size: 24rpx;color: #1890FF;text-align: center;">{{curnode.nodetime}}</view>
 					<view style="position: absolute;top: 2rpx;right: 10rpx;">
-						<u-icon @click="showreport=true" style="margin-left: 20rpx;" name="info-circle" color="#AEAEAE" size="20"></u-icon>
+						<u-icon @click="set_tip_off_obj(curnode.type,curnode.ID)" style="margin-left: 20rpx;" name="info-circle" color="#AEAEAE" size="20"></u-icon>
 					</view>
 				</view>
 				<view style="margin: 10rpx;font-size: 33rpx;font-weight: 550;">{{curnode.title}}</view>
 				<view class="udatabar">
-					<view style="display: flex;align-items: center;">
-						<u-avatar :src="src" size="20"></u-avatar>
-						<text style="margin-left: 15rpx;font-size: 33rpx;">wuji</text>
+					<view style="display: flex;align-items: center;"@click="toOthersSpace(curnode.UID)">
+						<u-avatar :src="curnode.header" size="20"></u-avatar>
+						<text style="margin-left: 15rpx;font-size: 33rpx;">{{curnode.Uname}}</text>
 						<text style="margin-left: 30rpx;font-size: 25rpx;color: #A1A1A1;">· {{curnode.time}}</text>
 					</view>
-					<view>
+					<!-- <view>
 						<focusbuttom :focus="isfocusnodeauthor" @clicked="isfocusnodeauthor=!isfocusnodeauthor"></focusbuttom>
-					</view>
+					</view> -->
 				</view>
 				<view style="padding: 20rpx 20rpx 20rpx 20rpx;">
 					<view style="margin-bottom: 10rpx;">{{curnode.content}}</view>
-					<view v-if="curnode.type == '引用'" style="margin-top: 20rpx;">
-						<u--text type="info" :text="curnode.src" lines=3 size="10"></u--text>
+					<view v-if="curnode.typeName == '引用'" style="margin-top: 20rpx;">
+						<u--text type="info" :text="curnode.src" lines=3 size="20"></u--text>
 					</view>
-					<view v-if="curnode.type == '爆料' && curnode.imglist.length > 0"><u-album :urls="curnode.imglist" multipleSize="75"></u-album></view>
+					<view v-if="curnode.typeName == '爆料' && curnode.imglist.length > 0"><u-album :urls="curnode.imglist" multipleSize="75"></u-album></view>
 				</view>
-				<view v-if="curnode.type == '引用'" style="margin: 10rpx 10rpx 0rpx 10rpx;display: flex;align-items: center;justify-content: center;">
+				<view v-if="curnode.typeName == '引用'" style="margin: 10rpx 10rpx 0rpx 10rpx;display: flex;align-items: center;justify-content: center;">
 					<view style="padding: 10rpx 25rpx 10rpx 25rpx;border-radius: 50rpx;background-color: #fff;display: flex;align-items: center;justify-content: center;box-shadow: 0px 0px 2px 1px #e5e5e5;">
+						
 						<uni-link color="#1890FF" :href="curnode.src" text="前往浏览"></uni-link>
 						<u-icon color="#1890FF" size="15"  name="arrow-rightward"></u-icon>
 					</view>
@@ -178,7 +185,7 @@
 					<u--textarea v-model="reportdata" placeholder="请输入反馈原因" height="100" maxlength="100" count></u--textarea>
 				</view>
 				<view style="margin-bottom: 20rpx;display: flex;align-items: center;justify-content: center;">
-					<tm-button theme="bg-gradient-blue-accent" width="130" height="60" block @click="">举报</tm-button>
+					<tm-button theme="bg-gradient-blue-accent" width="130" height="60" block @click="Tip_off()">举报</tm-button>
 				</view>
 			</view>
 		</u-popup>
@@ -198,101 +205,36 @@
 	export default {
 		data() {
 			return {
+				tip_off_selecter:{type:0,id:0},
 				TID:0,
 				basicInfo:{},
 				totalVotes:0,
 				totalComments:0,
 				voteslist:[],
 				commentslist:[],
-				eventslist:[],
 				percentage:50,
 				inputCommentWords:"",
-				hasvoteOption:false,
 				showLoginAlert:false,
 				addnode:false,
 				shownode:false,
-				isfocusauthor:true,
-				isfocusnodeauthor:false,
+				isfocusauthor:false,
 				showreport:false,
 				isfavor:false,
-				favorcnt:98,
-				isfocus:false,
-				focuscnt:653,
 				reportdata:'',
 				timelineheight:20,
 				src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',
 				tabsactive:0,
 				tabslist:['引用','爆料'],
-				votedata:{isvote:true,hasvote:false},
+				votedata:{hasvoteOption:false,hasvote:false},
 				voteselected:false,
 				votelist:[
 					{content:'同意',count:10,percent:10,selected:false},
 					{content:'不同意',count:90,percent:90,selected:false},
 				],
-				list:[
-						{
-							title:'',
-							content:'我是内容我是内容我是内容',
-							time:"2020年7月",
-							color:"blue",
-							borderColor:'blue'
-						},
-						{
-							title:'说明文字',
-							content:'我是内容我是内容我是内容',
-							time:"2019年7月",
-							color:"blue",
-							borderColor:'blue',
-						},
-						{
-							title:'说明文字',
-							content:'我是内容我是内容我是内容',
-							time:"2018年7月",
-							color:"blue",
-							borderColor:'blue',
-						},
-						{
-							title:'说明文字',
-							content:'我是内容我是内容',
-							time:"2017年7月",
-							color:"blue",
-							borderColor:'blue',
-						},
-					],
+				
 				curnode:{},
-				nodelist:[
-					{title:'标题1',content:'这是内容1',nodetime:'2021年12月12日',time:'12:08',type:'爆料',imglist:['https://cdn.uviewui.com/uview/album/1.jpg',
-                    'https://cdn.uviewui.com/uview/album/2.jpg',
-                    'https://cdn.uviewui.com/uview/album/3.jpg',
-                    'https://cdn.uviewui.com/uview/album/4.jpg',
-                    'https://cdn.uviewui.com/uview/album/5.jpg',
-                    'https://cdn.uviewui.com/uview/album/6.jpg',
-                    'https://cdn.uviewui.com/uview/album/7.jpg',
-                    'https://cdn.uviewui.com/uview/album/8.jpg',
-                    'https://cdn.uviewui.com/uview/album/9.jpg',
-                    'https://cdn.uviewui.com/uview/album/10.jpg',],isfavor:false,favorcnt:142},
-					{title:'标题2',content:'这是内容2',nodetime:'2021年12月18日',time:'12:08',type:'爆料',imglist:['https://cdn.uviewui.com/uview/album/1.jpg'],isfavor:true,favorcnt:142},
-					{title:'标题3',content:'这是内容3',nodetime:'2021年12月12日',time:'13:08',type:'引用',src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',isfavor:false,favorcnt:142},
-					{title:'标题3',content:'这是内容3',nodetime:'2021年12月12日',time:'13:08',type:'引用',src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',isfavor:false,favorcnt:142},
-					{title:'标题3',content:'这是内容3',nodetime:'2021年12月12日',time:'13:08',type:'引用',src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',isfavor:false,favorcnt:142},
-				],
-				commentlist:[
-					{imgsrc:'https://cdn.uviewui.com/uview/album/5.jpg',uname:'wuji1',time:'12:06',isfavor:false,favorcnt:987,comment:'天气真好1'},
-					{imgsrc:'https://cdn.uviewui.com/uview/album/8.jpg',uname:'wuji2',time:'1天前',isfavor:false,favorcnt:54,comment:'天气真好2天气真好2天气真好2天气真好2天气真好2'},
-					{imgsrc:'https://cdn.uviewui.com/uview/album/3.jpg',uname:'wuji3',time:'12月11日',isfavor:false,favorcnt:127,comment:'天气真好3'},
-				],
-				albumsrcs:[
-                    'https://cdn.uviewui.com/uview/album/1.jpg',
-                    'https://cdn.uviewui.com/uview/album/2.jpg',
-                    'https://cdn.uviewui.com/uview/album/3.jpg',
-                    'https://cdn.uviewui.com/uview/album/4.jpg',
-                    'https://cdn.uviewui.com/uview/album/5.jpg',
-                    'https://cdn.uviewui.com/uview/album/6.jpg',
-                    'https://cdn.uviewui.com/uview/album/7.jpg',
-                    'https://cdn.uviewui.com/uview/album/8.jpg',
-                    'https://cdn.uviewui.com/uview/album/9.jpg',
-                    'https://cdn.uviewui.com/uview/album/10.jpg',
-                ],
+				nodelist:[],
+				
 			};
 		},
 		methods:{
@@ -316,17 +258,11 @@
 				this.curnode = item
 			},
 
-			clickedfavor(item){
-				item.isfavor=!item.isfavor
-				item.favorcnt+=(item.isfavor?1:-1)
-			},
 			clickedfavortopic(){
 				this.Star(1,this.TID)
 			},
-			clickedfocustopic(){
-				this.isfocus=!this.isfocus
-				this.focuscnt+=(this.isfocus?1:-1)
-				this.Tip_off(1,this.TID)
+			moveHandle(){
+				return false
 			},
 			switchTime(time){
 				var now = parseInt(new Date().getTime()/1000);
@@ -346,7 +282,7 @@
 			subscribe(){
 				console.log("按了subscribe")
 				//取消关注
-				if(this.isfocus){
+				if(this.isfocusauthor){
 					uni.request({
 					    url: 'http://101.37.175.115/MyCenter/del/subscribe?TID='+this.TID,
 						header: {
@@ -358,7 +294,7 @@
 						   if(res.data.res=="ok"){
 							   console.log("取消关注")
 							   this.$refs.toast.show({model:'success',wait:1000,lable:"取消关注成功"})
-							   this.isfocus=false
+							   this.isfocusauthor=false
 						   }
 						   else{
 							   this.toastHandler(res.data.res)
@@ -367,7 +303,7 @@
 							
 					});
 				}
-				if(!this.isfocus){
+				if(!this.isfocusauthor){
 					uni.request({
 					    url: 'http://101.37.175.115/Topic/subscribe?TID='+this.TID,
 						header: {
@@ -379,7 +315,7 @@
 						   if(res.data.res=="ok"){
 							   console.log("关注成功")
 							   this.$refs.toast.show({model:'success',wait:1000,label:"取消关注成功"})
-							   this.isfocus=true
+							   this.isfocusauthor=true
 						   }
 						   else{
 							   this.toastHandler(res.data.res)
@@ -442,6 +378,7 @@
 						   }
 					    }	
 					});
+					this.isfavor=true
 					this.freshData(1)
 					
 				}
@@ -491,9 +428,18 @@
 				
 			},
 			//举报
-			Tip_off(type,id){
+			set_tip_off_obj(type,id){
+				this.tip_off_selecter.type=type
+				this.tip_off_selecter.id=id
+				this.showreport=true
+			},
+			
+			Tip_off(){
+				var type=this.tip_off_selecter.type
+				var id=this.tip_off_selecter.id
 				//对话题
 				if(type==1){
+					
 					uni.request({
 					    url: 'http://101.37.175.115/Topic/tip-off?TID='+id,
 						header: {
@@ -504,6 +450,8 @@
 					    success: (res) => {
 						   if(res.data.res=="ok"){
 							   console.log("举报成功")
+							   this.showreport=false
+							   
 							   this.$refs.toast.show({model:'success',wait:1000,label:"反馈成功！"})
 						   }
 						   else{
@@ -512,28 +460,32 @@
 					    }	
 					});
 					this.freshData(1)
+					
 				}
 				//对引用
-				if(type==2 || type==3){
-					uni.request({
-					    url: 'http://101.37.175.115/Event/tip-off??ID='+id+'&type='+type,
-						header: {
-						        'Content-Type': 'application/x-www-form-urlencoded' 
-						    },
-							method:"GET",
-							
-					    success: (res) => {
-						   if(res.data.res=="ok"){
-							   console.log("举报成功")
-							   this.$refs.toast.show({model:'success',wait:1000,label:"反馈成功！"})
-						   }
-						   else{
-							   this.toastHandler(res.data.res)
-						   }
-					    }	
-					});
-					this.freshData(2)
-				}
+					if(type==2 || type==3){
+						uni.request({
+							url: 'http://101.37.175.115/Event/tip-off?ID='+id+'&type='+type,
+							header: {
+									'Content-Type': 'application/x-www-form-urlencoded' 
+								},
+								method:"GET",
+								
+							success: (res) => {
+							   if(res.data.res=="ok"){
+								   console.log("举报成功")
+								   this.showreport=false
+								   this.shownode=false
+								   this.$refs.toast.show({model:'success',wait:1000,label:"反馈成功！"})
+							   }
+							   else{
+								   this.toastHandler(res.data.res)
+							   }
+							}	
+						});
+						this.freshData(2)
+						
+					}
 				//对评论
 				if(type==4){
 					uni.request({
@@ -546,6 +498,7 @@
 					    success: (res) => {
 						   if(res.data.res=="ok"){
 							   console.log("举报成功")
+							   this.showreport=false
 							   this.$refs.toast.show({model:'success',wait:1000,label:"反馈成功！"})
 						   }
 						   else{
@@ -554,6 +507,7 @@
 					    }	
 					});
 					this.freshData(4)
+					
 				}
 			},
 			
@@ -591,10 +545,10 @@
 					       if(res.data.res=="ok"){
 							   this.basicInfo=res.data.data
 							   if (res.data.data.isSubscribe){
-								   this.isfocus=true
+								   this.isfocusauthor=true
 							   }
 							   else{
-								   this.isfocus=false
+								   this.isfocusauthor=false
 							   }
 						   }
 						   else{
@@ -634,7 +588,71 @@
 					url: '../other/other?uid='+uid
 				})
 			},
-			
+			Share(){
+				var Shareconf={
+							title: this.basicInfo.title + "快来跟我看看吧", 		// 分享标题[非必填]
+							desc: '悦卦，一款次世代追瓜App', 		// 描述[非必填]
+							imageUrl: this.basicInfo.mainPic, 	// 分享图片[非必填]
+							path: '', 		// 分享路径[非必填]
+							copyLink: '', 	// 复制链接[非必填]
+							query: {w:123},	// 分享参数[非必填]
+						}
+				uni.$tm.vx.commit('setWxShare',Shareconf)
+			},
+			format2list(i){
+				if(i.type==2){
+					var tmp =this.switchTime(i.time)
+					var obj={title:i.title,
+							content:i.statement,
+							nodetime:i.eventTime,
+							time:tmp,
+							typeName:'引用',
+							type:2,
+							ID:i.ID,
+							imglist:[],
+							favorcnt:i.star,
+							header:i.header,
+							src:i.url,
+							star:i.star,
+							Uname:i.Uname,
+							UID:i.UID,
+							tip_off:i.tip_off
+							}
+							
+					this.nodelist.push(obj)
+				}
+				if(i.type==3){
+					var tmp =this.switchTime(i.time)
+					var obj={title:i.title,
+							content:i.text,
+							nodetime:i.eventTime,
+							time:tmp,
+							typeName:'爆料',
+							type:3,
+							ID:i.ID,
+							imglist:i.pics,
+							favorcnt:i.star,
+							header:i.header,
+							src:i.url,
+							Uname:i.Uname,
+							star:i.star,
+							tip_off:i.tip_off
+							}
+							
+					this.nodelist.push(obj)
+				}
+			},
+			//投票数据格式化
+			loadVotelist(i,total){
+				var obj={
+					content:i.item,
+					ID:i.ID,
+					count:i.counts,
+					selected:false,
+					percent:parseInt(i.counts*100/total),
+				}
+				this.votelist.push(obj)
+			}
 		},
 		onLoad(option){
 			//接收传参TID
@@ -654,10 +672,10 @@
 			       if(res.data.res=="ok"){
 					   this.basicInfo=res.data.data
 					   if (res.data.data.isSubscribe){
-						   this.isfocus=true
+						   this.isfocusauthor=true
 					   }
 					   else{
-						   this.isfocus=false
+						   this.isfocusauthor=false
 					   }
 				   }
 				   else{
@@ -677,13 +695,16 @@
 			    success: (res) => {
 			       if(res.data.res=="ok"){
 					   if(res.data.data!=[]){
-						   this.voteslist=res.data.data
+						   this.votedata.hasvoteOption=true
 						   this.totalVotes=res.data.total
-						   this.hasvoteOption=true
-						   
+						   var len=res.data.data.length
+						    for (var i=0;i<len;++i){
+								this.loadVotelist(res.data.data[i],res.data.total)
+							}
+								console.log(this.votelist)
 					   }
 					   else{
-						   this.hasvotes=false
+						   this.votedata.hasvoteOption=false
 					   }
 					  
 				   }else{
@@ -719,7 +740,11 @@
 					
 			    success: (res) => {
 			       if(res.data.res=="ok"){
-						this.eventslist=res.data.data
+					   var len= res.data.data.length
+					   
+						for(var i = 0; i < len; i++){
+							this.format2list(res.data.data[i])
+						}
 				   }
 				   else{
 					   this.toastHandler(res.data.res)
@@ -736,6 +761,14 @@
 			  this.timelineheight += data.height
 			  // console.log(this.timelineheight)
 			}).exec();
+			
+			uni.$on('StarNode',(data)=>{  
+					this.Star(data.type,data.id)
+			    })
+			
+		},
+		onUnload() {
+			uni.$off('StarNode');
 		},
 		
 		components:{
@@ -840,16 +873,17 @@
 }
 .commentcard{
 	padding: 10rpx;
-	margin-bottom: 30px;
+	margin-bottom: 10rpx;
 	.commentdatabar{
 		display: flex;
 		@extend %betweencenter;
 	}
 	.comment{
-		padding: 15rpx;
+		padding: 10rpx;
 	}
 	.commentfooterbar{
 		margin-right: 10rpx;
+		margin-bottom: 5rpx;
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;

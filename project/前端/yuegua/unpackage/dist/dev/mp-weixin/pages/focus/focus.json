@@ -2,9 +2,6 @@
   "navigationBarTitleText": "关注",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "u-scroll-list": "/uview-ui/components/u-scroll-list/u-scroll-list",
-    "u-avatar": "/uview-ui/components/u-avatar/u-avatar",
-    "u-line": "/uview-ui/components/u-line/u-line",
-    "u-tabs": "/uview-ui/components/u-tabs/u-tabs"
+    "tm-tabs": "/tm-vuetify/components/tm-tabs/tm-tabs"
   }
 }

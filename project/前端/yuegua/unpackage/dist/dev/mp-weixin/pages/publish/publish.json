@@ -2,10 +2,6 @@
   "navigationBarTitleText": "发布",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "u--input": "/uview-ui/components/u--input/u--input",
-    "u--textarea": "/uview-ui/components/u--textarea/u--textarea",
-    "uni-combox": "/uni_modules/uni-combox/components/uni-combox/uni-combox",
-    "u-upload": "/uview-ui/components/u-upload/u-upload",
-    "u-button": "/uview-ui/components/u-button/u-button"
+    "pulish": "/components/Publish"
   }
 }

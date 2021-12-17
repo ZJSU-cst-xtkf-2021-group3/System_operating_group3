@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "审核进度",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "u-alert": "/uview-ui/components/u-alert/u-alert",
+    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
+    "review-card": "/components/ReviewCard"
+  }
+}

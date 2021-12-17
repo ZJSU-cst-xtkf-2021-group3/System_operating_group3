@@ -4,7 +4,7 @@
   "usingComponents": {
     "u-icon": "/uview-ui/components/u-icon/u-icon",
     "u--text": "/uview-ui/components/u--text/u--text",
-    "u-button": "/uview-ui/components/u-button/u-button",
-    "u-popup": "/uview-ui/components/u-popup/u-popup"
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "focusbuttom": "/components/focusbuttom"
   }
 }

@@ -3,6 +3,8 @@
 		<view class="searchbar">
 			<u-search placeholder="请输入内容" v-model="searchkeyword" height="60" maxlength="30" :focus="true" @search="onsearch" @custom="onsearch"></u-search>
 		</view>
+		<tm-gap></tm-gap>
+		<tm-gap></tm-gap>
 		<view class="hotsearch">
 			<u-icon label="热搜榜" size="25" name="/static/icons/热搜.png"></u-icon>
 			<view style="padding: 5rpx 30rpx 5rpx 30rpx;"><u-line color="#d6d7d9"></u-line></view>
@@ -14,6 +16,8 @@
 				
 			</view>
 		</view>
+		<tm-gap></tm-gap>
+		<tm-gap></tm-gap>
 		<view class="searchhistory">
 			<view>
 				<text>搜索记录</text>

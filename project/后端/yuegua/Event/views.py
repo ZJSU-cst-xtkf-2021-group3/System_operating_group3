@@ -30,10 +30,10 @@ def all(request):
                 data['title']=i.title
                 data['statement']=i.statement
                 data['star']=i.star
-                data['tip-off']=i.tip_off
+                data['tip_off']=i.tip_off
                 data['isPostByEditor']=i.isPostByEditor
                 data['url']=i.url
-                data['eventTime']=i.eventTime.timestamp()
+                data['eventTime']=tools.stamp2strtime(i.eventTime.timestamp())
                 List.append(data)
 
         for i in revelationList:
@@ -50,11 +50,11 @@ def all(request):
                 data['header']=tools.host+u.header.url
                 data['time'] = i.time
                 data['title'] = i.title
-                data['statement'] = i.statement
+                data['text'] = i.text
                 data['star'] = i.star
-                data['tip-off'] = i.tip_off
+                data['tip_off'] = i.tip_off
                 data['isPostByEditor'] = i.isPostByEditor
-                data['eventTime'] = i.eventTime.timestamp()
+                data['eventTime'] = tools.stamp2strtime(i.eventTime.timestamp())
                 data['mainPic']=tools.host+Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
                 List.append(data)
 

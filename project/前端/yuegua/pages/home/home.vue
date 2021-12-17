@@ -11,7 +11,7 @@
 			
 			<!-- <tm-alerts v-if="haveMsg" :label="this.Msg" left-icon="icon-paperplane-fill" close></tm-alerts> -->
 			<u-swiper :list="list3" indicator indicatorMode="dot" interval="4000" circular ></u-swiper>
-			<scroll-view scroll-y="true" class="scroll-Y" style="height: 50vh;"   @touchmove.stop.prevent="moveHandle">
+			<scroll-view scroll-y="true" class="scroll-Y" style="height: 81vh;"   @touchmove.stop.prevent="moveHandle">
 				<TextCard v-for="(item,index) in topicList" :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
 						   :likecnt="String(item.star)" :readcnt="String(item.Fcounts)" :title="item.title" :uname="item.Uname" :dislikecnt="String(item.tip_off)"
 						   :time=switchTime(item.lastUpDateTime) :tag=item.Tag :ID="item.TID"
@@ -29,7 +29,7 @@
 				@click="topicselected=false"></u-tag>
 			</view> -->
 			
-			<scroll-view scroll-y="true" class="scroll-Y" style="height: 70vh;"  @scrolltolower="onReachScollBottom(0)" @touchmove.stop.prevent="moveHandle">
+			<scroll-view scroll-y="true" class="scroll-Y" style="height: 81vh;"  @scrolltolower="onReachScollBottom(0)" @touchmove.stop.prevent="moveHandle">
 				<TextCard v-for="(item,index) in topicList" :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
 						   :likecnt="String(item.star)" :readcnt="String(item.Fcounts)" :title="item.title" :uname="item.Uname" :dislikecnt="String(item.tip_off)"
 						   :time=switchTime(item.lastUpDateTime) :tag=item.Tag :ID="item.TID"
@@ -39,7 +39,7 @@
 		</view>
 		
 		<view v-show="showfkinds">
-			<scroll-view scroll-y="true" class="scroll-Y" style="height: 70vh;"  @scrolltolower="onReachScollBottom(1)" @touchmove.stop.prevent="moveHandle">
+			<scroll-view scroll-y="true" class="scroll-Y" style="height: 81vh;"  @scrolltolower="onReachScollBottom(1)" @touchmove.stop.prevent="moveHandle">
 				<TextCard v-for="(item,index) in topicList" :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
 						   :likecnt="String(item.star)" :readcnt="String(item.Fcounts)" :title="item.title" :uname="item.Uname" :dislikecnt="String(item.tip_off)"
 						   :time=switchTime(item.lastUpDateTime) :tag=item.Tag :ID="item.TID"

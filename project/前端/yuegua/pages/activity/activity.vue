@@ -17,7 +17,7 @@
 			<u-subsection :list="list_choose" @change="sectionChange" mode="subsection" :current="current" activeColor="#f59189" inactiveColor="#ffffff"></u-subsection>
 		    <u-back-top :scrollTop="scrollTop" :mode="mode" :iconStyle="iconStyle" :customStyle="customStyle"></u-back-top>
 			<u-gap height="5" bgColor="#ebebeb"></u-gap>
-		    <Dynamic v-for="(item,index) in list" key="id" 
+		    <Dynamic v-for="(item,index) in list" :key="index" 
 			    :imgList="item.imgList" 
 			    :avatar="item.avatar"
 			    :name="item.name"
