@@ -101,6 +101,7 @@ def del_subscribe(request):
         slist.delete()
         t=Topic.objects.get(TID__exact=tid)
         t.Fcounts-=1
+        t.hotPoints-=0.2
         t.save()
 
     except Exception as e:

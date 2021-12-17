@@ -129,9 +129,9 @@ def Cache2(request):
         return JsonResponse(result)
 
     token = str(uid) + 'Fbot'
-    cache.set(token,"测试博主更新", 30)
+    cache.set(token,"您关注的admin博主更新啦！", 21)
     token2 = str(uid) + 'Nevent'
-    cache.set(token2,"有新结点",30)
+    cache.set(token2,"测试话题有新结点啦！",21)
 
     result['res'] = 'ok'
     return JsonResponse(result)

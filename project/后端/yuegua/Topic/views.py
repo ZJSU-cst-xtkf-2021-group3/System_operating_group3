@@ -136,12 +136,14 @@ def show_topic_vote(request):
     tid=int(request.GET.get('TID'))
     try:
         data=[]
+        total=0
         votesList=topic_vote.objects.filter(TID__exact=tid)
         for i in votesList:
             tmp={}
             tmp['ID']=i.ID
             tmp['item']=i.item
             tmp['counts']=i.counts
+            total+=i.counts
             data.append(tmp)
         result['data']=data
     except Exception as e :
@@ -149,6 +151,7 @@ def show_topic_vote(request):
         result['res']='failed'
         return JsonResponse(result)
 
+    result['total']=total
     result['res']='ok'
     return JsonResponse(result)
 
@@ -177,27 +180,41 @@ def show_topic_info(request):
         'res': ''
     }
     try:
-        data={}
-        tid=int(request.GET.get('TID'))
-        t=Topic.objects.get(TID__exact=tid)
+        data = {}
+        uid=request.session.get("uid",-1)
+        tid = int(request.GET.get('TID'))
+        t = Topic.objects.get(TID__exact=tid)
+        if uid==-1:
+            data['isSubscribe']=False
+        else:
+            exist = userFollow_topic.objects.filter(UID__exact=uid, FTID__exact=tid)
+            if exist:
+                data['isSubscribe']=True
+            else:
+                data['isSubscribe']=False
+
+
         if t.status==False:
             result['res'] = 'refused'
             return JsonResponse(result)
         u=User.objects.get(UID__exact=t.UID)
         data['TID']=t.TID
         data['Author']=u.Uname
+        data['header']=tools.host+u.header.url
+        data['UID']=u.UID
         data['Category']=t.category
         data['title']=t.title
         data['statement']=t.statement
-        data['postTime']=tools.stamp2strtime(t.time)
+        data['postTime']=tools.stamp2strtimeLite(t.time)
         data['star']=t.star
-        data['tip-off']=t.tip_off
+        data['tip_off']=t.tip_off
         data['isPostByEditor']=t.isPostByEditor
-        data['lastUpDateTime']=tools.stamp2strtime(t.lastUpDateTime)
+        data['lastUpDateTime']=t.lastUpDateTime
         data['Fcounts']=t.Fcounts
         data['Tag']=t.Tag
         data['hotPoints']=t.hotPoints
         data['mainPic']=tools.host+t.mainPic.url
+
         result['data']=data
 
     except Exception as e:

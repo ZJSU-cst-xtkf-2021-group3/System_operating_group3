@@ -15,12 +15,14 @@ def show_comments(request):
     try:
         commentsList=Comments.objects.filter(Q(TID__exact=TID),Q(status__exact=True)).order_by('-star')
         for i in commentsList:
+            u=User.objects.get(UID__exact=i.UID)
             data={}
             data['CID']=i.CID
             data['UID']=i.UID
-            data['Uname']=User.objects.get(UID__exact=i.UID).Uname
+            data['Uname']=u.Uname
+            data['header']=tools.host+u.header.url
             data['value']=i.value
-            data['time']=tools.stamp2strtime(i.time)
+            data['time']=i.time
             data['star']=i.star
             data['tip_off']=i.tip_off
             List.append(data)
@@ -28,6 +30,7 @@ def show_comments(request):
         print(e)
         result['res']='failed'
         return JsonResponse(result)
+    result['total']=len(commentsList)
     result['data']=List
     result['res'] = 'ok'
     return JsonResponse(result)

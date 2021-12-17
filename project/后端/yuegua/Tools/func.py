@@ -80,8 +80,8 @@ def addEXP(uid,exp):
 
 def stamp2strtime(stamp):
     return time.strftime('%Y年%m月%d日 %H:%M:%S', time.localtime(stamp))
-
-
+def stamp2strtimeLite(stamp):
+    return time.strftime('%Y年%m月%d日', time.localtime(stamp))
 # def img2base64(url:str):
 #     with open(str(Set.BASE_DIR)+url, 'rb') as f:
 #         code2=base64.b64encode(f.read())

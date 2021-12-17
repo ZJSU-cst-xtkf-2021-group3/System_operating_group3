@@ -18,36 +18,45 @@ def all(request):
         revelationList=Revelation.objects.filter(Q(TID__exact=tid),Q(status__exact=True))
 
         for i in eventsList:
-            data={}
-            data['type']=i.type
-            data['ID']=i.EID
-            data['Uname']=User.objects.get(UID__exact=i.UID).Uname
-            data['time']=tools.stamp2strtime(i.time)
-            data['title']=i.title
-            data['statement']=i.statement
-            data['star']=i.star
-            data['tip-off']=i.tip_off
-            data['isPostByEditor']=i.isPostByEditor
-            data['url']=i.url
-            data['eventTime']=i.eventTime.timestamp()
-            List.append(data)
+            if i.status:
+                u=User.objects.get(UID__exact=i.UID)
+                data={}
+                data['type']=i.type
+                data['ID']=i.EID
+                data['Uname']=u.Uname
+                data['UID']=u.UID
+                data['header']=tools.host+u.header.url
+                data['time']=i.time
+                data['title']=i.title
+                data['statement']=i.statement
+                data['star']=i.star
+                data['tip-off']=i.tip_off
+                data['isPostByEditor']=i.isPostByEditor
+                data['url']=i.url
+                data['eventTime']=i.eventTime.timestamp()
+                List.append(data)
+
         for i in revelationList:
-
-            data={}
-            data['type'] = i.type
-            data['ID'] = i.RID
-            data['Uname'] = User.objects.get(UID__exact=i.UID).Uname
-            data['time'] = tools.stamp2strtime(i.time)
-            data['title'] = i.title
-            data['statement'] = i.statement
-            data['star'] = i.star
-            data['tip-off'] = i.tip_off
-            data['isPostByEditor'] = i.isPostByEditor
-            data['eventTime'] = i.eventTime.timestamp()
-            data['mainPic']=tools.host+Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
-            List.append(data)
-
-
+            if i.status:
+                u=User.objects.get(UID__exact=i.UID)
+                data={}
+                pics = Revelation_Pic.objects.filter(RID__exact=i.RID)
+                picsList = [tools.host + i.img.url for i in pics]
+                data['pics']=picsList
+                data['type'] = i.type
+                data['ID'] = i.RID
+                data['Uname'] = u.Uname
+                data['UID']=u.UID
+                data['header']=tools.host+u.header.url
+                data['time'] = i.time
+                data['title'] = i.title
+                data['statement'] = i.statement
+                data['star'] = i.star
+                data['tip-off'] = i.tip_off
+                data['isPostByEditor'] = i.isPostByEditor
+                data['eventTime'] = i.eventTime.timestamp()
+                data['mainPic']=tools.host+Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
+                List.append(data)
 
     except Exception as e:
         print(e)

@@ -46,6 +46,7 @@ def cat_followers(request):
         for i in flist:
             u=User.objects.get(UID__exact=i.UID)
             tmp={}
+            tmp['UID']=u.UID
             tmp['uname']=u.Uname
             tmp['header']=tools.host+u.header.url
             tmp['introduction']=u.introduction
