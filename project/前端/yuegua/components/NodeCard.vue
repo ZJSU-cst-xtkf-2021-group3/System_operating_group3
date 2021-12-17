@@ -17,10 +17,8 @@
 			<view class="timenodecardtag">{{nodedata.type}}</view>
 			<view style="position: absolute;top: 53rpx;right: 10rpx;font-size: 20rpx;color: #B2B2B2;">{{nodedata.time}}</view>			
 		</view>
-
 		<view class="footerbar">
-			<u-icon name="thumb-up" space="0" color="#AEAEAE" labelColor="#AEAEAE" size="23" label="123"></u-icon>
-			
+			<u-icon @click="clickedfavor" :name="nodedata.isfavor?'thumb-up-fill':'thumb-up'" space="0" :color="nodedata.isfavor?'#1890FF':'#AEAEAE'" labelColor="#AEAEAE" size="23" :label="nodedata.favorcnt"></u-icon>
 		</view>
 	</view>
 </template>
@@ -31,7 +29,7 @@
 		props:{
 			nodedata:{type:Object}
 		},
-		emits:['clickedPanel'],
+		emits:['clickedPanel','clickedfavor'],
 		data() {
 			return {
 				
@@ -40,6 +38,9 @@
 		methods:{
 			clickpanel(){
 				this.$emit('clickedPanel')
+			},
+			clickedfavor(){
+				this.$emit('clickedfavor')
 			}
 		}
 	}
@@ -52,7 +53,7 @@
 	border-radius: 20rpx;
 	margin-top: 20rpx;
 	position: relative;
-	background-color: #fff;
+	background-color: #fcfcfc;
 	.timenodecardtag{
 		height: 40rpx;width: 80rpx;
 		text-align: center;line-height: 40rpx;

@@ -10,7 +10,7 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "首页",
-		        "enablePullDownRefresh": true
+		        "enablePullDownRefresh": false
 		    }
 		    
 		},
@@ -19,7 +19,7 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "搜索",
-		        "enablePullDownRefresh": true
+		        "enablePullDownRefresh": false
 		    }
 		}
         ,{
@@ -102,6 +102,7 @@
             {
                 "navigationBarTitleText": "话题",
                 "enablePullDownRefresh": false
+
             }
             
         }
@@ -174,8 +175,7 @@
 			"width":"70px",
 			"height":"65px",
 			"iconWidth":"50px",
-			"iconPath": "static/icons/发布1.png",
-			"backgroundImage":"static/icons/发布3.png"
+			"iconPath": "static/icons/发布1.png"
 		} 
 		
 	},
