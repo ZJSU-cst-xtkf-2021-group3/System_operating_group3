@@ -49,8 +49,9 @@
 			},
 			star(Type,ID){
 				this.isfavor=true
-				this.starCount+=1
 				uni.$emit('StarNode',{type:Type,id:ID})
+				this.starCount+=1
+				
 				// topic.methods.Star(this.nodedata.type,this.nodedata.ID)
 			},
 			

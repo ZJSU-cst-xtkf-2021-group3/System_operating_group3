@@ -26,11 +26,11 @@
 					</view>
 				</view>
 				<view class="headerpanel-udata">
-					<view class="datablock" @click="focus=true">
+					<view class="datablock">
 						<text style="font-size: 35rpx;font-weight: 550;">{{basicInfo.EXP}}</text>
 						<text style="font-size: 25rpx;">EXP</text>
 					</view>
-					<view class="datablock" @click="fans=true">
+					<view class="datablock">
 						<text style="font-size: 35rpx;font-weight: 550;">{{basicInfo.Fcounts}}</text>
 						<text style="font-size: 25rpx;">粉丝</text>
 					</view>
@@ -54,25 +54,7 @@
 		<view class="contpanel">
 			
 		</view>
-		<u-popup mode="bottom" :show="focus" round :overlay="false" @close="focus=false">
-			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}">
-				<view class="popupheader">
-					关注-33445
-					<u-icon style="position: absolute;right: 20rpx;top: 15rpx;" name="close" color="#fafafa" size="25" @click="focus=false"></u-icon>
-				</view>
-				<view style="">
-					<UserCard :avtarsrc="src" uname="用户名" desc="他点赞了你的评论!"></UserCard>
-				</view>
-			</view>
-		</u-popup>
-		<u-popup mode="bottom" :show="fans" round :overlay="false" @close="fans=false">
-			<view :style="{height:'calc(100vh - ' + headerheight +'px)'}">
-				<view class="popupheader">
-					粉丝-33445
-					<u-icon style="position: absolute;right: 20rpx;top: 15rpx;" name="close" color="#fafafa" size="25" @click="fans=false"></u-icon>
-				</view>
-			</view>
-		</u-popup>
+	
 	</view>
 </template>
 
@@ -83,8 +65,6 @@
 		data() {
 			return {
 				active:0,
-				focus:false,
-				fans:false,
 				headerheight:0,
 				src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',
 				tabslist:['发布的话题','发布的节点'],

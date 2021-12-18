@@ -69,7 +69,7 @@
 				<u-col span="11">
 					<view class="timecontent" >
 						<view v-for="(item,index) in nodelist">
-							<NodeCard :key="index" :nodedata="item" @clickedPanel="clickednode(item)" @clickedfavor="clickedfavor(item)"></NodeCard>							
+							<NodeCard :key="index" :nodedata="item" @clickedPanel="clickednode(item)" ></NodeCard>							
 						</view>
 					</view>
 				</u-col>
@@ -227,10 +227,7 @@
 				tabslist:['引用','爆料'],
 				votedata:{hasvoteOption:false,hasvote:false},
 				voteselected:false,
-				votelist:[
-					{content:'同意',count:10,percent:10,selected:false},
-					{content:'不同意',count:90,percent:90,selected:false},
-				],
+				votelist:[],
 				
 				curnode:{},
 				nodelist:[],
@@ -241,9 +238,11 @@
 			clickedselections(index){
 				if(this.votedata.hasvote) return
 				let len = this.votelist.length
+				//显示投票按钮控制
 				if(this.votelist[index].selected) this.voteselected = false
 				else this.voteselected = true
 				// console.log(this.voteselected)
+				//选项选择标记赋值
 				for (let i = 0; i < len;++i) {
 					if(i === index) this.votelist[index].selected = !this.votelist[index].selected
 					else this.votelist[i].selected = false
@@ -251,7 +250,35 @@
 				}
 			},
 			clickedvote(){
-				this.votedata.hasvote = true;
+				var that=this
+				let len=this.votelist.length
+				for (let i=0;i<len;++i){
+					if(that.votelist[i].selected){
+						//发起请求
+						uni.request({
+						    url: 'http://101.37.175.115/Topic/votes?ID='+that.votelist[i].ID,
+							header: {
+							        'Content-Type': 'application/x-www-form-urlencoded' 
+							    },
+								method:"GET",
+								
+						    success: (res) => {
+							   if(res.data.res=="ok"){
+								   console.log("投票成功")
+								   that.$refs.toast.show({model:'success',wait:1000,label:"投票成功！"})
+								   this.votedata.hasvote = true;
+							   }
+							   else{
+								   that.toastHandler(res.data.res)
+							   }
+						    }	
+						});
+						break;
+					}
+				}
+				//刷新投票数据
+				this.freshData(5)
+				
 			},
 			clickednode(item){
 				this.shownode = true
@@ -402,7 +429,7 @@
 					    }	
 					});
 					//刷新结点信息
-					
+					this.freshData(2)
 				}
 				//对评论
 				if(type==4){
@@ -459,7 +486,7 @@
 						   }
 					    }	
 					});
-					this.freshData(1)
+					
 					
 				}
 				//对引用
@@ -483,7 +510,7 @@
 							   }
 							}	
 						});
-						this.freshData(2)
+						
 						
 					}
 				//对评论
@@ -558,8 +585,29 @@
 						
 					});
 				}
-				if (type==2){
-					//刷新话题和评论
+				if (type==2||type==3){
+					//刷新结点
+					this.nodelist=[]
+					uni.request({
+					    url: 'http://101.37.175.115/Event/all?TID='+this.TID,
+						header: {
+						        'Content-Type': 'application/x-www-form-urlencoded' 
+						    },
+							method:"GET",
+							
+					    success: (res) => {
+					       if(res.data.res=="ok"){
+							   var len= res.data.data.length
+							   
+								for(var i = 0; i < len; i++){
+									this.format2list(res.data.data[i])
+								}
+						   }
+						   else{
+							   this.toastHandler(res.data.res)
+						   }
+					    }
+					});
 				}
 				if (type==4){
 					//刷新评论
@@ -580,6 +628,37 @@
 					    }
 					});
 	
+				}
+				//刷新投票结果
+				if(type==5){
+					this.votelist=[]
+					uni.request({
+					    url: 'http://101.37.175.115/Topic/show_votes?TID='+this.TID,
+						header: {
+						        'Content-Type': 'application/x-www-form-urlencoded' 
+						    },
+							method:"GET",
+							
+					    success: (res) => {
+					       if(res.data.res=="ok"){
+							   if(res.data.data!=[]){
+								   this.votedata.hasvoteOption=true
+								   this.totalVotes=res.data.total
+								   var len=res.data.data.length
+								    for (var i=0;i<len;++i){
+										this.loadVotelist(res.data.data[i],res.data.total)
+									}
+										
+							   }
+							   else{
+								   this.votedata.hasvoteOption=false
+							   }
+							  
+						   }else{
+							   this.toastHandler(res.data.res)
+						   }
+					    }
+					});
 				}
 			},
 			toOthersSpace(uid){
@@ -701,7 +780,7 @@
 						    for (var i=0;i<len;++i){
 								this.loadVotelist(res.data.data[i],res.data.total)
 							}
-								console.log(this.votelist)
+								
 					   }
 					   else{
 						   this.votedata.hasvoteOption=false
