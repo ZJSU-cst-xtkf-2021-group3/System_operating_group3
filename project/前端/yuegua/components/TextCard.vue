@@ -14,8 +14,8 @@
 			<view class="leftfooter">
 				<u-tag :text="tag" size="mini" plain></u-tag>
 				<u-avatar :src="avatarsrc" size="16"></u-avatar>
-				<text style="margin-left: 15rpx;font-size: 15rpx;">{{uname}}</text>		
-				<text style="margin-left: 15rpx;font-size: 15rpx;">{{time}}</text>
+				<text style="margin-left: 15rpx;font-size: 20rpx;">{{uname}}</text>		
+				<text style="margin-left: 15rpx;font-size: 20rpx;">{{time}}</text>
 			</view>
 			<view class="rightfooter" v-if="showrightfooter">
 				<view><u--text prefixIcon="eye" :text="readcnt" size="12"></u--text></view>

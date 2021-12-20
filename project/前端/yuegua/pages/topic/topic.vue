@@ -135,14 +135,17 @@
 		
 		 
 		<u-popup mode="bottom" :show="addnode" round closeable @close="addnode=false" :closeOnClickOverlay="false" >
-
-			<view style="height: 1100rpx;">
-				<view style="margin-top: 20rpx;display: flex;align-items: center;justify-content: center;">
-					<tm-segTabs :round="24" :margin="[32,10]" font-size="s" :list="tabslist" color="white" activeFontColor="blue" bg-color="bg-gradient-blue-lighten" v-model="tabsactive"></tm-segTabs>
+			<scroll-view scroll-y="true" class="scroll-Y" style="height: 90vh;"   @touchmove.stop.prevent="moveHandle">
+				<view style="height: 1100rpx;">
+					<view style="margin-top: 20rpx;display: flex;align-items: center;justify-content: center;">
+						<tm-segTabs :round="24" :margin="[32,10]" font-size="s" :list="tabslist" color="white" activeFontColor="blue" bg-color="bg-gradient-blue-lighten" v-model="tabsactive"></tm-segTabs>
+					</view>
+					<Pulish :types="tabslist[tabsactive]" :TID="this.TID"></Pulish>
 				</view>
-				<Pulish :types="tabslist[tabsactive]"></Pulish>
-			</view>
+			</scroll-view>
 		</u-popup>
+		
+		
 		<u-popup mode="bottom" :show="shownode" round closeOnClickOverlay @close="shownode=false">
 			<view style="min-height: 500rpx;padding-bottom: 20rpx;">
 				<view style="margin: 8rpx;position: relative;">
@@ -320,7 +323,7 @@
 					    success: (res) => {
 						   if(res.data.res=="ok"){
 							   console.log("取消关注")
-							   this.$refs.toast.show({model:'success',wait:1000,lable:"取消关注成功"})
+							   this.$refs.toast.show({model:'success',wait:1000,lable:"取消关注"})
 							   this.isfocusauthor=false
 						   }
 						   else{
@@ -341,7 +344,7 @@
 					    success: (res) => {
 						   if(res.data.res=="ok"){
 							   console.log("关注成功")
-							   this.$refs.toast.show({model:'success',wait:1000,label:"取消关注成功"})
+							   this.$refs.toast.show({model:'success',wait:1000,label:"关注成功"})
 							   this.isfocusauthor=true
 						   }
 						   else{
@@ -555,6 +558,10 @@
 				if(e=="permission denied"){
 					this.$refs.toast.show({model:'error',wait:1000,label:"您还无此权限！"})
 					return
+				}
+				if(e=="ok"){
+					this.$refs.toast.show({model:'success',wait:1000,label:"发布成功！"})
+					return
 				}	
 			},
 			//刷新页面数据
@@ -664,7 +671,7 @@
 			toOthersSpace(uid){
 				console.log(uid)
 				uni.navigateTo({
-					url: '../other/other?uid='+uid
+					url: '../other/other?UID='+uid
 				})
 			},
 			Share(){
@@ -715,6 +722,7 @@
 							src:i.url,
 							Uname:i.Uname,
 							star:i.star,
+							UID:i.UID,
 							tip_off:i.tip_off
 							}
 							
@@ -731,6 +739,11 @@
 					percent:parseInt(i.counts*100/total),
 				}
 				this.votelist.push(obj)
+			},
+			postListener(e){
+				this.addnode=false
+				this.freshData(2)
+				this.toastHandler(e)
 			}
 		},
 		onLoad(option){
@@ -763,6 +776,7 @@
 			    }
 				
 			});
+			console.log(this.isfocusauthor)
 			// 加载话题投票区
 			uni.request({
 			    url: 'http://101.37.175.115/Topic/show_votes?TID='+this.TID,
@@ -843,11 +857,18 @@
 			
 			uni.$on('StarNode',(data)=>{  
 					this.Star(data.type,data.id)
+			    });
+			uni.$on('posted',(rel)=>{
+				console.log(rel)
+					this.postListener(rel)
 			    })
+				
+				
 			
 		},
 		onUnload() {
 			uni.$off('StarNode');
+			uni.$off('posted');
 		},
 		
 		components:{

@@ -155,16 +155,21 @@ def my_subscribe(request):
         data = []
         for i in slist:
             tmp_t = Topic.objects.get(TID__exact=i.FTID)
+            u=User.objects.get(UID__exact=tmp_t.UID)
             if tmp_t.status:
                 tmp = {}
                 tmp['TID'] = i.FTID
                 tmp['title'] = tmp_t.title
                 tmp['statement'] = tmp_t.statement
                 tmp['star'] = tmp_t.star
-                tmp['tip-off'] = tmp_t.tip_off
+                tmp['tip_off'] = tmp_t.tip_off
+                tmp['Fcounts']=tmp_t.Fcounts
                 tmp['hotPoints'] = tmp_t.hotPoints
                 tmp['mainPic'] = tools.host+tmp_t.mainPic.url
                 tmp['lastUpDateTime'] = tmp_t.lastUpDateTime
+                tmp['header']=tools.host+u.header.url
+                tmp['Uname']=u.Uname
+                tmp['Tag']=tmp_t.Tag
                 data.append(tmp)
         data.sort(key=lambda x:x['lastUpDateTime'],reverse=True)
     except Exception as e:
@@ -194,6 +199,7 @@ def my_follow(request):
             tmp['UID'] = i.FUID
             tmp['Uname'] = i.FUname
             tmp['header'] = tools.host+tmp_u.header.url
+            tmp['introduction']=tmp_u.introduction
             data.append(tmp)
     except Exception as e:
         print(e)
@@ -215,21 +221,24 @@ def my_topics(request):
         return JsonResponse(result)
     # uid=int(request.GET.get('uid',1))
     try:
+        u=User.objects.get(UID__exact=uid)
         list = Topic.objects.filter(UID__exact=uid)
         data = []
         for i in list:
             if i.status:
                 tmp = {}
+                tmp['header']=tools.host+u.header.url
+                tmp['Uname']=u.Uname
                 tmp['TID'] = i.TID
                 tmp['status'] = i.status
                 tmp['title'] = i.title
                 tmp['statement'] = i.statement
                 tmp['hotPoints'] = i.hotPoints
-                tmp['lastUpDateTime'] = tools.stamp2strtime(i.lastUpDateTime)
+                tmp['lastUpDateTime'] =i.lastUpDateTime
                 tmp['mainPic'] = tools.host+i.mainPic.url
                 tmp['star']=i.star
                 tmp['Fcounts']=i.Fcounts
-                tmp['tip-off']=i.tip_off
+                tmp['tip_off']=i.tip_off
                 tmp['time']=tools.stamp2strtime(i.time)
                 data.append(tmp)
     except Exception as e:
@@ -285,26 +294,36 @@ def my_event(request):
         return JsonResponse(result)
     # uid=int(request.GET.get('uid',1))
     try:
+        u=User.objects.get(UID__exact=uid)
         revelationList = Revelation.objects.filter(UID__exact=uid)
         eventsList = Events.objects.filter(UID__exact=uid)
-        data = []
+        List = []
         for i in revelationList:
             if i.status:
-                tmp = {}
-                tmp['type'] = 3
-                tmp['RID'] = i.RID
-                tmp['status']=i.status
-                tmp['Ttitle'] = Topic.objects.get(TID__exact=i.TID).title
-                tmp['title'] = i.title
-                tmp['statement'] = i.statement
-                tmp['star'] = i.star
-                tmp['tip-off'] = i.tip_off
-                tmp['time'] = tools.stamp2strtime(i.time)
-                tmp['mainPic'] = tools.host+Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
-                data.append(tmp)
+                data = {}
+                pics = Revelation_Pic.objects.filter(RID__exact=i.RID)
+                picsList = [tools.host + i.img.url for i in pics]
+                data['pics'] = picsList
+                data['type'] = i.type
+                data['ID'] = i.RID
+                data['Uname'] = u.Uname
+                data['UID'] = u.UID
+                data['header'] = tools.host + u.header.url
+                data['time'] = i.time
+                data['title'] = i.title
+                data['text'] = i.text
+                data['star'] = i.star
+                data['tip_off'] = i.tip_off
+                data['isPostByEditor'] = i.isPostByEditor
+                data['eventTime'] = tools.stamp2strtime(i.eventTime.timestamp())
+                data['mainPic'] = tools.host + Revelation_Pic.objects.filter(RID__exact=i.RID).first().img.url
+                List.append(data)
         for i in eventsList:
             if i.status:
                 tmp = {}
+                tmp['Uname'] = u.Uname
+                tmp['UID'] = u.UID
+                tmp['header'] = tools.host + u.header.url
                 tmp['type'] = 2
                 tmp['EID'] = i.EID
                 tmp['status'] = i.status
@@ -312,14 +331,15 @@ def my_event(request):
                 tmp['statement'] = i.statement
                 tmp['star'] = i.star
                 tmp['tip-off'] = i.tip_off
-                tmp['time'] = tools.stamp2strtime(i.time)
+                tmp['time'] = i.time
+                tmp['eventTime']=tools.stamp2strtime(i.eventTime.timestamp())
                 tmp['url'] = i.url
-                data.append(tmp)
+                List.append(tmp)
     except Exception as e:
         print(e)
         result['res'] = 'failed'
         return JsonResponse(result)
 
     result['res'] = 'ok'
-    result['data'] = data
+    result['data'] = List
     return JsonResponse(result)

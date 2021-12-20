@@ -2,16 +2,17 @@
 	<view class="topic">
 		<view class="top">
 		    <u--image :showLoading="true" :src="src" width="400px" height="160px" @click="click"></u--image>
-		    <u--text text="#今日话题#" :bold="true" :size="20" ></u--text>
-			<view class="lead">
-			    <u--text  text="导语:" :bold="true"></u--text>
+		    <u--text text="#戴耳机听歌睡觉致耳聋#" :bold="true" :size="20" style="margin-top: 40rpx; margin-left: 40rpx;"></u--text>
+			<u-gap height="10" bgColor="#ffffff"></u-gap>
+			<view class="lead ">
+			    <u--text  text="导语:" :bold="true" ></u--text>
 				<view class="content">
 		            <mote-lines-divide :line="2" expandText="展开" foldHint="收起">
-		                    关于uView的取名来由，首字母u来自于uni-app首字母，uni-app是基Vuejs，Vue和View(延伸为UI、视图之意)同音，同时view组件uni-app中最础最重要的组件，故取名uView，表达源于uni-app和Vue之意，同时在此也对它示感谢。
-		            </mote-lines-divide>
+						武汉的樊女士今年33岁，由于存在神经衰弱的毛病，睡眠一直不太好。为此，她想到了戴耳机听歌睡觉。最近半个多月，樊女士发现自己的耳朵总是有“嗡嗡嗡”的鸣音，听力也变差，就医后诊断为突发性耳聋。你每天戴耳机多久？医生建议连续使用耳机听歌不超60分钟，如何缓解久戴耳机的不舒适感？教你一个动作：①双手捂住耳朵；②双手食指叩击后脑勺。
+					</mote-lines-divide>
 				</view>
 			</view>
-			<u-gap height="10" bgColor="#ffffff"></u-gap>
+			<u-gap height="20" bgColor="#ffffff"></u-gap>
 		</view>
 		<view class="middle">
 			<u-subsection :list="list_choose" @change="sectionChange" mode="subsection" :current="current" activeColor="#f59189" inactiveColor="#ffffff"></u-subsection>
@@ -64,12 +65,14 @@ export default {
         Dynamic,
 		MoteLinesDivide,
 		uniPopup,
-        shareBtn
+        shareBtn,
     },
     data() {
         return {
+			sharedata:"",
+			desc:"",
             title: 'Hello',
-			src: 'https://cdn.uviewui.com/uview/album/1.jpg',
+			src: 'https://www.wsm.cn/uploads/allimg/160625/37-1606251F049.jpg',
 			scrollTop: 0,
 			mode: 'circle',
 			iconStyle: {
@@ -108,15 +111,40 @@ export default {
 			},
 			],
             list:[
+				{
+				    id:1,
+				    avatar:'https://tse1-mm.cn.bing.net/th/id/R-C.a53938fecfc8a85da80b9129306e8093?rik=ayTEVU0sEvR1zg&riu=http%3a%2f%2ftupian.qqw21.com%2farticle%2fUploadPic%2f2012-8%2f2012869524112329.jpg&ehk=MvRYdkOCH2Lj2Z7UPpIENQ2wgmwDLzbvxctsFg1ViHM%3d&risl=&pid=ImgRaw&r=0',
+				    name:'一粒沙就一粒沙',
+				    publishTime:1617086756,
+				    content:'你的耳朵还“年轻”吗？哪些常见行为其实很伤耳？拯救你的听力还有什么实用招数？戳图了解↓↓ ​​​​',
+				    imgList:[
+				        'https://wx3.sinaimg.cn/bmiddle/006vD6Yely1gxjgwib91vj30dw0hqdg8.jpg',
+				        'https://wx2.sinaimg.cn/bmiddle/006vD6Yely1gxjgwijir2j30dw0m8tb7.jpg',
+						'https://wx2.sinaimg.cn/bmiddle/006vD6Yely1gxjgwiqbjaj30dw0ktmzn.jpg',
+						'https://wx3.sinaimg.cn/bmiddle/006vD6Yely1gxjgwj0f23j30dw0m8diu.jpg',
+						'https://wx2.sinaimg.cn/bmiddle/006vD6Yely1gxjgwjqet9j30dw0dwaa9.jpg',
+						'https://wx1.sinaimg.cn/bmiddle/006vD6Yely1gxjgwi3wlij30dw0m8acm.jpg',
+						'https://wx4.sinaimg.cn/bmiddle/006vD6Yely1gxjgwkmh8ej30dw0m8mzj.jpg',
+						'https://wx1.sinaimg.cn/bmiddle/006vD6Yely1gxjgwkvc13j30dw0h8aag.jpg',
+						'https://wx3.sinaimg.cn/bmiddle/006vD6Yely1gxjgwl1ymij30dw0h8mxl.jpg',
+				    ],
+				    isLike:true,
+				    isGiveReward:true,
+				    likeNumber:2,
+				    giveRewardNumber:2,
+				    chatNumber:2,
+				    isFocusOn:true,
+				},
+				
                 {
-                    id:1,
-                    avatar:'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1950846641,3729028697&fm=26&gp=0.jpg',
-                    name:'小新',
-                    publishTime:1617086756,
-                    content:'中国外交官这样讽加拿大总理，算不算骂？该不该骂？',
+                    id:2,
+                    avatar:'https://tse1-mm.cn.bing.net/th/id/OIP-C.WsVs_1wXmbVZ1543fXUHbwAAAA?pid=ImgDet&rs=1',
+                    name:'少年伯爵',
+                    publishTime:1617086500,
+                    content:'经常佩戴耳机听歌，的确会对耳朵产生一定的伤害，很多年以前，我就是喜欢戴着耳机听歌睡觉，之后就导致耳朵患上了中耳炎，耳朵经常不舒服，而且有耳鸣的一个情况。所以建议大家佩戴耳机听歌的时候，一定要将音量适当的开小一点，并且不要连续听歌超过60分钟，最好是听30分钟，就把耳机摘下来，让耳朵休息一下。',
                     imgList:[
-                        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
-                        'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2369680151,826506100&fm=26&gp=0.jpg',
+                        'https://wx3.sinaimg.cn/bmiddle/541b030dly1gxjgk2pj5nj20wi1nzwo0.jpg',
+                        'https://wx3.sinaimg.cn/bmiddle/541b030dly1gxjgj17f4kj23402c0hdv.jpg',
                     ],
                     isLike:true,
                     isGiveReward:true,
@@ -127,13 +155,13 @@ export default {
                 },
 
                 {
-                    id:2,
+                    id:3,
                     avatar:'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2291332875,175289127&fm=26&gp=0.jpg',
                     name:'小白',
                     publishTime:1617036656,
-                    content:'  足不出户享国内核医学领域顶级专家云诊断，“中山-联影”分子影像远程互联融合创新中心揭牌 ',
+                    content:'  长时间戴耳机出现类似“耳鸣”“突发性耳聋” 情况的人好像不在少数啊，有些娃喜欢睡前戴耳机听歌，有些娃不得已为了考试、工作也会长时间戴耳机，太难了，最好还是听医生60-60原则吧，你一次戴多长时间的耳机呢。',
                     imgList:[
-                        'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2369680151,826506100&fm=26&gp=0.jpg',
+                        'https://wx2.sinaimg.cn/bmiddle/007ovWLRgy1gxk2fea7tpj30ku0xiafs.jpg',
                     ],
                     isLike:false,
                     isGiveReward:false,
@@ -143,17 +171,14 @@ export default {
                     isFocusOn:false,
                 },
                 {
-                    id:3,
-                    avatar:'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1950846641,3729028697&fm=26&gp=0.jpg',
-                    name:'小新',
+                    id:4,
+                    avatar:'https://wx4.sinaimg.cn/thumb300/0065BsZggy1gqde59akdpj309s09sdfy.jpg',
+                    name:'是猫猫猫啊',
                     publishTime:1617046556,
-                    content:'  外交部：一小撮国家和个人编造所谓新疆“强迫劳动”的故事，其心何其毒也！ ',
+                    content:' 道理我都懂😑😑 但是公共场合使用耳机很难不超过60分钟 o(TヘTo)',
                     imgList:[
-                        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
-                        'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2369680151,826506100&fm=26&gp=0.jpg',
-                        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
-                        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
-                        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
+                        'https://wx1.sinaimg.cn/orj360/003f1kwGly1gv9abent14g60go0go0zi02.jpg',
+                        'https://wx1.sinaimg.cn/orj360/6e41d499gy1gxjjmfvgcej218410ygor.jpg',
                     ],
 					isFocusOn:true,
                     isLike:true,
@@ -163,15 +188,14 @@ export default {
                     chatNumber:52,
                 },
                 {
-                    id:4,
-                    avatar:'https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3717120934,3932520698&fm=26&gp=0.jpg',
-                    name:'小龙马',
+                    id:5,
+                    avatar:'https://wx3.sinaimg.cn/thumb300/0065BsZggy1gpou3rvc37j30zk0mwdjx.jpg',
+                    name:'最幸福的小橘子',
                     publishTime:1616086456,
-                    content:'DCloud有800万开发者,uni统计手机端月活12亿。是开发者数量和案例最丰富的多端开发框架。 欢迎知名开发商提交案例或接入uni统计。 新冠抗疫专区案例 uni-app助力',
+                    content:'我可以左耳朵戴一个小时，右耳朵戴一个小时么！？🤣🤣🤣 ​',
                     imgList:[
-                        'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2369680151,826506100&fm=26&gp=0.jpg',
-                        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
-                        'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2369680151,826506100&fm=26&gp=0.jpg',
+                        'https://tse4-mm.cn.bing.net/th/id/OIP-C.fcXOozrywkY6o8Bs12LCggHaHY?pid=ImgDet&rs=1',
+                        'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1278672224,2880561485&fm=15&gp=0.jpg',
                     ],
 					isFocusOn:true,
                     isLike:true,
@@ -181,16 +205,15 @@ export default {
                     chatNumber:7,
                 },
                 {
-                    id:5,
+                    id:6,
                     avatar:'https://dss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2590128318,632998727&fm=26&gp=0.jpg',
                     name:'风清扬',
-                    publishTime:1607086356,
-                    content:'划个水',
+                    publishTime:1617086500,
+                    content:'使用耳机一定要在时长、音量方面进行控制。通常使用耳机不宜超过1小时，否则会损伤我们的听力，最好每小时让耳朵休息15分钟为佳。同时建议不要将耳机音量调的过高，这对我们的听力会造成不可逆转的危害，不会像是皮肉伤一样快速愈合。⚠️此外，大家也要避免在睡觉时和刚洗完澡时使用耳机，更容易对我们的耳道造成伤害，也容易滋生细菌，平时大家也要注意对耳机卫生的维护，避免伤害耳膜。',
                     imgList:[
-                        'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2369680151,826506100&fm=26&gp=0.jpg',
-                        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
-                        'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2369680151,826506100&fm=26&gp=0.jpg',
-                        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
+                        'https://wx3.sinaimg.cn/mw600/ebd57867ly1gxk2mke8vmj20dw0hqwew.jpg',
+                        'https://wx4.sinaimg.cn/mw600/e7a2eb42ly1gxk2ewbej8j20tj0gfta8.jpg',
+                        'https://wx1.sinaimg.cn/mw600/0069PkFsgy1gxk2undntlj30qy0sctaj.jpg',
                     ],
 					isFocusOn:true,
                     isLike:true,
@@ -200,17 +223,16 @@ export default {
                     chatNumber:2,
                 },
 				{
-				    id:6,
-				    avatar:'https://tse1-mm.cn.bing.net/th/id/OIP-C.DDGRsJiGlIb4VAU2ZH8PjAAAAA?w=186&h=199&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-				    name:'墨燃',
-				    publishTime:1607086356,
-				    content:'今天也撸到猫猫了，开心!',
+				    id:7,
+				    avatar:'https://tse1-mm.cn.bing.net/th/id/R-C.efdb268bb841fb60073dbae826bf2b9f?rik=Ufo6V0eAyp3IkQ&riu=http%3a%2f%2fscimg.jianbihuadq.com%2f202009%2f202009162308095.jpg&ehk=thgEdzkXNa5AqjDy3cJ5aAHwMPSGcbOS7CKvuxvNo3w%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1',
+				    name:'丢丢小仙女',
+				    publishTime:1617086500,
+				    content:'ԅ(¯﹃¯ԅ)本仙女耳朵已聋 ',
 				    imgList:[
-				        'https://tse1-mm.cn.bing.net/th/id/OIP-C.XokdM2VcbovvShghWQ6qEwAAAA?w=125&h=150&c=7&r=0&o=5&dpr=1.25&pid=1.7',
-				        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
-				        'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2369680151,826506100&fm=26&gp=0.jpg',
-				        'https://dss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1976832114,2993359804&fm=26&gp=0.jpg',
-				    ],
+				        'https://tse1-mm.cn.bing.net/th/id/R-C.0d5ed5da54980c86dff059477b07684e?rik=eGgyatCU4Vryxg&riu=http%3a%2f%2fwww.biaoqingb.com%2fuploads%2fimg1%2f20191215%2f3547027059cfd6a563c0f60479b73cee.jpg&ehk=CAZBIDKu0%2bSd1ze0PNSESIiq9tVUW3RFY6l07xUFAok%3d&risl=&pid=ImgRaw&r=0',
+				        'https://wx3.sinaimg.cn/bmiddle/89a3891fly1gxk1ccwlohj21400u0wlj.jpg',
+				        'https://wx1.sinaimg.cn/orj360/006Su3SYly1gxk14gt3ruj30hs0hs755.jpg',
+				 ],
 					isFocusOn:true,
 				    isLike:true,
 				    isGiveReward:true,
@@ -224,6 +246,27 @@ export default {
 	onPageScroll(e) {
 			this.scrollTop = e.scrollTop;
 		},
+		
+		onShow: function() {
+		        uni.request({
+		             header:{
+		              "Content-Type":"application/x-www-form-urlencoded",
+		              },
+		             url: "http://101.37.175.115/Activity/show_contributes",
+		          data:{
+		           A_CID:"1"
+		          },
+		          method:"GET",
+		             success(res){
+		              if(res.data.res=='ok'){
+		            console.log("ok")
+		                        console.log(res.data.data)
+		           }
+		           console.log(res.data.res)      
+		             }
+		        })
+		      },
+		
     methods:{
 		sectionChange(index) {
 						this.current = index;
@@ -289,5 +332,7 @@ export default {
 .ctrlbar{
 	margin-top: 100rpx;
 }
-	
+.lead{
+	padding: 20rpx;
+}	
 </style>

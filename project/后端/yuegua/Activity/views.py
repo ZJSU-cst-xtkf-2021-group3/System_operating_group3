@@ -141,10 +141,12 @@ def all(request):
     try:
         contributesList = activity_contribute.objects.filter(Q(AID__exact=aid),Q(status__exact=True)).order_by('-hotPoints')
         for i in contributesList:
+            u=User.objects.get(UID__exact=i.UID)
             data = {}
             data['A_CID'] = i.A_CID
             data['UID'] = i.UID
-            data['Uname'] = User.objects.get(UID__exact=i.UID).Uname
+            data['Uname'] = u.Uname
+            data['header']=tools.host+u.header.url
             data['title'] = i.title
             data['time'] = tools.stamp2strtime(i.time)
             data['star'] = i.star
@@ -170,15 +172,18 @@ def show_contributes(request):
             pics = contributes_Pic.objects.filter(A_CID__exact=acid)
             picsList = [tools.host+i.img.url for i in pics]
             tmp = {}
+            u=User.objects.get(UID__exact=ac.UID)
             tmp['pics'] = picsList
             tmp['text'] = ac.text
             tmp['ID'] = ac.A_CID
-            tmp['Uname'] = User.objects.get(UID__exact=ac.UID).Uname
+            tmp['Uname'] = u.Uname
             tmp['time'] = tools.stamp2strtime(ac.time)
             tmp['title'] = ac.title
             tmp['statement'] = ac.statement
             tmp['star'] = ac.star
-            tmp['tip-off'] = ac.tip_off
+            tmp['tip_off'] = ac.tip_off
+            tmp['header']=tools.host+u.header.url
+
             result['data'] = tmp
     except Exception as e:
         print(e)

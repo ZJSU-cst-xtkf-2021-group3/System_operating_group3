@@ -119,6 +119,9 @@
 			},
 			seeMore(e){
 				console.log(e)
+				uni.navigateTo({
+					url: '../topic/topic?tid='+e,
+				})
 				
 				//navigate
 			},

@@ -141,6 +141,14 @@
                 "enablePullDownRefresh": false
             }
             
+        },{
+            "path" : "pages/activity_publish/activity_publish",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
         }
     ],
 	"tabBar":{

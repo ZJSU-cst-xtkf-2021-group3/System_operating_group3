@@ -33,7 +33,7 @@
 			<uni-grid :column="3" :showBorder="false"  :square="false" >
 			    <uni-grid-item>
 			        <span :style="'color:'+thumbsupColor" @click.stop="clickThumbsup()">
-						<uni-icons type="hand-thumbsup-filled" size="18" :style="'margin-right: 2px;color:'+thumbsupColor"></uni-icons>
+						<uni-icons type="hand-thumbsup-filled" size="18" :style="'margin-right: 20px;color:'+thumbsupColor"></uni-icons>
 						{{likeNumber?likeNumber:'点赞'}}
 					</span>
 			    </uni-grid-item>

@@ -10,7 +10,7 @@
 		<view v-show="showrecommd">
 			
 			<!-- <tm-alerts v-if="haveMsg" :label="this.Msg" left-icon="icon-paperplane-fill" close></tm-alerts> -->
-			<u-swiper :list="list3" indicator indicatorMode="dot" interval="4000" circular ></u-swiper>
+			<u-swiper :list="list3" indicator indicatorMode="dot" interval="4000" circular  @click="toActivity()"></u-swiper>
 			<scroll-view scroll-y="true" class="scroll-Y" style="height: 81vh;"   @touchmove.stop.prevent="moveHandle">
 				<TextCard v-for="(item,index) in topicList" :imgsrc="item.mainPic" :avatarsrc="item.header" :partcontent="item.statement" :showimg="true"
 						   :likecnt="String(item.star)" :readcnt="String(item.Fcounts)" :title="item.title" :uname="item.Uname" :dislikecnt="String(item.tip_off)"
@@ -87,6 +87,11 @@
 				})
 			
 			},
+			toActivity(){
+				uni.navigateTo({
+					url:'../activity/activity'})
+			}
+			,
 			tabclick(e) {
 				if(e.index === 0){
 					this.showrecommd = true
@@ -252,6 +257,12 @@
 			    }
 				
 			});
+			uni.onTabBarMidButtonTap(function(){
+				uni.navigateTo({
+					url:'../publish/publish'
+				})
+			})
+			
 		},
 		
 		onReady(){
@@ -273,6 +284,7 @@
 									console.log("msg arrived")
 									that.haveMsg=true
 									that.Msg=res.data.data
+									console.log(that.Msg)
 								}
 								else{
 									that.haveMsg=false

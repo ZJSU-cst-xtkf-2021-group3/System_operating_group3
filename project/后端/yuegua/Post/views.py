@@ -56,6 +56,7 @@ def post_topic(request):
             t=Topic.objects.create(UID=usr.UID,category=category,title=title,statement=statement,Tag=tag,
                              time=tmpTime,star=0,tip_off=0,status=True,isPostByEditor=False,
                              Fcounts=0,lastUpDateTime=tmpTime,hotPoints=usr.rank*5,mainPic=pic)
+            result['TID']=t.TID
             #审核消息
             message.objects.create(UID=usr.UID,type=1,typeID=t.TID,value="您的"+tools.switchType(1)+"稿件已审核通过",postTime=tools.getTime())
             #即时消息
@@ -188,7 +189,7 @@ def post_revelation(request):
     if request.method == 'POST':
         tid = int(request.POST.get('TID'))
         title = request.POST.get('title')
-        statement = request.POST.get('statement')
+        statement = request.POST.get('statement',"")
         eventTime = request.POST.get('eventTime')
         text=request.POST.get('text')
 

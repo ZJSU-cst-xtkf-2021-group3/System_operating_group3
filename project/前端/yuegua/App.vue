@@ -33,7 +33,7 @@
 	// 设置整个项目的背景色
 	
 	page {
-		background-color: #f6f7f8;
+		background-color: #f4f6fd;
 	}
 
 	/* #endif */
