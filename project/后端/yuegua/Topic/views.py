@@ -47,7 +47,7 @@ def Topic_star(request):
         tu=User.objects.get(UID__exact=t.UID)
         u=User.objects.get(UID__exact=uid)
 
-        exist=Star.objects.filter(UID__exact=uid,type__exact=1,valueID__exact=tid)
+        exist=Star.objects.filter(UID__exact=uid,type__exact=1,valueID__exact=tu.uid)
         if exist or t.UID==uid:
             result['res']='refused'
             return JsonResponse(result)
@@ -67,7 +67,7 @@ def Topic_star(request):
         t.save()
 
         #保存记录
-        Star.objects.create(UID=uid,type=1,valueID=tid)
+        Star.objects.create(UID=uid,type=1,valueID=tu.uid)
     except Exception as e:
         print(e)
         result['res']='failed'

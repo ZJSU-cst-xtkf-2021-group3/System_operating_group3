@@ -5,7 +5,7 @@
 				<text>标题</text>
 				<u--input v-model="title" placeholder="请输入标题" border="none"  maxlength="20"></u--input>			
 			</view>			
-			<view v-if="types ==='引用'" class="cell1">
+			<view v-if="types === '引用'" class="cell1">
 				<text>链接</text>
 				<u--input v-model="link" placeholder="请添加链接" border="none" maxlength="200"></u--input>			
 			</view>
@@ -23,7 +23,10 @@
 				</view>
 				<u-alert title="注:时间为事件发生的时间." fontSize="8" type = "warning"></u-alert>				
 			</view>
-
+			<view v-if="types=='topic'" class="cell1">
+				<text>标签</text>
+				<u--input v-model="tag" placeholder="请输入标签" border="none"  maxlength="5"></u--input>			
+			</view>		
 			<view v-if="types=='topic'" class="selecttype">
 				<text>分类</text>
 				<uni-combox :candidates="typecandidates" placeholder="请选择分类" v-model="type"></uni-combox>
@@ -54,20 +57,26 @@
 				<tm-switch v-model="addvote" :text="[]"></tm-switch>				
 			</view>
 			<view v-show="addvote">
-				<view class="cell1">
+<!-- 				<view class="cell1">
 					<text>问题</text>
-					<u--input v-model="title" placeholder="请输入问题" border="none"  maxlength="20"></u--input>			
-				</view>	
-				<view class="cell1">
-					<text>选项一</text>
-					<u--input v-model="title" placeholder="请输入选项一" border="none"  maxlength="20"></u--input>			
-				</view>	
-				<view class="cell1">
-					<text>选项二</text>
-					<u--input v-model="title" placeholder="请输入选项二" border="none"  maxlength="20"></u--input>			
-				</view>					
-			</view>
+					<u--input v-model="quesion" placeholder="请输入问题" border="none"  maxlength="20"></u--input>			
+				</view>	 -->
+				<view v-for="(item,index) in selections" class="cell1">
+					<text>选项{{index+1}}</text>
+					<u--input v-model="selections[index]" :placeholder="'请输入选项'+(index+1)" border="none"  maxlength="20"></u--input>			
+				</view>
+				<view style="display: flex;justify-content: space-between;">
+					<view style="width: 40vw;">
+						<tm-button height="60" theme="grey-lighten-2" fontColor="grey-darken-1" :round="4" block @click="clickeddelselection">删除选项</tm-button>
+					</view>
+					<view style="width: 40vw;">
+						<tm-button height="60" theme="grey-lighten-2" fontColor="grey-darken-1" :round="4" block @click="clickedaddselection">添加选项</tm-button>
+					</view>						
+				</view>
 
+				
+			</view>
+			
 		</view>
 		<view style="margin-top: 40rpx;margin-bottom: 40rpx;display: flex;align-items: center;justify-content: center;margin: 20rpx 20rpx 0 20rpx;">
 			<view v-if="types=='topic'" style="width: 20%">
@@ -103,12 +112,16 @@
 				desc:'',
 				link:'',
 				type:'',
+				tag:'',
+				quesion:'',
+				c:[''],
 				coverimg:[],
+				selections:[''],
 				datetime:Number(new Date()),
 				addvote:false,
-				typecandidates:['娱乐','体育','二次元','日常','时政','国际'],
+				typecandidates:['娱乐','体育','日常','二次元','数码','国际时政'],
 				fileListtopic:[],
-				tempimagelist:[],
+				tempimage:'',
 				imageData:[],
 				showTimePicker:false
 			};
@@ -117,7 +130,15 @@
 			close(){
 				this.showTimePicker=false
 			},
-
+			clickedaddselection(){
+				this.selections.push('')
+			},
+			clickeddelselection(){
+				let index=this.selections.length-1
+				if(index>=0){
+					this.selections.splice(index,1)
+				}
+			},
 			deletePic(event) {
 				this[`fileList${event.name}`].splice(event.index, 1)
 			},
@@ -128,29 +149,73 @@
 						...item,
 					})
 				})
-				this.tempimagelist.push({uri:event.file.url})
+				this.tempimage = event.file.url
 			},
-
-			clickedpublish(){
+			publishtopic(){
+				return new Promise((resolve,reject)=>{
+					let index=0;
+					for(let i=0;i<6;++i){
+						if(this.typecandidates[i]===this.type){
+							index=i
+						}
+					}
+					uni.uploadFile({
+						url: 'http://101.37.175.115/Post/topic', 
+						filePath: this.tempimage,
+						name: 'mainPic',
+						formData: {
+							'category': index,
+							'statement': this.desc,
+							'title':this.title,
+							'tag':this.tag,
+						},
+						success: (res) => {
+							resolve(JSON.parse(res.data).TID)
+						},
+					});	
+				})
+			},
+			async clickedpublish(){
+				let that=this
 				if(this.types === 'topic'){
 					if(this.title && this.desc && this.link && this.type){
-						uni.uploadFile({
-							url: 'http://101.37.175.115/Post/topic', 
-							filePath: this.tempimagelist[0].uri,
-							name: 'mainPic',
-							formData: {
-								'category': 7,
-								'statement': this.desc,
-								'title':this.title,
-								'tag':'tag',
-							},
-							success: (res) => {
-								console.log(res)
-							},
-							fail: (res)=>{
-								console.log(res)
-							},
-						});
+						if(!this.addvote){
+							let tid = await this.publishtopic()
+							// console.log(tid)
+							uni.redirectTo({
+								url:`../topic/topic?tid=${tid}`,
+							})
+						}
+						else{
+							let flag=true
+							for(let i=0;i<that.selections.length;++i){
+								if(that.selections[i]===''){
+									flag=false
+									break
+								}
+							}
+							if(flag){
+								let tid = await this.publishtopic()
+								let data={TID:tid,items:that.selections}
+								console.log(data)
+								uni.request({
+									url: 'http://101.37.175.115/Post/topic_vote',
+									method:"POST",
+									header: {'Content-Type': 'application/json'},
+									data,
+									success(res) {
+										// console.log(res)
+										uni.redirectTo({
+											url:`../topic/topic?tid=${tid}`,
+										})
+									}
+								})								
+							}
+							else{
+								this.$refs.toast.show({model:'warn',wait:1000,label:"请填写完成必需内容"})
+							}
+						}
+
 					}
 					else{
 						this.$refs.toast.show({model:'warn',wait:1000,label:"请填写完成必需内容"})
@@ -159,6 +224,7 @@
 				if(this.types==='爆料'){
 					var tmplist=[]
 					let len=this.imageData.length
+					console.log(len)
 					for(let i=0;i<len;++i){
 						var obj={
 							'name':'imgs',
@@ -166,11 +232,12 @@
 						}	
 									tmplist.push(obj)
 					}
+					console.log(tmplist)
 					uni.uploadFile({
 					            url: 'http://101.37.175.115/Post/revelation', 
 								// url: 'http://yuegua.fgimax.vipnps.vip/Post/revelation', 
 					            files:tmplist,
-					            name: 'file',
+					            
 					            formData: {
 					                'TID' : parseInt(this.TID),
 									'title':this.title,
@@ -216,12 +283,15 @@
 			test(){
 				
 				
-				    },
+			},
 			dateSe_1(e){
-							// {year: 2021, month: 8, day: 23}
-							this.datetime = e.year+'-'+e.month + '-' + e.day+" "+e.hour+":"+e.min;
-							console.log(this.datetime)
-						},
+				// {year: 2021, month: 8, day: 23}
+				this.datetime = e.year+'-'+e.month + '-' + e.day+" "+e.hour+":"+e.min;
+				console.log(this.datetime)
+			},
+			clicked(){
+				
+			}
 			
 		},
 		

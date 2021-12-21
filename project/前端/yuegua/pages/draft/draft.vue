@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<ReviewCard :indexs="2" :showimg="true" :imgsrc="imgsrc" title="这是标题" desc="这是简介" timestamp="2021-12-13"></ReviewCard>
+		<ReviewCard :indexs="2" :showimg="true" :imgsrc="imgsrc" title="薇娅道歉" desc="根据浙江省杭州市事务部消息.." timestamp="2021-12-20"></ReviewCard>
 		<view style="display: flex;align-items: center;justify-content: center;">
 			<u-loadmore isDot line status="nomore"></u-loadmore>
 		</view>
@@ -12,7 +12,7 @@
 	export default {
 		data() {
 			return {
-				imgsrc:'https://cdn.uviewui.com/uview/album/1.jpg'
+				imgsrc:'/static/wy.jpg'
 			};
 		},
 		components:{

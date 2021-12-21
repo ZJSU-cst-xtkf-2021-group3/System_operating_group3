@@ -123,15 +123,16 @@ def Cache(request):
 
 def Cache2(request):
     result = {}
-    uid = int(request.session.get('uid', 'x'))
+    # uid = int(request.session.get('uid', 'x'))
+    uid=request.GET.get('uid','x')
     if uid == 'x':
         result['res'] = 'login please'
         return JsonResponse(result)
 
     token = str(uid) + 'Fbot'
-    cache.set(token,"您关注的admin博主更新啦！", 21)
+    cache.set(token,"您关注的博主zzz更新啦！", 21)
     token2 = str(uid) + 'Nevent'
-    cache.set(token2,"测试话题有新结点啦！",21)
+    cache.set(token2,"北京冬奥进行时话题有新结点啦！",21)
 
     result['res'] = 'ok'
     return JsonResponse(result)

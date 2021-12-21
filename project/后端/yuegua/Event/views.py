@@ -63,7 +63,7 @@ def all(request):
         result['res'] = 'failed'
         return JsonResponse(result)
 
-    List.sort(key= lambda x:x["eventTime"])
+    List.sort(key= lambda x:x["eventTime"],reverse=True)
 
     result['data']=List
     result['res']='ok'

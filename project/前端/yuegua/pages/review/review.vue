@@ -1,7 +1,7 @@
 <template>
 	<view class="page">
 		<u-alert title="审核不通过的投稿可在草稿箱中继续编辑." type = "warning"></u-alert>
-		<ReviewCard v-for="index in 10" :key="index" :indexs="1" :showimg="true" :imgsrc="imgsrc" title="这是标题" desc="这是简介" timestamp="2021-12-13"></ReviewCard>
+		<ReviewCard v-for="(item,index) in Data" :key="index" :indexs="1" :showimg="true" :imgsrc="item.imgsrc" :title="item.title" :desc="item.desc" timestamp="2021-12-13"></ReviewCard>
 		<view style="display: flex;align-items: center;justify-content: center;">
 			<u-loadmore isDot line status="nomore"></u-loadmore>
 		</view>
@@ -13,7 +13,24 @@
 	export default {
 		data() {
 			return {
-				imgsrc:'https://cdn.uviewui.com/uview/album/1.jpg'
+				Data:[
+				{
+					imgsrc:'/static/luo.jpg',
+					title:"罗永浩",
+					desc:"被怀疑漏税"	
+				},
+					{
+						imgsrc:'/static/EDG.jpg',
+						title:"EDG",
+						desc:"我们是冠军"	
+					},
+					{
+						imgsrc:'/static/lh.jpg',
+						title:"王力宏",
+						desc:"致歉"	
+					}
+				],
+				// imgsrc:'https://cdn.uviewui.com/uview/album/1.jpg'
 			};
 		},
 		components:{

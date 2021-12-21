@@ -11,7 +11,7 @@
 			
 			<view class="hotlist">
 				<view v-for="(item,index) in rankData" :key="index" style="width: 50%;margin: 5rpx 0 5rpx 0;" @click="seeMore(item.TID)">
-					<text style="margin-right: 30rpx;font-size: 35rpx;font-weight:bold;font-style: italic;">{{index + 1}}</text><text>{{item.title}}</text>
+					<text style="margin-right: 20rpx;font-size: 35rpx;font-weight:bold;font-style: italic;">{{index + 1}}</text><text style="font-size: 25rpx;">{{item.title}}</text>
 				</view>
 				
 			</view>
@@ -125,6 +125,20 @@
 				
 				//navigate
 			},
+			lengthformat(e){
+				console.log(e)
+				let l=e.length
+				let tmp=""
+				if(l>10){
+					tmp=e.substring(0,11)
+					tmp+="..."
+				}else{
+					return e
+				}
+				return tmp
+			}
+			
+			,
 			removeHistory(){
 				this.searchHistory=[]
 				uni.setStorage({
@@ -139,6 +153,10 @@
 				var now = parseInt(new Date().getTime()/1000);
 				var Dvalue=parseInt((now-parseInt(time))/3600)
 				if (Dvalue<=24){
+					if(Dvalue<1){
+						let h=(now-parseInt(time))/3600
+						return parseInt(h*60)+"分钟前"
+					}
 					return Dvalue+"小时前"
 				}
 				else{
@@ -250,9 +268,16 @@
 						
 				    success: (res) => {
 				       if(res.data.res=="ok"){
-						  
-						   that.rankData=res.data.data
-						   
+						   let  list=[]
+						  let raw=res.data.data
+						  // console.log(raw)
+						   for (let x in raw){
+							   let dict={}
+							   dict['title']=this.lengthformat(raw[x].title)
+							   dict['TID']=raw[x].TID
+							   list.push(dict)
+						   }
+						   this.rankData=list
 					   }
 				    }
 					
@@ -289,10 +314,10 @@
 		
 		
 		.hotlist{
-			padding: 10rpx 20rpx 10rpx 20rpx;
+			padding: 10rpx 10rpx 10rpx 10rpx;
 			display: flex;
-			margin-left: 80rpx;
-			margin-right: 20rpx;
+			margin-left: 15rpx;
+			margin-right: 10rpx;
 			flex-wrap: wrap;
 		}
 	}

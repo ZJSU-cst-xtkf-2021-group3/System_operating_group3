@@ -238,6 +238,10 @@
 				var now = parseInt(new Date().getTime()/1000);
 				var Dvalue=parseInt((now-parseInt(time))/3600)
 				if (Dvalue<=24){
+					if(Dvalue<1){
+						let h=(now-parseInt(time))/3600
+						return parseInt(h*60)+"分钟前"
+					}
 					return Dvalue+"小时前"
 				}
 				else{

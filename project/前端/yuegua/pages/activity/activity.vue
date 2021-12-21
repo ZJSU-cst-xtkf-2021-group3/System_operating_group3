@@ -322,7 +322,10 @@ export default {
         clickChat(e){
             console.log(e);
             console.log('clickChat');
-        }
+        },
+		click(){
+			
+		}
     }
 }
 </script>

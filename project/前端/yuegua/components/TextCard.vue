@@ -2,11 +2,11 @@
 	<view class="card" @click="seeInfo(ID)">
 		<view class="textpart">
 			<view class="cardheader">
-				<u--text :text="title" size="15" lines="2"></u--text>
+				<u--text :text="title" size="15" lines="2" bold></u--text>
 			</view>
 			<view class="content">
 				<image v-if="showimg" style="width: 50px; height: 50px;margin-right: 10rpx;" mode="aspectFill" :src="imgsrc"></image>
-				<u--text :text="partcontent" size="15" lines="3"></u--text>
+				<u--text :text="partcontent" size="12.5" lines="3"></u--text>
 			</view>			
 		</view>
 		<view class="divideline"><u-line color="#e5e5e5" length="100%"></u-line></view>

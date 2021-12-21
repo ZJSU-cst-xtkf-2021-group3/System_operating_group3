@@ -1,0 +1,39 @@
+
+$bordercolor:#f5f5f5;
+$searchbarcolor:#f3f4f6;
+$shadowcolor:#e7e6e4;
+$mypanelbgcolor:#e5e5e5;
+$cardcolor:#fafafa;
+$themecolor:#1890FF;
+
+%center{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+%leftcenter{
+	display: flex;
+	align-items: center;
+}
+
+%rightcenter{
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+%betweencenter{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+%aroundcenter{
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+%basepage{
+	padding-left: 10rpx;
+	padding-right: 10rpx;
+}

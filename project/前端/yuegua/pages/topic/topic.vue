@@ -7,7 +7,7 @@
 			<view style="display: flex;align-items: center;">
 				<u-icon :label="basicInfo.hotPoints" labelColor="#A1A1A1" size="23" name="/static/icons/热搜.png"></u-icon>
 				<view style="margin-left: 20rpx;display: flex;align-items: center;">
-					<u-tag :text="basicInfo.Tag" size="mini" type="warning" shape="circle"></u-tag>
+					<u-tag v-if="basicInfo.Tag!=''" :text="basicInfo.Tag" size="mini" type="warning" shape="circle"></u-tag>
 				</view>				
 			</view>
 			<view style="display: flex;flex-direction: row; align-items: center;justify-content: space-between;">
@@ -37,7 +37,7 @@
 		<view style="padding: 20rpx 20rpx 0rpx 20rpx;">{{basicInfo.statement}}</view>
 			
 		<view v-if="votedata.hasvoteOption" style="padding: 10rpx;background-color: #fafafa;border-radius: 20rpx; margin-top: 20rpx;">
-			<view>话题投票</view>
+			<view >话题投票</view>
 
 			<view v-for="(item,index) in votelist" :key="index" :class="['selectbar',item.selected && !votedata.hasvote?'bar-selected':'bar-normal']" @click="clickedselections(index)">
 				<view v-show="votedata.hasvote" :class="['leftbar', item.selected?'bar-active':'bar-inactive']" ></view>
@@ -110,7 +110,7 @@
 			</view>
 		<tm-gap></tm-gap>
 		
-			<view v-for="(item,index) in commentslist" :key=index  class="commentcard">
+			<view v-for="(item,index) in commentslist" :key="index"  class="commentcard">
 				<view class="commentdatabar">
 					<view style="display: flex;align-items: center;justify-content: center;" @click="toOthersSpace(item.UID)">
 						<u-avatar :src="item.header" size="20"></u-avatar>
@@ -199,12 +199,12 @@
 
 <script>
 	import tmMessage from "@/tm-vuetify/components/tm-message/tm-message.vue"
-	import Pulish from '../../components/Publish'
-	import tmButton from '../../tm-vuetify/components/tm-button/tm-button'
-	import tmTimeline from '../../tm-vuetify/components/tm-timeline/tm-timeline'
-	import NodeCard from '../../components/NodeCard'
-	import focusbuttom from '../../components/focusbuttom'
-	import comment from '../../components/comment'
+	import Pulish from '@/components/Publish'
+	import tmButton from '@/tm-vuetify/components/tm-button/tm-button'
+	import tmTimeline from '@/tm-vuetify/components/tm-timeline/tm-timeline'
+	import NodeCard from '@/components/NodeCard'
+	import focusbuttom from '@/components/focusbuttom'
+	import comment from '@/components/comment'
 	export default {
 		data() {
 			return {
@@ -298,6 +298,10 @@
 				var now = parseInt(new Date().getTime()/1000);
 				var Dvalue=parseInt((now-parseInt(time))/3600)
 				if (Dvalue<=24){
+					if(Dvalue<1){
+						let h=(now-parseInt(time))/3600
+						return parseInt(h*60)+"分钟前"
+					}
 					return Dvalue+"小时前"
 				}
 				else{
@@ -725,7 +729,7 @@
 							UID:i.UID,
 							tip_off:i.tip_off
 							}
-							
+							console.log(i.pics)
 					this.nodelist.push(obj)
 				}
 			},
@@ -815,6 +819,7 @@
 					
 			    success: (res) => {
 			       if(res.data.res=="ok"){
+					   console.log(res.data.data)
 						this.commentslist=res.data.data
 						this.totalComments=res.data.total
 				   }
@@ -837,6 +842,7 @@
 					   
 						for(var i = 0; i < len; i++){
 							this.format2list(res.data.data[i])
+							console.log(res.data.data[i])
 						}
 				   }
 				   else{

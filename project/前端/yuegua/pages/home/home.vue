@@ -71,12 +71,12 @@
 				
 				
 				src:'https://www.ruanyifeng.com/blogimg/asset/2015/bg2015071010.png',
-                tabslist: [{name: '推荐',},{name: '热榜',},{name: '娱乐',},{name: '体育',},{name: '日常'},{name: '二次元'},{name: '数码'},{name: '国际时事'}],
+                tabslist: [{name: '推荐',},{name: '热榜',},{name: '娱乐',},{name: '体育',},{name: '日常'},{name: '数码'},{name: '二次元'},{name: '国际时事'}],
 				ranktabslist:[{name: '话题',},{name: '活动'}],
 				list3: [
-					'https://cdn.uviewui.com/uview/swiper/swiper3.png',
-					'https://cdn.uviewui.com/uview/swiper/swiper2.png',
-					'https://cdn.uviewui.com/uview/swiper/swiper1.png',
+					'https://www.wsm.cn/uploads/allimg/160625/37-1606251F049.jpg',
+					'/static/b2.png',
+					'/static/b3.png',
 				],
 			}
         },
@@ -180,6 +180,10 @@
 				var now = parseInt(new Date().getTime()/1000);
 				var Dvalue=parseInt((now-parseInt(time))/3600)
 				if (Dvalue<=24){
+					if(Dvalue<1){
+						let h=(now-parseInt(time))/3600
+						return parseInt(h*60)+"分钟前"
+					}
 					return Dvalue+"小时前"
 				}
 				else{

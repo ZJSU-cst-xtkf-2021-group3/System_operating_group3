@@ -41,6 +41,7 @@
 			//爆料详情
 			if(type===3){
 				console.log("爆料")
+				
 			}
 			//引用详情
 			if (type===2){
@@ -49,6 +50,9 @@
 			//话题详情
 			if (type===1){
 				console.log("话题")
+				uni.navigateTo({
+					url:'../pages/topic/topic?TID='+id
+				})
 			}
 		}	
 		},
